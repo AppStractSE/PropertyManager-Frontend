@@ -10,12 +10,12 @@ import Login from "./pages/Login";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="customer/:id" element={<Customer />} />
-        <Route path="admin" element={<AdminDashboard />} />
-        <Route path="admin/overview" element={<AdminOverview />} />
+        <Route path='login' element={<Login />} />
+        <Route path='customer/:id' element={<Customer />} />
+        <Route path='admin' element={<AdminDashboard />} />
+        <Route path='admin/overview' element={<AdminOverview />} />
       </Route>
     </Routes>
   );
