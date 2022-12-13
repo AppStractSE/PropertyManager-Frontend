@@ -5,21 +5,21 @@ import { LinkContainer } from "react-router-bootstrap";
 
 const AppBar = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
       <Container>
-        <LinkContainer to="/">
+        <LinkContainer to='/'>
           <Navbar.Brand>Property Manager</Navbar.Brand>
         </LinkContainer>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <LinkContainer to="/">
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='mr-auto'>
+            <LinkContainer to='/'>
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/admin">
+            <LinkContainer to='/admin'>
               <Nav.Link>Admin Dashboard</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/admin/overview">
+            <LinkContainer to='/admin/overview'>
               <Nav.Link>Admin Overview</Nav.Link>
             </LinkContainer>
           </Nav>
