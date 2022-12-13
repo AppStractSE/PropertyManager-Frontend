@@ -1,6 +1,21 @@
+// Bootstrap overrides
 .card {
     .container {
         padding-right: 0;
         padding-left: 0;
+    }
+}
+
+// NavLink overrides
+.router-link {
+    color: inherit;
+    text-decoration: inherit;
+
+    &:hover {
+        color: inherit;
+
+        .card {
+            border-color: rgb(0, 0, 0);
+        }
     }
 }
