@@ -6,6 +6,8 @@ import AdminOverview from "./pages/AdminOverview";
 import Customer from "./pages/Customer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import "./styling/custom.scss";
+import "./styling/overrides.scss";
 
 const App = () => {
   return (
