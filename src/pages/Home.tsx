@@ -7,7 +7,7 @@ import "../styling/overrides.scss";
 const Home = () => {
   const data = CustomerData;
   return (
-    <Container className='mt-5'>
+    <Container className='mt-3'>
       <div className='h3'>Dina kunder</div>
       <Stack direction='vertical' gap={3}>
         {data.map((customer) => (
