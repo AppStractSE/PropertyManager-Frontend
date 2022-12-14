@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import CustomerCard from "../components/CustomerCard";
 import CustomerData from "../data/CustomerData";
-import "../styling/overrides.scss";
+
 
 const Home = () => {
   const data = CustomerData;
