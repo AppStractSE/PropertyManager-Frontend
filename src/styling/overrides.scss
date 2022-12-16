@@ -1,4 +1,12 @@
 // Bootstrap overrides
+
+.navbar-toggler {
+  border: none;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
 .card {
   &:hover {
     cursor: pointer;
@@ -8,31 +16,33 @@
     padding-left: 0;
   }
 }
+
 .modal {
   --bs-modal-footer-border-width: 0;
-  --bs-modal-header-padding: 1rem .75rem;
-  --bs-modal-padding: .75rem;
+  --bs-modal-header-padding: 1rem 0.75rem;
+  --bs-modal-padding: 0.75rem;
 
   .modal-content {
     .modal-body {
       padding: 0;
     }
-    
-    .modal-body-section {
-        border-bottom: 1px solid var(--bs-modal-footer-border-color);
-        padding: var(--bs-modal-padding);
 
-        input {
-          border: none;
+    .modal-body-section {
+      border-bottom: 1px solid var(--bs-modal-footer-border-color);
+      padding: var(--bs-modal-padding);
+
+      input {
+        border: none;
+      }
+      
+      .camera-container {
+        .btn {
+          align-items: center;
+          display: flex;
+          border-radius: 0.375rem;
+          padding: 8px;
         }
-        .camera-container {
-          .btn {
-            align-items: center;
-            display: flex;
-            border-radius: 0.375rem;
-            padding: 8px;
-          }
-        }
+      }
     }
 
     .modal-footer {
@@ -55,6 +65,7 @@
     box-shadow: none;
   }
 }
+
 // NavLink overrides
 .router-link {
   color: inherit;
