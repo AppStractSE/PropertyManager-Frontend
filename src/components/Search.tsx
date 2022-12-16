@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-const Search = (props: any) => {
+const Search = () => {
   return (
     <Form className='flex-fill'>
       <Form.Group controlId='formComment'>
