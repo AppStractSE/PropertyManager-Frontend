@@ -9,10 +9,15 @@ interface Props {
 
 const SearchAndFilter = ({ value, onChange, filterSearch }: Props) => {
   return (
-    <div className='d-flex'>
-      <Search value={value} onChange={onChange} filterSearch={filterSearch} />
+    <>
+    <div className='d-flex align-items-center'>
+      <Search value={value} onChange={onChange} />
       <IoOptions size={32} className='ms-3' />
     </div>
+      <div className='p small'>
+        Visar {filterSearch} st {filterSearch == 1 ? "kund" : "kunder"}
+      </div>
+    </>
   );
 };
 
