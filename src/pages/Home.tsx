@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import CustomerCard from "../components/CustomerCard";
@@ -6,12 +7,21 @@ import CustomerData from "../data/CustomerData";
 
 const Home = () => {
   const data = CustomerData;
+  const [searchValue, setSearchValue] = useState("");
+  const filterSearch = data.filter((customer) =>
+    customer.name.toLowerCase().includes(searchValue.toLowerCase()),
+  );
+
   return (
     <Container className='mt-3'>
       <div className='h3'>Dina kunder</div>
       <Stack direction='vertical' gap={3}>
-        <SearchAndFilter />
-        {data.map((customer) => (
+        <SearchAndFilter
+          value={searchValue}
+          onChange={setSearchValue}
+          filterSearch={filterSearch.length}
+        />
+        {filterSearch.map((customer) => (
           <CustomerCard key={customer.id} customer={customer} />
         ))}
       </Stack>
