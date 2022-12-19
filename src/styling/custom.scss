@@ -2,3 +2,18 @@
   border: 1px solid var(--bs-border-color);
   border-radius: 0.45rem;
 }
+
+.login-container {
+  max-width: 350px;
+  height: calc(100vh - 56px);
+  align-items: flex-end;
+  display: flex;
+}
+
+.background-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
+    url(../assets/login.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 20% 40%;
+}
