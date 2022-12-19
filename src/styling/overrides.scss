@@ -33,6 +33,7 @@
   --bs-modal-footer-border-width: 0;
   --bs-modal-header-padding: 1rem 0.75rem;
   --bs-modal-padding: 0.75rem;
+  --bs-modal-footer-gap: 1rem;
 
   .modal-content {
     .modal-body {
@@ -72,6 +73,7 @@
     box-shadow: none;
   }
 }
+
 .form-control {
   &:focus {
     box-shadow: none;
@@ -80,7 +82,59 @@
 
 #searchCustomer {
   border: none;
-  padding: .275rem .5rem;
+  padding: 0.275rem 0.5rem;
+}
+
+// Filter modal overrides
+.filter {
+  .d-flex {
+    display: flex !important;
+  }
+
+  .modal-title {
+    flex: 1;
+    text-align: center;
+  }
+
+  .btn-close {
+    position: absolute;
+    left: 0;
+    margin: 0.5rem;
+  }
+
+  .filter-group {
+    border-bottom: 1px solid var(--bs-modal-footer-border-color);
+    padding: var(--bs-modal-padding);
+    div {
+      margin-left: auto !important;
+    }
+  }
+
+  form .filter-group:last-child {
+    padding: 12px 12px 0px 12px;
+    border: 0;
+  }
+
+  .modal-footer {
+    padding-bottom: calc(var(--bs-modal-footer-gap) * 0.5);
+  }
+}
+
+.form-check-input {
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
+  width: 1.5em;
+  height: 1.5em;
+  &:checked {
+    border: none;
+    color: var(--bs-primary);
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.form-switch .form-check-input {
+  width: 2.5em;
 }
 
 // NavLink overrides
