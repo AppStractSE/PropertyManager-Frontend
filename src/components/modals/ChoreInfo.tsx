@@ -1,8 +1,24 @@
+import { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill } from "react-icons/bs";
+import ImageModal from "./ImageModal";
 
 const ChoreInfo = (props: any) => {
+  const [choreImage, setChoreImage] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  const handlePhotoCapture = (target: any) => {
+    if (target.files) {
+      if (target.files.length !== 0) {
+        const file = target.files[0];
+        const newUrl = URL.createObjectURL(file);
+        setChoreImage(newUrl);
+      }
+    }
+  };
+
+
   return (
     <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
       <Modal.Header closeButton>
@@ -24,7 +40,16 @@ const ChoreInfo = (props: any) => {
         <div className='modal-body-section'>
           <div className='d-flex align-items-center camera-container'>
             <Button>
-              <BsCameraFill size={24} />
+              <input
+                className='d-none'
+                accept='*/*'
+                id='icon-button-file'
+                type='file'
+                onChange={(e) => handlePhotoCapture(e.target)}
+              />
+              <label htmlFor='icon-button-file'>
+                <BsCameraFill size={24} />
+              </label>
             </Button>
             <Form className='ms-1'>
               <Form.Group controlId='formComment'>
@@ -33,10 +58,17 @@ const ChoreInfo = (props: any) => {
             </Form>
           </div>
         </div>
+        {choreImage && (
+          <div className='modal-body-section'>
+            <Modal.Title className='p small'>Bilagor</Modal.Title>
+            <img width={100} src={choreImage} onClick={() => setModalShow(true)} />
+          </div>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Markera som klar</Button>
       </Modal.Footer>
+      <ImageModal show={modalShow} onHide={() => setModalShow(false)} image={choreImage} />
     </Modal>
   );
 };
