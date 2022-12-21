@@ -137,6 +137,31 @@
   width: 2.5em;
 }
 
+#image-modal {
+  .modal-header {
+    .modal-title {
+      flex: 1;
+      text-align: center;
+      order: 2;
+    }
+
+    .btn-close {
+      order: 1;
+    }
+
+    svg {
+      order: 3;
+    }
+  }
+
+  .modal-body {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background: #000;
+  }
+}
+
 // NavLink overrides
 .router-link {
   color: inherit;
