@@ -17,3 +17,7 @@
   background-size: cover;
   background-position: 20% 40%;
 }
+
+html, body, #root {
+  overflow: hidden;
+}
