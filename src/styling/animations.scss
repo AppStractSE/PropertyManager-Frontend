@@ -40,7 +40,7 @@
 .slide-down {
     animation: 1s slide-down;
   }
-  @keyframes slide-up {
+  @keyframes slide-down {
     0% {
       transform: translateY(-200%);
     }
