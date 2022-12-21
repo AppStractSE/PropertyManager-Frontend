@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { Form, Modal, Toast, ToastContainer } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BsCameraFill } from "react-icons/bs";
+import CustomToast from "../snacks/CustomToast";
+
 const ChoreInfo = (props: any) => {
-  const [show, setShow] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   return (
     <>
-      <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
+      <Modal
+        {...props}
+        size='lg'
+        aria-labelledby='contained-modal-title-vcenter'
+        className='slide-up'
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>{props.chore.name}</Modal.Title>
         </Modal.Header>
@@ -40,7 +47,7 @@ const ChoreInfo = (props: any) => {
         <Modal.Footer>
           <Button
             onClick={() => {
-              setShow(true);
+              setShowToast(true);
               props.onHide();
             }}
           >
@@ -48,23 +55,7 @@ const ChoreInfo = (props: any) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      <ToastContainer position='bottom-center' className='p-3 slide-left'>
-        <Toast
-          className='slide-up'
-          onClose={() => setShow(false)}
-          show={show}
-          delay={8000}
-          autohide
-        >
-          <Toast.Header>
-            <AiOutlineCheckCircle size={28} className='me-2' />
-            <strong className='me-auto'>Syssla klar</strong>
-            <small>Just nu</small>
-          </Toast.Header>
-          <Toast.Body>Bra jobbat! 👏</Toast.Body>
-        </Toast>
-      </ToastContainer>
+      <CustomToast show={showToast} onHide={() => setShowToast(false)} />
     </>
   );
 };
