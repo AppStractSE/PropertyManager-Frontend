@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
+import NotFound from "./pages/NotFound";
 import Layout from "./Layout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOverview from "./pages/AdminOverview";
@@ -19,6 +20,10 @@ const App = () => {
         <Route path='customer/:id' element={<Customer />} />
         <Route path='admin' element={<AdminDashboard />} />
         <Route path='admin/overview' element={<AdminOverview />} />
+        <Route
+        path="*"
+        element={<NotFound />}
+    />
       </Route>
     </Routes>
   );
