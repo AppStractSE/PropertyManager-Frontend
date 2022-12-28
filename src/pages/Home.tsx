@@ -1,16 +1,28 @@
 import { useState } from "react";
+import { Spinner } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
+import { useQuery } from "react-query";
 import CustomerCard from "../components/CustomerCard";
 import SearchAndFilter from "../components/SearchAndFilter";
-import CustomerData from "../data/CustomerData";
+import useAxios from "../hooks/useAxios";
+import { Customer } from "../models/Customer";
 
 const Home = () => {
-  const data = CustomerData;
   const [searchValue, setSearchValue] = useState("");
-  const filterSearch = data.filter((customer) =>
+  const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
+  const { data, error, isLoading } = useQuery<Customer[]>("customers", fetchCustomers);
+  const filterSearch = data?.filter((customer) =>
     customer.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
+
+  if (isLoading || filterSearch === undefined) {
+    return <Spinner />;
+  }
+
+  if (error || data == undefined) {
+    return <div>Error!</div>;
+  }
 
   return (
     <Container className='mt-3'>
