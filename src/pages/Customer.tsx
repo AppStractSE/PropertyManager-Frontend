@@ -11,7 +11,7 @@ const Customer = () => {
   return (
     <Container className='mt-3'>
       <div className='d-flex align-items-center'>
-        <div onClick={() => navigate(-1)}>
+        <div onClick={() => navigate("/")}>
           <BsChevronLeft size={28} />
         </div>
         <Container>
