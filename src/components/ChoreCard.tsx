@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Card, Container } from "react-bootstrap";
-import { BsChevronRight } from "react-icons/bs";
+import { Button, Card, Container } from "react-bootstrap";
 import { CustomerChore } from "../models/CustomerChore";
 import ChoreInfo from "./modals/ChoreInfo";
 
@@ -18,11 +17,16 @@ const ChoreCard = ({ customerchore }: Props) => {
             <Card.Title>{customerchore.chore.title}</Card.Title>
             <Card.Title className='small text-muted'>Planteringsytor</Card.Title>
           </Container>
-          <BsChevronRight size={24} />
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="d-flex align-items-end">
+          <div className="me-auto">
+
           <Card.Title className='small text-muted'>Status</Card.Title>
           <Card.Text className='small p-2 status'>Ej påbörjad</Card.Text>
+          </div>
+          <Button>
+            Läs mer
+          </Button>
         </Card.Body>
       </Card>
       <ChoreInfo
