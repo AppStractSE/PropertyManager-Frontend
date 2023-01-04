@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const port = 7178;
-axios.defaults.baseURL = `http://192.168.0.38:${port}/api/v1`;
+axios.defaults.baseURL = `https://localhost:${port}/api/v1`;
 
 interface Props {
   url: string;

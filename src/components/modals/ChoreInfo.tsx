@@ -33,8 +33,10 @@ const ChoreInfo = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
-
-            <div className='p'>{props.customerchore.frequency} gånger</div>
+            <div className='p'>
+              {props.customerchore.periodic.name} {props.customerchore.frequency}
+              {props.customerchore.frequency === 1 ? " gång" : " gånger"}
+            </div>
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Beskrivning</Modal.Title>
