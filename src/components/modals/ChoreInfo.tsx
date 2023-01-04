@@ -24,7 +24,7 @@ const ChoreInfo = (props: any) => {
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
         <Modal.Header closeButton>
-          <Modal.Title>{props.chore.name}</Modal.Title>
+          <Modal.Title>{props.customerchore.chore.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='modal-body-section'>
@@ -33,11 +33,12 @@ const ChoreInfo = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
-            <div className='p'>4 gånger denna månad</div>
+
+            <div className='p'>{props.customerchore.frequency} gånger</div>
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Beskrivning</Modal.Title>
-            <div className='p'>{props.chore.description}</div>
+            <div className='p'>{props.customerchore.chore.description}</div>
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>

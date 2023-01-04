@@ -2,7 +2,7 @@ import { Category } from "./Category";
 
 export interface Chore {
   id: string;
-  name: string;
+  title: string;
   description: string;
   category: Category;
 }

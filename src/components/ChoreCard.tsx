@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Card, Container } from "react-bootstrap";
-import { Chore } from "../models/Chore";
+import { CustomerChore } from "../models/CustomerChore";
 import ChoreInfo from "./modals/ChoreInfo";
 
 interface Props {
-  chore: Chore;
+  customerchore: CustomerChore;
 }
 
-const ChoreCard = ({ chore }: Props) => {
+const ChoreCard = ({ customerchore }: Props) => {
   const [modalShow, setModalShow] = useState(false);
   return (
     <>
@@ -15,7 +15,7 @@ const ChoreCard = ({ chore }: Props) => {
         <Card.Body>
           <Container className='d-flex align-items-center'>
             <Container>
-              <Card.Text>{chore.name}</Card.Text>
+              <Card.Text>{customerchore.chore.title}</Card.Text>
             </Container>
             {/* Make into component */}
             <div style={{ height: 12, width: 12, background: "red", borderRadius: "50%" }}></div>
@@ -26,7 +26,7 @@ const ChoreCard = ({ chore }: Props) => {
       <ChoreInfo
         show={modalShow}
         onHide={() => setModalShow(false)}
-        chore={chore}
+        customerchore={customerchore}
       />
     </>
   );
