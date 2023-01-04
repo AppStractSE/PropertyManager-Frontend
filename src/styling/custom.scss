@@ -24,6 +24,14 @@
   max-height: calc(100vh - 80px);
 }
 
+.status {
+  width: fit-content;
+  border-radius: 2px;
+  overflow: hidden;
+  background: red;
+  color: white;
+}
+
 html, body, #root {
   overflow: hidden;
 }

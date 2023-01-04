@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Container } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { CustomerChore } from "../models/CustomerChore";
 import ChoreInfo from "./modals/ChoreInfo";
 
@@ -13,14 +13,13 @@ const ChoreCard = ({ customerchore }: Props) => {
     <>
       <Card onClick={() => setModalShow(true)}>
         <Card.Body>
-          <Container className='d-flex align-items-center'>
-            <Container>
-              <Card.Text>{customerchore.chore.title}</Card.Text>
-            </Container>
-            {/* Make into component */}
-            <div style={{ height: 12, width: 12, background: "red", borderRadius: "50%" }}></div>
-            {/* Make into component */}
-          </Container>
+          <Card.Text as='h5'>{customerchore.chore.title}</Card.Text>
+          <Card.Text
+            as='p'
+            className='small p-1 status'
+          >
+            Ej påbörjad
+          </Card.Text>
         </Card.Body>
       </Card>
       <ChoreInfo
