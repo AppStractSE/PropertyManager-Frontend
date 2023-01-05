@@ -11,7 +11,7 @@ const ChoreInfo = (props: any) => {
   const [choreImage, setChoreImage] = useState("");
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  
+
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
       if (target.files.length !== 0) {
@@ -21,10 +21,12 @@ const ChoreInfo = (props: any) => {
       }
     }
   };
+
   const fetchChoreComments = useAxios({
-    url: `/ChoreComment`,
+    url: `/ChoreComment/GetChoreCommentsByCustomerChoreId?Id=${props.customerchore.id}`,
     method: "get",
   });
+
   const postChoreComment = useAxios({
     url: `/ChoreComment`,
     method: "post",
@@ -77,7 +79,7 @@ const ChoreInfo = (props: any) => {
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
             {data.map((data: any) => (
-              <div className='chore-comment-container'>
+              <div key={data.id} className='chore-comment-container'>
                 <div className='d-flex align-items-center gap-1'>
                   <div className='p fw-bold'>Niklas P</div>{" "}
                   {/* Insert user here instead of hard coded */}
@@ -118,8 +120,8 @@ const ChoreInfo = (props: any) => {
         <Modal.Footer>
           <Button
             onClick={() => {
-              // setShowToast(true);
-              // props.onHide();
+              setShowToast(true);
+              props.onHide();
               handlePost();
             }}
           >
