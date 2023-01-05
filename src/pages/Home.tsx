@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Spinner } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import { useQuery } from "react-query";
 import CustomerCard from "../components/CustomerCard";
 import SearchAndFilter from "../components/SearchAndFilter";
+import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
 import useAxios from "../hooks/useAxios";
 import { Customer } from "../models/Customer";
 
@@ -15,9 +15,8 @@ const Home = () => {
   const filterSearch = data?.filter((customer) =>
     customer.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
-
   if (isLoading || filterSearch === undefined) {
-    return <Spinner />;
+    return <HomePageSkeleton />;
   }
 
   if (error || data == undefined) {
