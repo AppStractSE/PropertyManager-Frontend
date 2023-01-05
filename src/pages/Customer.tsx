@@ -1,8 +1,9 @@
-import { Container, Spinner, Stack } from "react-bootstrap";
+import { Container, Stack } from "react-bootstrap";
 import { BsChevronLeft } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import ChoreCard from "../components/ChoreCard";
+import CustomerPageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import useAxios from "../hooks/useAxios";
 import { CustomerChore } from "../models/CustomerChore";
 const Customer = () => {
@@ -18,7 +19,7 @@ const Customer = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return <CustomerPageSkeleton />;
   }
 
   if (error || data == undefined) {
@@ -28,15 +29,15 @@ const Customer = () => {
   return (
     <Container className='mt-3'>
       <Stack direction='vertical' gap={3}>
-      <div className='d-flex align-items-center'>
-        <div onClick={() => navigate("/")}>
-          <BsChevronLeft size={28} />
+        <div className='d-flex align-items-center'>
+          <div onClick={() => navigate("/")}>
+            <BsChevronLeft size={28} />
+          </div>
+          <Container>
+            <div className='h3 mb-0'>{data[0].customer.name}</div>
+            <div className='p'>{data[0].customer.address}</div>
+          </Container>
         </div>
-        <Container>
-          <div className='h3 mb-0'>{data[0].customer.name}</div>
-          <div className='p'>{data[0].customer.address}</div>
-        </Container>
-      </div>
         {data.map((data) => (
           <ChoreCard key={data.id} customerchore={data} />
         ))}
