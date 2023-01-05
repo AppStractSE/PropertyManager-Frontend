@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Form, Modal } from "react-bootstrap";
+import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill } from "react-icons/bs";
+import { useQuery } from "react-query";
+import useAxios from "../../hooks/useAxios";
 import CustomToast from "../snacks/CustomToast";
 import ImageModal from "./ImageModal";
 
@@ -19,6 +21,22 @@ const ChoreInfo = (props: any) => {
       }
     }
   };
+
+  const fetchChoreComments = useAxios({
+    url: `/ChoreComment`,
+    method: "get",
+  });
+  const { data, error, isLoading } = useQuery<any>("choreComments", fetchChoreComments);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (error || data == undefined) {
+    return <div>Error!</div>;
+  }
+
+  console.log(data);
 
   return (
     <>
@@ -41,6 +59,19 @@ const ChoreInfo = (props: any) => {
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Beskrivning</Modal.Title>
             <div className='p'>{props.customerchore.chore.description}</div>
+          </div>
+          <div className='modal-body-section'>
+            <Modal.Title className='p small'>Kommentarer</Modal.Title>
+            {data.map((data: any) => (
+              <div className='chore-comment-container'>
+                <div className='d-flex align-items-center gap-1'>
+                  <div className='p fw-bold'>Niklas P</div>{" "}
+                  {/* Insert user here instead of hard coded */}
+                  <div className='p small'>{data.time}</div>
+                </div>
+                <div className='p'>{data.message}</div>
+              </div>
+            ))}
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>

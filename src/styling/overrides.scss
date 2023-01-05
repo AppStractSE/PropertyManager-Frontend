@@ -58,6 +58,16 @@
       }
     }
 
+    .chore-comment-container {
+      padding: 10px 0px;
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--bs-modal-footer-border-color);
+      }
+      &:last-child {
+        padding-bottom: 0px;
+      }
+    }
+
     .modal-footer {
       justify-content: center;
 
