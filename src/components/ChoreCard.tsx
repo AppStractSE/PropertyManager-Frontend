@@ -14,8 +14,9 @@ const ChoreCard = ({ customerchore }: Props) => {
     // if (thisChoreHasChoreStatuses) return "Påbörjad"
     // if (thisChoreHasChoreStatuses which is equal to Frequency) return "Klar"
     // else return "Ej påbörjad"
-    return "Ej påbörjad"
+    return "Ej påbörjad";
   }
+
   return (
     <>
       <Card onClick={() => setModalShow(true)}>
