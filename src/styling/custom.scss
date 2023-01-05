@@ -1,6 +1,11 @@
+:root {
+  --pm-completed: rgb(5, 97, 5);
+  --pm-initiated: rgb(184, 119, 0);
+  --pm-not-initiated: rgb(153, 0, 0);
+}
 .camera-container {
   border: 1px solid var(--bs-border-color);
-  border-radius: 0.45rem;
+  border-radius: 2px;
 }
 
 .login-container {
@@ -24,6 +29,16 @@
   max-height: calc(100vh - 80px);
 }
 
-html, body, #root {
+.status {
+  width: fit-content;
+  border-radius: 2px;
+  overflow: hidden;
+  color: white;
+  background: var(--pm-not-initiated);
+}
+
+html,
+body,
+#root {
   overflow: hidden;
 }

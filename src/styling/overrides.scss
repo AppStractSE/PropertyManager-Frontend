@@ -162,6 +162,10 @@
   }
 }
 
+.card, .btn, .modal-content, form > div, .progress {
+  border-radius: 2px !important;
+}
+
 // NavLink overrides
 .router-link {
   color: inherit;

@@ -27,6 +27,7 @@ const Customer = () => {
 
   return (
     <Container className='mt-3'>
+      <Stack direction='vertical' gap={3}>
       <div className='d-flex align-items-center'>
         <div onClick={() => navigate("/")}>
           <BsChevronLeft size={28} />
@@ -36,7 +37,6 @@ const Customer = () => {
           <div className='p'>{data[0].customer.address}</div>
         </Container>
       </div>
-      <Stack direction='vertical' gap={2}>
         {data.map((data) => (
           <ChoreCard key={data.id} customerchore={data} />
         ))}
