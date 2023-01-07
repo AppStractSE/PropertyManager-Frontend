@@ -3,9 +3,11 @@ import { BsChevronLeft } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import ChoreCard from "../components/ChoreCard";
+import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import CustomerPageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import useAxios from "../hooks/useAxios";
 import { CustomerChore } from "../models/CustomerChore";
+
 const Customer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -35,8 +37,9 @@ const Customer = () => {
           </div>
           <Container>
             <div className='h3 mb-0'>{data[0].customer.name}</div>
-            <div className='p'>{data[0].customer.address}</div>
+            <div className='p mb-1'>{data[0].customer.address}</div>
           </Container>
+          <CustomerEllipsis address={data[0].customer.address} />
         </div>
         {data.map((data) => (
           <ChoreCard key={data.id} customerchore={data} />

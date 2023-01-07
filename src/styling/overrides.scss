@@ -172,10 +172,34 @@
   }
 }
 
-.card, .btn, .modal-content, form > div, .progress {
+.card,
+.btn,
+.modal-content,
+form>div,
+.progress,
+.dropdown-menu {
   border-radius: 2px !important;
 }
 
+.dropdown-ellipsis-container {
+  .dropdown-toggle::after {
+    all: unset;
+  }
+
+  .dropdown-ellipsis {
+    all: unset;
+
+    &:hover {
+      all: unset;
+      cursor: pointer;
+    }
+  }
+
+  .btn.show {
+    background: transparent !important;
+    color: var(--bs-primary);
+  }
+}
 // NavLink overrides
 .router-link {
   color: inherit;
