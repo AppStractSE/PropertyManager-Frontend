@@ -1,7 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { BsCameraFill } from "react-icons/bs";
+import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 import useAxios from "../../hooks/useAxios";
 import CustomToast from "../snacks/CustomToast";
@@ -11,6 +12,8 @@ const ChoreInfo = (props: any) => {
   const [choreImage, setChoreImage] = useState("");
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [commentValue, setCommentValue] = useState("");
+  const date = new Date();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
@@ -21,26 +24,31 @@ const ChoreInfo = (props: any) => {
       }
     }
   };
-
   const fetchChoreComments = useAxios({
     url: `/ChoreComment/GetChoreCommentsByCustomerChoreId?Id=${props.customerchore.id}`,
     method: "get",
   });
+  const { data, error, isLoading, refetch } = useQuery<any>(
+    props.customerchore.id,
+    fetchChoreComments,
+  );
 
-  const postChoreComment = useAxios({
-    url: `/ChoreComment`,
-    method: "post",
-    body: JSON.stringify({
-      message: "Tomt i lödan igen!",
-      customerChoreId: "419a193b-2fbe-4c81-a704-c4ed53fd6c37",
-      userId: "db2bd3c9-946a-4578-979f-16ff58e242f6",
-      time: "2023-01-03T12:00:00",
-    }),
-    headers: JSON.stringify({
-      "content-type": "application/json",
-    }),
-  });
-  const { data, error, isLoading } = useQuery<any>("choreComments", fetchChoreComments);
+  const postChoreComment = async () => {
+    await axios.post(
+      "https://localhost:7178/api/v1/ChoreComment",
+      {
+        message: commentValue,
+        customerChoreId: props.customerchore.id,
+        userId: "string",
+        time: date.toISOString(),
+      },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      },
+    );
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -49,10 +57,6 @@ const ChoreInfo = (props: any) => {
   if (error || data == undefined) {
     return <div>Error!</div>;
   }
-  const handlePost = async () => {
-    await postChoreComment;
-    props.onHide();
-  };
 
   return (
     <>
@@ -78,16 +82,18 @@ const ChoreInfo = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
-            {data.map((data: any) => (
-              <div key={data.id} className='chore-comment-container'>
-                <div className='d-flex align-items-center gap-1'>
-                  <div className='p fw-bold'>Niklas P</div>{" "}
-                  {/* Insert user here instead of hard coded */}
-                  <div className='p small'>{data.time}</div>
+            <div className='chore-comments'>
+              {data.map((data: any) => (
+                <div key={data.id} className='chore-comment-container'>
+                  <div className='d-flex align-items-center gap-1'>
+                    <div className='p fw-bold'>Niklas P</div>{" "}
+                    {/* Insert user here instead of hard coded */}
+                    <div className='p small text-muted'>{data.time.replace("T", " - ")}</div>
+                  </div>
+                  <div className='p'>{data.message}</div>
                 </div>
-                <div className='p'>{data.message}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>
@@ -103,9 +109,38 @@ const ChoreInfo = (props: any) => {
                   <BsCameraFill size={24} />
                 </label>
               </Button>
-              <Form className='ms-1'>
-                <Form.Group controlId='formComment'>
-                  <Form.Control type='text' placeholder='Lägg till en kommentar...' />
+              <Form
+                className='ms-1 w-100'
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  postChoreComment();
+                  setCommentValue("");
+                }}
+              >
+                <Form.Group controlId='formComment' className='d-flex align-items-center'>
+                  <Form.Control
+                    type='text'
+                    placeholder='Lägg till en kommentar...'
+                    value={commentValue}
+                    onChange={(e) => setCommentValue(e.target.value)}
+                  />
+                  <Button
+                    onClick={() => {
+                      postChoreComment();
+                      setCommentValue("");
+                    }}
+                    disabled={commentValue ? false : true}
+                    variant='success'
+                    style={{
+                      padding: 0,
+                      background: "transparent",
+                      color: "#198754",
+                      border: "none",
+                      marginRight: "4px",
+                    }}
+                  >
+                    <BsFillArrowUpCircleFill size={36} />
+                  </Button>
                 </Form.Group>
               </Form>
             </div>
@@ -119,10 +154,12 @@ const ChoreInfo = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            type='submit'
             onClick={() => {
-              setShowToast(true);
+              if (commentValue) postChoreComment();
+              setCommentValue("");
               props.onHide();
-              handlePost();
+              setShowToast(true);
             }}
           >
             Markera som klar
