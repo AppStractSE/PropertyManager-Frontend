@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -33,23 +32,6 @@ const ChoreInfo = (props: any) => {
     fetchChoreComments,
   );
 
-  const postChoreComment = async () => {
-    await axios.post(
-      "https://localhost:7178/api/v1/ChoreComment",
-      {
-        message: commentValue,
-        customerChoreId: props.customerchore.id,
-        userId: "string",
-        time: date.toISOString(),
-      },
-      {
-        headers: {
-          "content-type": "application/json",
-        },
-      },
-    );
-  };
-
   if (isLoading) {
     return <Spinner />;
   }
@@ -57,7 +39,7 @@ const ChoreInfo = (props: any) => {
   if (error || data == undefined) {
     return <div>Error!</div>;
   }
-
+  
   return (
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
@@ -113,7 +95,6 @@ const ChoreInfo = (props: any) => {
                 className='ms-1 w-100'
                 onSubmit={(e) => {
                   e.preventDefault();
-                  postChoreComment();
                   setCommentValue("");
                 }}
               >
@@ -125,10 +106,18 @@ const ChoreInfo = (props: any) => {
                     onChange={(e) => setCommentValue(e.target.value)}
                   />
                   <Button
-                    onClick={() => {
-                      postChoreComment();
-                      setCommentValue("");
-                    }}
+                    onClick={
+                      useAxios({
+                        method: "post",
+                        url: "/ChoreComment",
+                        headers: { "content-type": "application/json" },
+                        data: {
+                          message: commentValue,
+                          customerChoreId: props.customerchore.id,
+                          userId: "string",
+                          time: date.toISOString(),
+                        }})
+                    }
                     disabled={commentValue ? false : true}
                     variant='success'
                     style={{
@@ -156,7 +145,6 @@ const ChoreInfo = (props: any) => {
           <Button
             type='submit'
             onClick={() => {
-              if (commentValue) postChoreComment();
               setCommentValue("");
               props.onHide();
               setShowToast(true);
