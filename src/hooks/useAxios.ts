@@ -1,20 +1,12 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const port = 7178;
 axios.defaults.baseURL = `https://localhost:${port}/api/v1`;
 
-interface Props {
-  url: string;
-  method: "get" | "put" | "post" | "delete";
-  body?: string | null;
-  headers?: string | null;
-}
-
-const useAxios = ({ url, method, body, headers }: Props) => {
+const useAxios = (config: AxiosRequestConfig<any>) => {
   const fetchData = async () => {
-    return (
-      await axios[method](url, headers ? JSON.parse(headers) : null, body ? JSON.parse(body) : null)
-    ).data;
+    return await (
+      await axios.request(config)).data;
   };
 
   return fetchData;
