@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import useAxios from "../../hooks/useAxios";
+import axiosClient from "../../utils/axiosClient";
 import CustomToast from "../snacks/CustomToast";
 import ImageModal from "./ImageModal";
 
@@ -23,15 +24,37 @@ const ChoreInfo = (props: any) => {
       }
     }
   };
+
   const fetchChoreComments = useAxios({
     url: `/ChoreComment/GetChoreCommentsByCustomerChoreId?Id=${props.customerchore.id}`,
     method: "get",
   });
-  const { data, error, isLoading, refetch } = useQuery<any>(
-    props.customerchore.id,
-    fetchChoreComments,
-  );
 
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: refetchChoreComments,
+  } = useQuery<any>(props.customerchore.id, fetchChoreComments);
+
+  refetchChoreComments();
+
+  const { mutate: postComment, isLoading: postingComment } = useMutation(
+    async () => {
+      return await axiosClient.post("/ChoreComment", {
+        message: commentValue,
+        customerChoreId: props.customerchore.id,
+        userId: "string",
+        time: date.toISOString(),
+      });
+    },
+    {
+      onSuccess: () => {
+        setCommentValue("");
+        refetchChoreComments();
+      },
+    },
+  );
   if (isLoading) {
     return <Spinner />;
   }
@@ -39,7 +62,7 @@ const ChoreInfo = (props: any) => {
   if (error || data == undefined) {
     return <div>Error!</div>;
   }
-  
+
   return (
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
@@ -106,18 +129,7 @@ const ChoreInfo = (props: any) => {
                     onChange={(e) => setCommentValue(e.target.value)}
                   />
                   <Button
-                    onClick={
-                      useAxios({
-                        method: "post",
-                        url: "/ChoreComment",
-                        headers: { "content-type": "application/json" },
-                        data: {
-                          message: commentValue,
-                          customerChoreId: props.customerchore.id,
-                          userId: "string",
-                          time: date.toISOString(),
-                        }})
-                    }
+                    onClick={() => postComment()}
                     disabled={commentValue ? false : true}
                     variant='success'
                     style={{
@@ -128,8 +140,10 @@ const ChoreInfo = (props: any) => {
                       marginRight: "4px",
                     }}
                   >
+                    {postingComment ? <div>U</div> :
                     <BsFillArrowUpCircleFill size={36} />
-                  </Button>
+                    }
+                    </Button>
                 </Form.Group>
               </Form>
             </div>
