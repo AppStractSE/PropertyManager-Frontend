@@ -45,7 +45,6 @@ const ChoreInfo = (props: any) => {
         message: commentValue,
         customerChoreId: props.customerchore.id,
         userId: "string",
-        time: date.toISOString(),
       });
     },
     {
@@ -140,10 +139,8 @@ const ChoreInfo = (props: any) => {
                       marginRight: "4px",
                     }}
                   >
-                    {postingComment ? <div>U</div> :
-                    <BsFillArrowUpCircleFill size={36} />
-                    }
-                    </Button>
+                    {postingComment ? <div>U</div> : <BsFillArrowUpCircleFill size={36} />}
+                  </Button>
                 </Form.Group>
               </Form>
             </div>
