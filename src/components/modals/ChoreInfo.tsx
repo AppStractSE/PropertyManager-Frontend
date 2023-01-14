@@ -13,7 +13,6 @@ const ChoreInfo = (props: any) => {
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [commentValue, setCommentValue] = useState("");
-  const date = new Date();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
@@ -40,16 +39,14 @@ const ChoreInfo = (props: any) => {
     error,
     isLoading,
     refetch: refetchChoreComments,
-  } = useQuery<any>(props.customerchore.id, fetchChoreComments);
+  } = useQuery<any>("comment_" + props.customerchore.id, fetchChoreComments);
 
   const {
     data: choreStatuses,
     error: choreStatusError,
     isLoading: choreStatusIsLoading,
     refetch: refetchChoreStatuses,
-  } = useQuery<any>(props.customerchore.id, fetchChoreStatuses);
-
-  // refetchChoreComments();
+  } = useQuery<any>("status_" + props.customerchore.id, fetchChoreStatuses);
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
@@ -66,7 +63,24 @@ const ChoreInfo = (props: any) => {
       },
     },
   );
-  if (isLoading) {
+
+  const { mutate: postChoreStatus, isLoading: postingChoreStatus } = useMutation(
+    async () => {
+      return await axiosClient.post("/ChoreStatus", {
+        customerChoreId: props.customerchore.id,
+        doneBy: "userId",
+      });
+    },
+    {
+      onSuccess: () => {
+        refetchChoreStatuses();
+        props.onHide();
+        setShowToast(true);
+      },
+    },
+  );
+
+  if (isLoading || choreStatusIsLoading) {
     return <Spinner />;
   }
 
@@ -74,7 +88,7 @@ const ChoreInfo = (props: any) => {
     return <div>Error!</div>;
   }
 
-  console.log(choreStatuses)
+  console.log(choreStatuses);
   return (
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
@@ -84,25 +98,23 @@ const ChoreInfo = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            {choreStatuses.length}
             {(() => {
-              if(choreStatuses.length === props.customerchore.frequency) {
+              if (choreStatuses.length === props.customerchore.frequency) {
+                return <div className='p'>Klar</div>;
+              } else if (choreStatuses.length > 0) {
                 return (
-                  <div className='p'>Klar</div>
-                  )
-                }
-                else if (choreStatuses.length > 0) {
-                  return (
+                  <>
                     <div className='p'>Påbörjad</div>
-                    )
-                }
-                else {
-                  return (
-                  <div className='p'>Ej påbörjad</div>
-                )
+                    <div className='p'>
+                      Har gjorts {choreStatuses.length}{" "}
+                      {choreStatuses.length === 1 ? "gång" : "gånger"} i år
+                    </div>
+                  </>
+                );
+              } else {
+                return <div className='p'>Ej påbörjad</div>;
               }
-            }
-          )()}
+            })()}
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
@@ -185,14 +197,17 @@ const ChoreInfo = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            disabled={props.customerchore.frequency === choreStatuses.length ? true : false}
             type='submit'
             onClick={() => {
               setCommentValue("");
+              postChoreStatus();
               props.onHide();
-              setShowToast(true);
             }}
           >
-            Markera som klar
+            {props.customerchore.frequency === choreStatuses.length
+              ? "Uppgift är klar!"
+              : "Markera som klar"}
           </Button>
         </Modal.Footer>
         <ImageModal show={imgModal} onHide={() => setImgModalShow(false)} image={choreImage} />
