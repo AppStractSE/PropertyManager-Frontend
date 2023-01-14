@@ -30,6 +30,11 @@ const ChoreInfo = (props: any) => {
     method: "get",
   });
 
+  const fetchChoreStatuses = useAxios({
+    url: `/ChoreStatus/GetChoreStatusById?Id=${props.customerchore.id}`,
+    method: "get",
+  });
+
   const {
     data,
     error,
@@ -37,7 +42,14 @@ const ChoreInfo = (props: any) => {
     refetch: refetchChoreComments,
   } = useQuery<any>(props.customerchore.id, fetchChoreComments);
 
-  refetchChoreComments();
+  const {
+    data: choreStatuses,
+    error: choreStatusError,
+    isLoading: choreStatusIsLoading,
+    refetch: refetchChoreStatuses,
+  } = useQuery<any>(props.customerchore.id, fetchChoreStatuses);
+
+  // refetchChoreComments();
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
@@ -62,6 +74,7 @@ const ChoreInfo = (props: any) => {
     return <div>Error!</div>;
   }
 
+  console.log(choreStatuses)
   return (
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
@@ -71,7 +84,25 @@ const ChoreInfo = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            <div className='p'>Ej påbörjad</div>
+            {choreStatuses.length}
+            {(() => {
+              if(choreStatuses.length === props.customerchore.frequency) {
+                return (
+                  <div className='p'>Klar</div>
+                  )
+                }
+                else if (choreStatuses.length > 0) {
+                  return (
+                    <div className='p'>Påbörjad</div>
+                    )
+                }
+                else {
+                  return (
+                  <div className='p'>Ej påbörjad</div>
+                )
+              }
+            }
+          )()}
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>

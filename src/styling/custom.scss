@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
 :root {
   --pm-completed: rgb(5, 97, 5);
   --pm-initiated: rgb(184, 119, 0);
@@ -35,10 +39,4 @@
   overflow: hidden;
   color: white;
   background: var(--pm-not-initiated);
-}
-
-html,
-body,
-#root {
-  overflow: hidden;
 }
