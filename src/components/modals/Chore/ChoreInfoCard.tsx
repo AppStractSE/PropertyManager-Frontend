@@ -76,7 +76,9 @@ const ChoreInfoCard = (props: any) => {
     {
       onSuccess: () => {
         refetchChoreStatuses();
-        // props.onHide();
+        setTimeout(() => {
+          props.onHide();
+        }, 1000);
         setShowToast(true);
       },
     },
