@@ -30,7 +30,7 @@ const Customer = () => {
       {isLoading || error ? (
         <CustomerPageSkeleton />
       ) : data !== undefined ? (
-        <Container className='mt-3'>
+        <Container className='mt-3 mb-3'>
           <Stack direction='vertical' gap={3}>
             <div className='d-flex align-items-center'>
               <div onClick={() => navigate("/")}>

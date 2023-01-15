@@ -56,7 +56,7 @@ html, body, #root {
 .upload-button {
   padding: 0 !important;
   background: transparent !important;
-  color: #198754 !important;
+  color: var(--pm-completed) !important;
   border: none !important;
   margin-right: 4px !important;
 }

@@ -22,10 +22,6 @@ const ChoreCard = ({ customerchore }: Props) => {
     refetch: refetchChoreStatuses,
   } = useQuery<any>("status_" + customerchore.id, fetchChoreStatuses);
 
-  if (choreStatusIsLoading) {
-    return <Spinner />;
-  }
-
   return (
     <>
       <Card onClick={() => setModalShow(true)}>
@@ -40,6 +36,18 @@ const ChoreCard = ({ customerchore }: Props) => {
             <Card.Title className='small text-muted'>Status</Card.Title>
 
             {(() => {
+              if (choreStatusIsLoading) {
+                return (
+                  <Spinner
+                    className='ms-2'
+                    size='sm'
+                    as='span'
+                    animation='border'
+                    role='status'
+                    aria-hidden='true'
+                  />
+                );
+              }
               if (choreStatuses.length === customerchore.frequency) {
                 return <Card.Text className='small p-2 status completed'>Klar</Card.Text>;
               } else if (choreStatuses.length > 0) {

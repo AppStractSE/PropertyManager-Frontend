@@ -23,7 +23,7 @@ const Home = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <HomePageSkeleton />
       </motion.div>
@@ -38,9 +38,9 @@ const Home = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <Container className='mt-3'>
+      <Container className='mt-3 mb-3'>
         <div className='h3'>Dina kunder</div>
         <Stack direction='vertical' gap={3}>
           <SearchAndFilter
@@ -55,7 +55,7 @@ const Home = () => {
             className='vstack gap-3 minBreakpoint-xs'
           >
             {filterSearch.map((customer) => (
-              <div style={{ overflow: "hidden" }} key={customer.id}>
+              <div key={customer.id}>
                 <motion.div variants={item}>
                   <CustomerCard customer={customer} />
                 </motion.div>

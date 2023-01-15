@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Route, Router, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./Layout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOverview from "./pages/AdminOverview";
@@ -18,7 +18,7 @@ const App = () => {
   const location = useLocation();
   return (
     <QueryClientProvider client={queryClient}>
-      <AnimatePresence mode={"wait"}>
+      <AnimatePresence mode='wait'>
         <Routes key={location.pathname} location={location}>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />

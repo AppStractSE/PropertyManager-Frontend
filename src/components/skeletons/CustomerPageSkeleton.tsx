@@ -4,10 +4,10 @@ import SearchSkeleton from "./SearchSkeleton";
 
 const HomePageSkeleton = () => {
   return (
-    <Container className='mt-3'>
+    <Container className='mt-3 mb-3'>
       <SearchSkeleton />
       <Stack direction='vertical' gap={3} className='mt-3'>
-        {Array.from({ length: 4 }, (_, i) => (
+        {Array.from({ length: 3 }, (_, i) => (
           <ChoreCardSkeleton key={i} />
         ))}
       </Stack>
