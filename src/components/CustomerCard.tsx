@@ -10,7 +10,7 @@ interface Props {
 const CustomerCard = ({ customer }: Props) => {
   return (
     <Link to={`/customer/${customer.id}`} className='router-link'>
-      <Card onClick={() => console.log(`${customer.name}`)}>
+      <Card>
         <Card.Header className='d-flex align-items-center'>
           <Container>
             <Card.Title>{customer.name}</Card.Title>

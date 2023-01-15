@@ -1,10 +1,12 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import { useQuery } from "react-query";
+import { container, item } from "../animation";
 import CustomerCard from "../components/CustomerCard";
 import SearchAndFilter from "../components/SearchAndFilter";
-import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
+import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import useAxios from "../hooks/useAxios";
 import { Customer } from "../models/Customer";
 
@@ -15,28 +17,54 @@ const Home = () => {
   const filterSearch = data?.filter((customer) =>
     customer.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
-  if (isLoading || filterSearch === undefined) {
-    return <HomePageSkeleton />;
+  if (isLoading || filterSearch === undefined || error) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <HomePageSkeleton />
+      </motion.div>
+    );
   }
 
-  if (error || data == undefined) {
-    return <div>Error!</div>;
-  }
-
+  // if (error || data == undefined) {
+  //   return <div>Error!</div>;
+  // }
   return (
-    <Container className='mt-3'>
-      <div className='h3'>Dina kunder</div>
-      <Stack direction='vertical' gap={3}>
-        <SearchAndFilter
-          value={searchValue}
-          onChange={setSearchValue}
-          filterSearch={filterSearch.length}
-        />
-        {filterSearch.map((customer) => (
-          <CustomerCard key={customer.id} customer={customer} />
-        ))}
-      </Stack>
-    </Container>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <Container className='mt-3'>
+        <div className='h3'>Dina kunder</div>
+        <Stack direction='vertical' gap={3}>
+          <SearchAndFilter
+            value={searchValue}
+            onChange={setSearchValue}
+            filterSearch={filterSearch.length}
+          />
+          <motion.div
+            variants={container}
+            initial='hidden'
+            animate='show'
+            className='vstack gap-3 minBreakpoint-xs'
+          >
+            {filterSearch.map((customer) => (
+              <div style={{ overflow: "hidden" }} key={customer.id}>
+                <motion.div variants={item}>
+                  <CustomerCard customer={customer} />
+                </motion.div>
+              </div>
+            ))}
+          </motion.div>
+        </Stack>
+      </Container>
+    </motion.div>
   );
 };
 
