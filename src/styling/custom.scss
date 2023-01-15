@@ -4,7 +4,7 @@ html, body, #root {
 
 :root {
   --pm-completed: rgb(5, 97, 5);
-  --pm-initiated: rgb(184, 119, 0);
+  --pm-initiated: rgb(219, 143, 0);
   --pm-not-initiated: rgb(153, 0, 0);
 }
 .camera-container {
@@ -38,5 +38,25 @@ html, body, #root {
   border-radius: 2px;
   overflow: hidden;
   color: white;
+  min-width: 50px;
+    text-align: center;
+  }
+  
+  .not-initiated {
   background: var(--pm-not-initiated);
+}
+.initiated {
+  background: var(--pm-initiated);
+}
+
+.completed {
+  background: var(--pm-completed);
+}
+
+.upload-button {
+  padding: 0 !important;
+  background: transparent !important;
+  color: #198754 !important;
+  border: none !important;
+  margin-right: 4px !important;
 }

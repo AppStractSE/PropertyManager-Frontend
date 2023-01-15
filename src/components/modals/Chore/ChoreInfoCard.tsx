@@ -3,12 +3,14 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
-import useAxios from "../../hooks/useAxios";
-import axiosClient from "../../utils/axiosClient";
-import CustomToast from "../snacks/CustomToast";
-import ImageModal from "./ImageModal";
+import useAxios from "../../../hooks/useAxios";
+import axiosClient from "../../../utils/axiosClient";
+import CustomToast from "../../snacks/CustomToast";
+import ImageModal from "../ImageModal";
+import { ChoreComments } from "./ChoreComments";
+import { ChoreStatus } from "./ChoreStatus";
 
-const ChoreInfo = (props: any) => {
+const ChoreInfoCard = (props: any) => {
   const [choreImage, setChoreImage] = useState("");
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -74,7 +76,7 @@ const ChoreInfo = (props: any) => {
     {
       onSuccess: () => {
         refetchChoreStatuses();
-        props.onHide();
+        // props.onHide();
         setShowToast(true);
       },
     },
@@ -88,7 +90,6 @@ const ChoreInfo = (props: any) => {
     return <div>Error!</div>;
   }
 
-  console.log(choreStatuses);
   return (
     <>
       <Modal {...props} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
@@ -98,23 +99,7 @@ const ChoreInfo = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            {(() => {
-              if (choreStatuses.length === props.customerchore.frequency) {
-                return <div className='p'>Klar</div>;
-              } else if (choreStatuses.length > 0) {
-                return (
-                  <>
-                    <div className='p'>Påbörjad</div>
-                    <div className='p'>
-                      Har gjorts {choreStatuses.length}{" "}
-                      {choreStatuses.length === 1 ? "gång" : "gånger"} i år
-                    </div>
-                  </>
-                );
-              } else {
-                return <div className='p'>Ej påbörjad</div>;
-              }
-            })()}
+            <ChoreStatus chorestatuses={choreStatuses} customerchore={props.customerchore} />
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
@@ -129,18 +114,7 @@ const ChoreInfo = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
-            <div className='chore-comments'>
-              {data.map((data: any) => (
-                <div key={data.id} className='chore-comment-container'>
-                  <div className='d-flex align-items-center gap-1'>
-                    <div className='p fw-bold'>Niklas P</div>{" "}
-                    {/* Insert user here instead of hard coded */}
-                    <div className='p small text-muted'>{data.time.replace("T", " - ")}</div>
-                  </div>
-                  <div className='p'>{data.message}</div>
-                </div>
-              ))}
-            </div>
+            <ChoreComments data={data} />
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>
@@ -174,15 +148,13 @@ const ChoreInfo = (props: any) => {
                     onClick={() => postComment()}
                     disabled={commentValue ? false : true}
                     variant='success'
-                    style={{
-                      padding: 0,
-                      background: "transparent",
-                      color: "#198754",
-                      border: "none",
-                      marginRight: "4px",
-                    }}
+                    className='upload-button'
                   >
-                    {postingComment ? <div>U</div> : <BsFillArrowUpCircleFill size={36} />}
+                    {postingComment ? (
+                      <Spinner as='span' animation='border' role='status' aria-hidden='true' />
+                    ) : (
+                      <BsFillArrowUpCircleFill size={36} />
+                    )}
                   </Button>
                 </Form.Group>
               </Form>
@@ -202,9 +174,18 @@ const ChoreInfo = (props: any) => {
             onClick={() => {
               setCommentValue("");
               postChoreStatus();
-              props.onHide();
             }}
           >
+            {postingChoreStatus ? (
+              <Spinner
+                as='span'
+                animation='border'
+                size='sm'
+                role='status'
+                aria-hidden='true'
+                className='mx-2'
+              />
+            ) : null}
             {props.customerchore.frequency === choreStatuses.length
               ? "Uppgift är klar!"
               : "Markera som klar"}
@@ -217,4 +198,4 @@ const ChoreInfo = (props: any) => {
   );
 };
 
-export default ChoreInfo;
+export default ChoreInfoCard;
