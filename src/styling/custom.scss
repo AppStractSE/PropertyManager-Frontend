@@ -2,6 +2,10 @@ html, body, #root {
   height: 100%;
 }
 
+div {
+  transition: .5s ease all;
+}
+
 :root {
   --pm-completed: rgb(5, 97, 5);
   --pm-initiated: rgb(219, 143, 0);

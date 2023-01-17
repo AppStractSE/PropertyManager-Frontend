@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button, Card, Container, Spinner } from "react-bootstrap";
+import { Button, Card, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
 import useAxios from "../hooks/useAxios";
 import { CustomerChore } from "../models/CustomerChore";
-import ChoreInfoCard from "./modals/Chore/ChoreInfoCard";
+import ChoreInfoCard from "./modals/CustomerChore";
 
 interface Props {
   customerchore: CustomerChore;
@@ -37,16 +37,7 @@ const ChoreCard = ({ customerchore }: Props) => {
 
             {(() => {
               if (choreStatusIsLoading) {
-                return (
-                  <Spinner
-                    className='ms-2'
-                    size='sm'
-                    as='span'
-                    animation='border'
-                    role='status'
-                    aria-hidden='true'
-                  />
-                );
+                return <></>;
               }
               if (choreStatuses.length === customerchore.frequency) {
                 return <Card.Text className='small p-2 status completed'>Klar</Card.Text>;

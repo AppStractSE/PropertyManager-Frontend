@@ -1,4 +1,4 @@
-export function ChoreComments({ data }: any) {
+export function CustomerChoreComments({ data }: any) {
   return (
     <div className='chore-comments'>
       {data.map((data: any) => (

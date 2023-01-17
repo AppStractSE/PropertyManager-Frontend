@@ -3,14 +3,14 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
-import useAxios from "../../../hooks/useAxios";
-import axiosClient from "../../../utils/axiosClient";
-import CustomToast from "../../snacks/CustomToast";
-import ImageModal from "../ImageModal";
-import { ChoreComments } from "./ChoreComments";
-import { ChoreStatus } from "./ChoreStatus";
+import useAxios from "../../hooks/useAxios";
+import axiosClient from "../../utils/axiosClient";
+import CustomToast from "../snacks/CustomToast";
+import { CustomerChoreComments } from "./CustomerChore/CustomerChoreComments";
+import { CustomerChoreStatus } from "./CustomerChore/CustomerChoreStatus";
+import ImageModal from "./ImageModal";
 
-const ChoreInfoCard = (props: any) => {
+const CustomerChore = (props: any) => {
   const [choreImage, setChoreImage] = useState("");
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -85,7 +85,7 @@ const ChoreInfoCard = (props: any) => {
   );
 
   if (isLoading || choreStatusIsLoading) {
-    return <Spinner />;
+    return <></>;
   }
 
   if (error || data == undefined) {
@@ -101,7 +101,10 @@ const ChoreInfoCard = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            <ChoreStatus chorestatuses={choreStatuses} customerchore={props.customerchore} />
+            <CustomerChoreStatus
+              chorestatuses={choreStatuses}
+              customerchore={props.customerchore}
+            />
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
@@ -116,7 +119,7 @@ const ChoreInfoCard = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
-            <ChoreComments data={data} />
+            <CustomerChoreComments data={data} />
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>
@@ -200,4 +203,4 @@ const ChoreInfoCard = (props: any) => {
   );
 };
 
-export default ChoreInfoCard;
+export default CustomerChore;

@@ -1,4 +1,4 @@
-export function ChoreStatus({ chorestatuses, customerchore }: any) {
+export function CustomerChoreStatus({ chorestatuses, customerchore }: any) {
   return (
     <>
       {(() => {
