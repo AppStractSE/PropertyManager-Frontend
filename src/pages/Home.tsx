@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
-import Stack from "react-bootstrap/Stack";
 import { useQuery } from "react-query";
 import { container, item } from "../animation";
 import CustomerCard from "../components/CustomerCard";
@@ -30,9 +29,6 @@ const Home = () => {
     );
   }
 
-  // if (error || data == undefined) {
-  //   return <div>Error!</div>;
-  // }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -41,28 +37,24 @@ const Home = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <Container className='mt-3 mb-3'>
-        <div className='h3'>Dina kunder</div>
-        <Stack direction='vertical' gap={3}>
+        <motion.div
+          variants={container}
+          initial='hidden'
+          animate='show'
+          className='vstack gap-2 minBreakpoint-xs'
+        >
+          <div className='h3 mb-0'>Mina kunder</div>
           <SearchAndFilter
             value={searchValue}
             onChange={setSearchValue}
             filterSearch={filterSearch.length}
           />
-          <motion.div
-            variants={container}
-            initial='hidden'
-            animate='show'
-            className='vstack gap-3 minBreakpoint-xs'
-          >
-            {filterSearch.map((customer) => (
-              <div key={customer.id}>
-                <motion.div variants={item}>
-                  <CustomerCard customer={customer} />
-                </motion.div>
-              </div>
-            ))}
-          </motion.div>
-        </Stack>
+          {filterSearch.map((customer) => (
+            <motion.div variants={item} key={customer.id}>
+              <CustomerCard customer={customer} />
+            </motion.div>
+          ))}
+        </motion.div>
       </Container>
     </motion.div>
   );
