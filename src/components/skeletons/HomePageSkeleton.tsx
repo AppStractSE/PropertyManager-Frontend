@@ -6,7 +6,7 @@ const HomePageSkeleton = () => {
   return (
     <Container className='mt-3 mb-3'>
       <SearchSkeleton />
-      <Stack direction='vertical' gap={3} className='mt-3'>
+      <Stack direction='vertical' gap={2} className='mt-3'>
         {Array.from({ length: 3 }, (_, i) => (
           <CustomerCardSkeleton key={i} />
         ))}
