@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./Layout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOverview from "./pages/AdminOverview";
+import AdminRegisterChore from "./pages/AdminRegisterChore";
 import Customer from "./pages/Customer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -26,6 +27,7 @@ const App = () => {
             <Route path='customer/:id' element={<Customer />} />
             <Route path='admin' element={<AdminDashboard />} />
             <Route path='admin/overview' element={<AdminOverview />} />
+            <Route path='admin/register' element={<AdminRegisterChore />} />
             <Route path='*' element={<NotFound />} />
           </Route>
         </Routes>
