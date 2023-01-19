@@ -67,6 +67,14 @@ div {
   margin-right: 4px !important;
 }
 
+.form-active:focus-within {
+  border-color: #000;
+}
+
+.navbar {
+  background: #111 !important;
+}
+
 .dark {
     --pm-completed: rgb(35, 146, 1);
     --pm-initiated: rgb(204, 75, 0);
@@ -136,10 +144,6 @@ div {
 
   .text-muted {
     color: #dedbdf !important;
-  }
-
-  .navbar {
-    background: #111 !important;
   }
 
   .placeholder {
