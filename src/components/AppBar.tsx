@@ -25,6 +25,9 @@ const AppBar = () => {
             <LinkContainer to='/admin/overview'>
               <Nav.Link>Admin Overview</Nav.Link>
             </LinkContainer>
+            <LinkContainer to='/admin/register'>
+              <Nav.Link>Register chore</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>
