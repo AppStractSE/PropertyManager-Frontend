@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosClient from "../../utils/axiosClient";
 
 const AddTeamModal = (props: any) => {
   const [teamValue, setTeamValue] = useState("");
+  const queryClient = useQueryClient();
   const { mutate: postTeam, isLoading: postingTeam } = useMutation(
     async () => {
       return await axiosClient.post("/Team", {
@@ -14,8 +15,9 @@ const AddTeamModal = (props: any) => {
     {
       onSuccess: () => {
         setTeamValue("");
-            console.log("success");
-            props.onHide();
+        console.log("success");
+        queryClient.invalidateQueries("teams");
+        props.onHide();
       },
     },
     );
