@@ -209,3 +209,15 @@ form>div,
     color: inherit;
   }
 }
+
+.placeholder-wave .card, .placeholder {
+  cursor: default !important;
+}
+.btn:disabled {
+  --bs-btn-disabled-opacity: .25;
+}
+
+.btn, .modal, .btn:disabled {
+
+  transition: .3s ease all;
+}
