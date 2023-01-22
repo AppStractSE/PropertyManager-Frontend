@@ -147,6 +147,11 @@
   width: 2.5em;
 }
 
+.form-select:focus {
+  border-color: none;
+  box-shadow: none;
+  }
+
 #image-modal {
   .modal-header {
     .modal-title {

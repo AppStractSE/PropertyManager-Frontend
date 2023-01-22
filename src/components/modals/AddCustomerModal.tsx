@@ -39,7 +39,7 @@ const AddCustomerModal = (props: any) => {
               value={customerValue}
               onChange={(e) => setCustomerValue(e.target.value)}
             />
-            <Form.Select aria-label='Välj team dropdown' value={teamValue} onChange={(e) => setTeamValue(e.target.value)}>
+            <Form.Select aria-label='Välj team dropdown' value={teamValue} onChange={(e) => setTeamValue(e.target.value)} className="form-active">
               <option>Välj team</option>
               {props.teams &&
                 props.teams.map((team: any) => {
@@ -50,7 +50,7 @@ const AddCustomerModal = (props: any) => {
                   );
                 })}
             </Form.Select>
-            <Form.Select aria-label='Välj område dropdown' value={areaValue} onChange={(e) => setAreaValue(e.target.value)}>
+            <Form.Select aria-label='Välj område dropdown' value={areaValue} onChange={(e) => setAreaValue(e.target.value)}  className="form-active">
               <option>Välj område</option>
               {props.areas &&
                 props.areas.map((area: any) => {
