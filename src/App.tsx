@@ -1,11 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, Routes } from "react-router-dom";
-import { useUser } from "./contexts/userContext";
+import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import Layout from "./Layout";
 import { TokenInfo } from "./models/TokenInfo";
+import { User } from "./models/User";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOverview from "./pages/AdminOverview";
 import Customer from "./pages/Customer";
@@ -17,20 +19,31 @@ import "./styling/custom.scss";
 import "./styling/overrides.scss";
 
 const App = () => {
-  const Authenticated = () => {
-    const { token, setToken } = useUser();
-    const [storageToken] = useLocalStorage<TokenInfo>("token", {} as TokenInfo);
+  const { currentUser, setCurrentUser } = useUser();
+  const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo);
 
-    if (token?.token) {
-      return true;
+  useEffect(() => {
+    if (token && currentUser === InitialUserState) {
+      if (token?.token !== "") {
+        //Fetch user from backend instead of mockdata
+        setCurrentUser({
+          userName: "rxjpaw",
+          userId: "b0c13080-cedc-420b-a186-ebe789541abd",
+          displayName: "Patrik J",
+          tokenInfo: token,
+        } as User);
+      }
     }
-    if (storageToken.token) {
-      setToken(storageToken);
-      return true;
-    } else {
-      return false;
+  }, [token]);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.tokenInfo?.token) {
+        setToken(currentUser.tokenInfo);
+      }
     }
-  };
+  }, [currentUser]);
+
   const queryClient = new QueryClient();
 
   return (
@@ -38,7 +51,7 @@ const App = () => {
       <AnimatePresence mode='wait'>
         <Routes>
           <Route path='/' element={<Layout />}>
-            {!Authenticated() ? (
+            {currentUser === InitialUserState ? (
               <Route index element={<Login />} />
             ) : (
               <>

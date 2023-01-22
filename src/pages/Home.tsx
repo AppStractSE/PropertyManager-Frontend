@@ -6,12 +6,12 @@ import { container, item } from "../animation";
 import CustomerCard from "../components/CustomerCard";
 import SearchAndFilter from "../components/SearchAndFilter";
 import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
-import { useUser } from "../contexts/userContext";
+import { useUser } from "../contexts/UserContext";
 import useAxios from "../hooks/useAxios";
 import { Customer } from "../models/Customer";
 
 const Home = () => {
-  const { token: tokenState, currentUser } = useUser();
+  const { currentUser } = useUser();
   const [searchValue, setSearchValue] = useState("");
   const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
   const { data, error, isLoading } = useQuery<Customer[]>("customers", fetchCustomers);
@@ -47,7 +47,7 @@ const Home = () => {
           className='vstack gap-2 minBreakpoint-xs'
         >
           <div className='h3 mb-0'>Mina kunder</div>
-          <p>{currentUser.userName}</p>
+          <p>{currentUser.displayName}</p>
           <SearchAndFilter
             value={searchValue}
             onChange={setSearchValue}
