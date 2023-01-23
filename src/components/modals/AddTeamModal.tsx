@@ -20,10 +20,10 @@ const AddTeamModal = (props: any) => {
         props.onHide();
       },
     },
-    );
+  );
 
   return (
-    <Modal {...props}>
+    <Modal {...props} centered>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>Lägg till team</Modal.Title>
       </Modal.Header>
@@ -31,12 +31,20 @@ const AddTeamModal = (props: any) => {
         <Form>
           <Form.Group className='mb-3' controlId='formAddTeam'>
             <Form.Label>Team</Form.Label>
-            <Form.Control type='text' placeholder='Enter team name' value={teamValue} onChange={(e) => setTeamValue(e.target.value)} />
+            <Form.Control
+              type='text'
+              placeholder='Enter team name'
+              value={teamValue}
+              onChange={(e) => setTeamValue(e.target.value)}
+            />
           </Form.Group>
-                  <Button className="w-100"
-                      onClick={() => postTeam()}
-                      disabled={teamValue.length < 3 ? true : false}
-                  >Lägg till team</Button>
+          <Button
+            className='w-100'
+            onClick={() => postTeam()}
+            disabled={teamValue.length < 3 ? true : false}
+          >
+            Lägg till team
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>

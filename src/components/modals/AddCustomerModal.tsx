@@ -25,7 +25,7 @@ const AddCustomerModal = (props: any) => {
     },
   );
   return (
-    <Modal {...props}>
+    <Modal {...props} centered>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>Lägg till kund</Modal.Title>
       </Modal.Header>
