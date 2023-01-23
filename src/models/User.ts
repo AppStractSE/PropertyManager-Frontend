@@ -1,4 +1,8 @@
+import { TokenInfo } from "./TokenInfo";
+
 export interface User {
-  id: string;
-  name: string;
+  userId: string;
+  displayName: string;
+  userName: string;
+  tokenInfo: TokenInfo;
 }
