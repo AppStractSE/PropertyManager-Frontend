@@ -1,19 +1,24 @@
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { FaUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { LinkContainer } from "react-router-bootstrap";
+import ProfileModal from "./modals/ProfileModal";
 
 const AppBar = () => {
+  const [showModal, setShowModal] = useState(false);
   return (
     <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
       <Container>
-        <LinkContainer to='/'>
-          <Navbar.Brand>Property Manager</Navbar.Brand>
-        </LinkContainer>
         <Navbar.Toggle aria-controls='basic-navbar-nav'>
           <RxHamburgerMenu size={24} />
         </Navbar.Toggle>
+        <LinkContainer to='/'>
+          <Navbar.Brand>Property Manager</Navbar.Brand>
+        </LinkContainer>
+        <FaUserCircle size={24} onClick={() => setShowModal(true)} />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
             <LinkContainer to='/'>
@@ -30,6 +35,7 @@ const AppBar = () => {
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
+        <ProfileModal show={showModal} onHide={() => setShowModal(false)} />
       </Container>
     </Navbar>
   );
