@@ -3,6 +3,7 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
+import { useUser } from "../../contexts/UserContext";
 import useAxios from "../../hooks/useAxios";
 import axiosClient from "../../utils/axiosClient";
 import CustomToast from "../snacks/CustomToast";
@@ -15,6 +16,7 @@ const CustomerChore = (props: any) => {
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [commentValue, setCommentValue] = useState("");
+  const { currentUser } = useUser();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
@@ -55,7 +57,7 @@ const CustomerChore = (props: any) => {
       return await axiosClient.post("/ChoreComment", {
         message: commentValue,
         customerChoreId: props.customerchore.id,
-        userId: "string",
+        userId: currentUser.userId,
       });
     },
     {
@@ -70,7 +72,7 @@ const CustomerChore = (props: any) => {
     async () => {
       return await axiosClient.post("/ChoreStatus", {
         customerChoreId: props.customerchore.id,
-        doneBy: "userId",
+        doneBy: currentUser.userId,
       });
     },
     {
