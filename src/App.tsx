@@ -29,7 +29,7 @@ const App = () => {
         //Fetch user from backend instead of mockdata
         setCurrentUser({
           userName: "rxjpaw",
-          userId: "b0c13080-cedc-420b-a186-ebe789541abd",
+          userId: "e3acebf1-55f9-4093-aed6-c017b33c5502",
           displayName: "Patrik J",
           tokenInfo: token,
         } as User);
