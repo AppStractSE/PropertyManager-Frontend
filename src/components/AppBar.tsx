@@ -11,7 +11,7 @@ const AppBar = () => {
   const [showModal, setShowModal] = useState(false);
   return (
     <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
-      <Container>
+      <Container className='gap-4'>
         <Navbar.Toggle aria-controls='basic-navbar-nav'>
           <RxHamburgerMenu size={24} />
         </Navbar.Toggle>
