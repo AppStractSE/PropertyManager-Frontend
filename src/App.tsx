@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { useMutation } from "react-query";
 import { Route, Routes } from "react-router-dom";
 import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
+import axiosClient from "./utils/axiosClient";
 
 const App = () => {
   const { currentUser, setCurrentUser } = useUser();
@@ -26,48 +27,65 @@ const App = () => {
   useEffect(() => {
     if (token && currentUser === InitialUserState) {
       if (token?.token !== "") {
-        //Fetch user from backend instead of mockdata
-        setCurrentUser({
-          userName: "rxjpaw",
-          userId: "e3acebf1-55f9-4093-aed6-c017b33c5502",
-          displayName: "Patrik J",
-          tokenInfo: token,
-        } as User);
+        fetchValidatedUser();
       }
     }
   }, [token]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser !== InitialUserState) {
       if (currentUser.tokenInfo?.token) {
         setToken(currentUser.tokenInfo);
       }
     }
   }, [currentUser]);
 
-  const queryClient = new QueryClient();
+  const { mutateAsync: fetchValidatedUser } = useMutation(
+    async () => {
+      return await axiosClient.get(`/Authenticate/validation`, {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      });
+    },
+    {
+      onSuccess: ({ data }) => {
+        setCurrentUser({
+          userName: data.userName,
+          userId: data.userId,
+          displayName: data.displayName,
+          tokenInfo: data.tokenInfo,
+        } as User);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  // const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AnimatePresence mode='wait'>
-        <Routes>
-          <Route path='/' element={<Layout />}>
-            {currentUser === InitialUserState ? (
-              <Route index element={<Login />} />
-            ) : (
-              <>
-                <Route index element={<Home />} />
-                <Route path='customer/:id' element={<Customer />} />
-                <Route path='admin' element={<AdminDashboard />} />
-                <Route path='admin/overview' element={<AdminOverview />} />
-                <Route path='admin/register' element={<AdminRegisterChore />} />
-              </>
-            )}
-            <Route path='*' element={<NotFound />} />
-          </Route>
-        </Routes>
-      </AnimatePresence>
-    </QueryClientProvider>
+    // <QueryClientProvider client={queryClient}>
+    <AnimatePresence mode='wait'>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          {currentUser === InitialUserState ? (
+            <Route index element={<Login />} />
+          ) : (
+            <>
+              <Route index element={<Home />} />
+              <Route path='customer/:id' element={<Customer />} />
+              <Route path='admin' element={<AdminDashboard />} />
+              <Route path='admin/overview' element={<AdminOverview />} />
+              <Route path='admin/register' element={<AdminRegisterChore />} />
+            </>
+          )}
+          <Route path='*' element={<NotFound />} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+    // </QueryClientProvider>
   );
 };
 
