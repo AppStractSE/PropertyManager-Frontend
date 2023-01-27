@@ -1,36 +1,43 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import Container from "react-bootstrap/Container";
 import { useQuery } from "react-query";
-import { container, item } from "../animation";
-import { CustomerResponseDto } from "../api/client";
-import CustomerCard from "../components/CustomerCard";
-import SearchAndFilter from "../components/SearchAndFilter";
-import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
+import { Client, TeamMemberResponseDto } from "../api/client";
 import { useUser } from "../contexts/UserContext";
-import useAxios from "../hooks/useAxios";
 
 const Home = () => {
   const { currentUser } = useUser();
-  const [searchValue, setSearchValue] = useState("");
-  const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
-  const { data, error, isLoading } = useQuery<CustomerResponseDto[]>("customers", fetchCustomers);
-  const filterSearch = data?.filter((customer) =>
-    customer.name.toLowerCase().includes(searchValue.toLowerCase()),
-  );
+  const client = new Client();
+  console.log(currentUser.userId);
 
-  if (isLoading || filterSearch === undefined || error) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <HomePageSkeleton />
-      </motion.div>
-    );
-  }
+  const { data: teamMembers, isLoading: teamMembersLoading } = useQuery<TeamMemberResponseDto[]>(
+    ["teamMembers", currentUser.userId],
+    async () => client.teamMember_GetTeamMembersByUserId(currentUser.userId!),
+  );
+  if (!teamMembersLoading) console.log(teamMembers);
+
+  // const { data: team } = useQuery<TeamResponseDto>(["team", customer.teamId], async () =>
+  //   client.team_GetTeamById(customer.teamId!),
+  // );
+
+  // const [searchValue, setSearchValue] = useState("");
+  // const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
+  // const { data, error, isLoading } = useQuery<CustomerResponseDto[]>("customers", fetchCustomers);
+  // const filterSearch = data?.filter((customer) =>
+  //   customer.name.toLowerCase().includes(searchValue.toLowerCase()),
+  // );
+  // console.log(currentUser.userId);
+
+  // if (isLoading || filterSearch === undefined || error) {
+  //   return (
+  //     <motion.div
+  //       initial={{ opacity: 0 }}
+  //       animate={{ opacity: 1 }}
+  //       exit={{ opacity: 0 }}
+  //       transition={{ duration: 0.5, ease: "easeInOut" }}
+  //     >
+  //       <HomePageSkeleton />
+  //     </motion.div>
+  //   );
+  // }
 
   return (
     <motion.div
@@ -39,7 +46,8 @@ const Home = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <Container className='mt-3 mb-3'>
+      asd
+      {/* <Container className='mt-3 mb-3'>
         <motion.div
           variants={container}
           initial='hidden'
@@ -59,7 +67,7 @@ const Home = () => {
             </motion.div>
           ))}
         </motion.div>
-      </Container>
+      </Container> */}
     </motion.div>
   );
 };
