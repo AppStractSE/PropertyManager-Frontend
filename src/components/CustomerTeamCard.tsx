@@ -1,31 +1,20 @@
 import { useQuery } from "react-query";
-import { AreaResponseDto, TeamResponseDto } from "../api/client";
-import useAxios from "../hooks/useAxios";
+import { AreaResponseDto, Client, TeamResponseDto } from "../api/client";
 
 const CustomerTeamCard = ({ customer }: any) => {
-  const fetchAreaById = useAxios({
-    url: `/area/GetAreaById?Id=${customer.areaId}`,
-    method: "get",
-  });
-  const fetchTeamById = useAxios({
-    url: `/team/GetTeamById?Id=${customer.teamId}`,
-    method: "get",
-  });
-  const {
-    data: areaById,
-    error: areaByIdError,
-    isLoading: areaByIdLoading,
-  } = useQuery<AreaResponseDto>(customer.areaId, fetchAreaById);
+  const client = new Client();
 
-  const {
-    data: teamById,
-    error: teamByIdError,
-    isLoading: teamByIdLoading,
-  } = useQuery<TeamResponseDto>(customer.id, fetchTeamById);
+  const { data: area } = useQuery<AreaResponseDto>(["area", customer.areaId], async () =>
+    client.area_GetAreaById(customer.areaId!),
+  );
+
+  const { data: team } = useQuery<TeamResponseDto>(["team", customer.teamId], async () =>
+    client.team_GetTeamById(customer.teamId!),
+  );
 
   return (
     <div>
-      {customer.name} - {teamById?.name} - {areaById?.name}
+      {customer.name} - {team?.name} - {area?.name}
     </div>
   );
 };
