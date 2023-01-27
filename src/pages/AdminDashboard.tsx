@@ -8,9 +8,6 @@ import AddAreaModal from "../components/modals/AddAreaModal";
 import AddCustomerModal from "../components/modals/AddCustomerModal";
 import AddTeamModal from "../components/modals/AddTeamModal";
 import useAxios from "../hooks/useAxios";
-import { Area } from "../models/Area";
-import { Customer } from "../models/Customer";
-import { Team } from "../models/Team";
 
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);

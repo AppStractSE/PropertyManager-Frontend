@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
 import { AreaResponseDto, TeamResponseDto } from "../api/client";
 import useAxios from "../hooks/useAxios";
-import { Area } from "../models/Area";
-import { Team } from "../models/Team";
 
 const CustomerTeamCard = ({ customer }: any) => {
   const fetchAreaById = useAxios({
