@@ -212,6 +212,45 @@ export class Client extends BaseClient {
         return Promise.resolve<AuthUser>(null as any);
     }
 
+    authenticate_GetAllUsers(): Promise<UserInfoDto[]> {
+        let url_ = this.baseUrl + "/api/v1/Authenticate/getAllUsers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAuthenticate_GetAllUsers(_response);
+        });
+    }
+
+    protected processAuthenticate_GetAllUsers(response: Response): Promise<UserInfoDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserInfoDto[];
+            return result200;
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserInfoDto[]>(null as any);
+    }
+
     authenticate_GetValidation(): Promise<AuthUser> {
         let url_ = this.baseUrl + "/api/v1/Authenticate/validation";
         url_ = url_.replace(/[?&]$/, "");
@@ -952,6 +991,43 @@ export class Client extends BaseClient {
         return Promise.resolve<CustomerResponseDto>(null as any);
     }
 
+    customer_GetCustomersByTeamId(id: string | undefined): Promise<CustomerResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/Customer/GetCustomersByTeamId?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCustomer_GetCustomersByTeamId(_response);
+        });
+    }
+
+    protected processCustomer_GetCustomersByTeamId(response: Response): Promise<CustomerResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CustomerResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CustomerResponseDto[]>(null as any);
+    }
+
     periodic_GetAllPeriodics(): Promise<Periodic[]> {
         let url_ = this.baseUrl + "/api/v1/Periodic";
         url_ = url_.replace(/[?&]$/, "");
@@ -1272,177 +1348,33 @@ export class Client extends BaseClient {
         }
         return Promise.resolve<TeamMemberResponseDto>(null as any);
     }
-
-    user_GetAllUsers(): Promise<User[]> {
-        let url_ = this.baseUrl + "/api/v1/User";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUser_GetAllUsers(_response);
-        });
-    }
-
-    protected processUser_GetAllUsers(response: Response): Promise<User[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as User[];
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<User[]>(null as any);
-    }
-
-    user_PostUser(request: PostUserRequestDto): Promise<User> {
-        let url_ = this.baseUrl + "/api/v1/User";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUser_PostUser(_response);
-        });
-    }
-
-    protected processUser_PostUser(response: Response): Promise<User> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as User;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<User>(null as any);
-    }
-
-    user_PutUser(request: PutUserRequestDto): Promise<User> {
-        let url_ = this.baseUrl + "/api/v1/User";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUser_PutUser(_response);
-        });
-    }
-
-    protected processUser_PutUser(response: Response): Promise<User> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as User;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<User>(null as any);
-    }
-
-    user_GetUserById(id: string | undefined): Promise<UserResponseDto> {
-        let url_ = this.baseUrl + "/api/v1/User/GetUserById?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUser_GetUserById(_response);
-        });
-    }
-
-    protected processUser_GetUserById(response: Response): Promise<UserResponseDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserResponseDto;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<UserResponseDto>(null as any);
-    }
 }
 
 export interface Area {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface AreaResponseDto {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface PostAreaRequestDto {
-    name: string;
+    name: string | undefined;
 }
 
 export interface PutAreaRequestDto {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface AuthUser {
-    userId: string;
-    userName: string;
-    token: string;
+    userId: string | undefined;
+    userName: string | undefined;
+    token: string | undefined;
     expiration: Date;
-    displayName: string;
+    displayName: string | undefined;
 }
 
 export interface ProblemDetails {
@@ -1460,6 +1392,11 @@ export interface LoginModel {
     password: string;
 }
 
+export interface UserInfoDto {
+    userId: string | undefined;
+    displayName: string | undefined;
+}
+
 export interface RegisterModel {
     username: string;
     email: string;
@@ -1469,59 +1406,59 @@ export interface RegisterModel {
 
 export interface ChoreComment {
     id: string;
-    message: string;
-    customerChoreId: string;
-    displayName: string;
+    message: string | undefined;
+    customerChoreId: string | undefined;
+    displayName: string | undefined;
     time: Date;
 }
 
 export interface ChoreCommentResponseDto {
     id: string;
-    message: string;
+    message: string | undefined;
     time: Date;
-    displayName: string;
+    displayName: string | undefined;
 }
 
 export interface PostChoreCommentRequestDto {
-    message: string;
-    customerChoreId: string;
-    userId: string;
+    message: string | undefined;
+    customerChoreId: string | undefined;
+    userId: string | undefined;
     time: Date;
 }
 
 export interface Chore {
     id: string;
-    categoryId: string;
-    description: string;
-    title: string;
+    categoryId: string | undefined;
+    description: string | undefined;
+    title: string | undefined;
 }
 
 export interface ChoreResponseDto {
     id: string;
     categoryId: string;
-    description: string;
-    title: string;
+    description: string | undefined;
+    title: string | undefined;
 }
 
 export interface PostChoreRequestDto {
-    categoryId: string;
-    description: string;
-    title: string;
+    categoryId: string | undefined;
+    description: string | undefined;
+    title: string | undefined;
 }
 
 export interface PutChoreRequestDto {
     id: string;
-    categoryId: string;
-    description: string;
-    title: string;
+    categoryId: string | undefined;
+    description: string | undefined;
+    title: string | undefined;
 }
 
 export interface ChoreStatus {
     id: string;
-    customerChoreId: string;
+    customerChoreId: string | undefined;
     startDate: Date;
     completedDate: Date;
-    doneBy: string;
+    doneBy: string | undefined;
 }
 
 export interface ChoreStatusResponseDto {
@@ -1529,7 +1466,7 @@ export interface ChoreStatusResponseDto {
     customerChoreId: string;
     startDate: Date;
     completedDate: Date;
-    doneBy: string;
+    doneBy: string | undefined;
 }
 
 export interface PostChoreStatusRequestDto {
@@ -1542,44 +1479,44 @@ export interface PostChoreStatusRequestDto {
 
 export interface CustomerChore {
     id: string;
-    customerId: string;
-    customer: Customer;
-    choreId: string;
-    chore: Chore;
+    customerId: string | undefined;
+    customer: Customer | undefined;
+    choreId: string | undefined;
+    chore: Chore | undefined;
     frequency: number;
-    periodicId: string;
-    periodic: Periodic;
+    periodicId: string | undefined;
+    periodic: Periodic | undefined;
 }
 
 export interface Customer {
     id: string;
-    name: string;
-    areaId: string;
-    teamId: string;
-    address: string;
+    name: string | undefined;
+    areaId: string | undefined;
+    teamId: string | undefined;
+    address: string | undefined;
 }
 
 export interface Periodic {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface CustomerChoreResponseDto {
     id: string;
-    customerId: string;
-    choreId: string;
+    customerId: string | undefined;
+    choreId: string | undefined;
     frequency: number;
-    periodicId: string;
-    periodic: Periodic;
-    chore: Chore;
-    customer: Customer;
+    periodicId: string | undefined;
+    periodic: Periodic | undefined;
+    chore: Chore | undefined;
+    customer: Customer | undefined;
 }
 
 export interface PostCustomerChoreRequestDto {
-    customerId: string;
-    choreId: string;
+    customerId: string | undefined;
+    choreId: string | undefined;
     frequency: number;
-    periodicId: string;
+    periodicId: string | undefined;
 }
 
 export interface PutCustomerChoreRequestDto {
@@ -1589,87 +1526,64 @@ export interface PutCustomerChoreRequestDto {
 
 export interface CustomerResponseDto {
     id: string;
-    name: string;
-    areaId: string;
-    teamId: string;
-    address: string;
+    name: string | undefined;
+    areaId: string | undefined;
+    teamId: string | undefined;
+    address: string | undefined;
 }
 
 export interface PostCustomerRequestDto {
     id: string;
-    name: string;
-    areaId: string;
-    teamId: string;
-    address: string;
+    name: string | undefined;
+    areaId: string | undefined;
+    teamId: string | undefined;
+    address: string | undefined;
 }
 
 export interface Team {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface TeamResponseDto {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface PostTeamRequestDto {
-    name: string;
+    name: string | undefined;
 }
 
 export interface PutTeamRequestDto {
     id: string;
-    name: string;
+    name: string | undefined;
 }
 
 export interface TeamMember {
     id: string;
-    userId: string;
-    teamId: string;
+    userId: string | undefined;
+    teamId: string | undefined;
     isTemporary: boolean;
 }
 
 export interface TeamMemberResponseDto {
     id: string;
-    userId: string;
-    teamId: string;
+    userId: string | undefined;
+    teamId: string | undefined;
     isTemporary: boolean;
 }
 
 export interface PostTeamMemberRequestDto {
-    userId: string;
-    teamId: string;
+    userId: string | undefined;
+    teamId: string | undefined;
     isTemporary: boolean;
 }
 
 export interface PutTeamMemberRequestDto {
     id: string;
-    userId: string;
-    teamId: string;
+    userId: string | undefined;
+    teamId: string | undefined;
     isTemporary: boolean;
-}
-
-export interface User {
-    id: string;
-    name: string;
-}
-
-export interface UserResponseDto {
-    id: string;
-    credId: string;
-    roleId: string;
-    name: string;
-}
-
-export interface PostUserRequestDto {
-    credId: string;
-    roleId: string;
-    name: string;
-}
-
-export interface PutUserRequestDto {
-    id: string;
-    name: string;
 }
 
 export class ApiException extends Error {
