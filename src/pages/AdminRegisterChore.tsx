@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { useQuery } from "react-query";
+import { ChoreResponseDto } from "../api/client";
 import Search from "../components/Search";
 import useAxios from "../hooks/useAxios";
-import { Chore } from "../models/Chore";
 
 const AdminRegisterChore = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -12,7 +12,7 @@ const AdminRegisterChore = () => {
     url: "/Chore",
     method: "get",
   });
-  const { data, error, isLoading } = useQuery<Chore[]>("chores", fetchChores);
+  const { data, error, isLoading } = useQuery<ChoreResponseDto[]>("chores", fetchChores);
   console.log(data);
   return (
     <motion.div

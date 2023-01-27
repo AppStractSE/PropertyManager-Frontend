@@ -2,10 +2,10 @@ import { Card, Container, ProgressBar } from "react-bootstrap";
 import { BsChevronRight } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { Customer } from "../models/Customer";
+import { CustomerResponseDto } from "../api/client";
 
 interface Props {
-  customer: Customer;
+  customer: CustomerResponseDto;
 }
 const CustomerCard = ({ customer }: Props) => {
   return (

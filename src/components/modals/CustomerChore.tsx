@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../../api/client";
 import { useUser } from "../../contexts/UserContext";
 import useAxios from "../../hooks/useAxios";
 import axiosClient from "../../utils/axiosClient";
@@ -12,6 +13,7 @@ import { CustomerChoreStatus } from "./CustomerChore/CustomerChoreStatus";
 import ImageModal from "./ImageModal";
 
 const CustomerChore = (props: any) => {
+  const queryClient = useQueryClient();
   const [choreImage, setChoreImage] = useState("");
   const [imgModal, setImgModalShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -38,19 +40,16 @@ const CustomerChore = (props: any) => {
     method: "get",
   });
 
-  const {
-    data,
-    error,
-    isLoading,
-    refetch: refetchChoreComments,
-  } = useQuery<any>("comment_" + props.customerchore.id, fetchChoreComments);
+  const { data, error, isLoading } = useQuery<ChoreCommentResponseDto[]>(
+    "comment_" + props.customerchore.id,
+    fetchChoreComments,
+  );
 
   const {
     data: choreStatuses,
     error: choreStatusError,
     isLoading: choreStatusIsLoading,
-    refetch: refetchChoreStatuses,
-  } = useQuery<any>("status_" + props.customerchore.id, fetchChoreStatuses);
+  } = useQuery<ChoreStatusResponseDto[]>("status_" + props.customerchore.id, fetchChoreStatuses);
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
@@ -63,7 +62,7 @@ const CustomerChore = (props: any) => {
     {
       onSuccess: () => {
         setCommentValue("");
-        refetchChoreComments();
+        queryClient.invalidateQueries("comment_" + props.customerchore.id);
       },
     },
   );
@@ -77,10 +76,7 @@ const CustomerChore = (props: any) => {
     },
     {
       onSuccess: () => {
-        refetchChoreStatuses();
-        setTimeout(() => {
-          props.onHide();
-        }, 1000);
+        queryClient.invalidateQueries("status_" + props.customerchore.id);
         setShowToast(true);
       },
     },
@@ -176,7 +172,9 @@ const CustomerChore = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            disabled={props.customerchore.frequency === choreStatuses.length ? true : false}
+            disabled={
+              choreStatuses && props.customerchore.frequency === choreStatuses.length ? true : false
+            }
             type='submit'
             onClick={() => {
               setCommentValue("");
@@ -193,7 +191,7 @@ const CustomerChore = (props: any) => {
                 className='mx-2'
               />
             ) : null}
-            {props.customerchore.frequency === choreStatuses.length
+            {choreStatuses && props.customerchore.frequency === choreStatuses.length
               ? "Uppgift är klar!"
               : "Markera som klar"}
           </Button>

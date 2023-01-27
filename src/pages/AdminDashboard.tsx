@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
+import { AreaResponseDto, CustomerResponseDto, TeamResponseDto } from "../api/client";
 import CustomerTeamCard from "../components/CustomerTeamCard";
 import AddAreaModal from "../components/modals/AddAreaModal";
 import AddCustomerModal from "../components/modals/AddCustomerModal";
@@ -23,17 +24,17 @@ const AdminDashboard = () => {
     data: areas,
     error: areasError,
     isLoading: areasLoading,
-  } = useQuery<Area[]>("areas", fetchAreas);
+  } = useQuery<AreaResponseDto[]>("areas", fetchAreas);
   const {
     data: teams,
     error: teamsError,
     isLoading: teamsLoading,
-  } = useQuery<Team[]>("teams", fetchTeams);
+  } = useQuery<TeamResponseDto[]>("teams", fetchTeams);
   const {
     data: customers,
     error: customersError,
     isLoading: customersLoading,
-  } = useQuery<Customer[]>("customers", fetchCustomers);
+  } = useQuery<CustomerResponseDto[]>("customers", fetchCustomers);
 
   return (
     <motion.div

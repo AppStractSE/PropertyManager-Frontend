@@ -4,11 +4,11 @@ import { BsChevronLeft } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { container, item } from "../animation";
+import { CustomerChoreResponseDto } from "../api/client";
 import ChoreCard from "../components/ChoreCard";
 import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import CustomerPageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import useAxios from "../hooks/useAxios";
-import { CustomerChore } from "../models/CustomerChore";
 
 const Customer = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const Customer = () => {
     url: `/CustomerChore/GetCustomerChoresByCustomerId?Id=${id}`,
     method: "get",
   });
-  const { data, error, isLoading } = useQuery<CustomerChore[]>(
+  const { data, error, isLoading } = useQuery<CustomerChoreResponseDto[]>(
     "customerChores",
     fetchCustomerChores,
   );

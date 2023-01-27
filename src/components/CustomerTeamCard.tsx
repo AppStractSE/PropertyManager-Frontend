@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { AreaResponseDto, TeamResponseDto } from "../api/client";
 import useAxios from "../hooks/useAxios";
 import { Area } from "../models/Area";
 import { Team } from "../models/Team";
@@ -16,13 +17,13 @@ const CustomerTeamCard = ({ customer }: any) => {
     data: areaById,
     error: areaByIdError,
     isLoading: areaByIdLoading,
-  } = useQuery<Area>(customer.areaId, fetchAreaById);
+  } = useQuery<AreaResponseDto>(customer.areaId, fetchAreaById);
 
   const {
     data: teamById,
     error: teamByIdError,
     isLoading: teamByIdLoading,
-  } = useQuery<Team>(customer.id, fetchTeamById);
+  } = useQuery<TeamResponseDto>(customer.id, fetchTeamById);
 
   return (
     <div>

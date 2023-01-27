@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
+import { CustomerChoreResponseDto } from "../api/client";
 import useAxios from "../hooks/useAxios";
-import { CustomerChore } from "../models/CustomerChore";
 import ChoreInfoCard from "./modals/CustomerChore";
 
 interface Props {
-  customerchore: CustomerChore;
+  customerchore: CustomerChoreResponseDto;
 }
 
 const ChoreCard = ({ customerchore }: Props) => {
@@ -19,8 +19,7 @@ const ChoreCard = ({ customerchore }: Props) => {
     data: choreStatuses,
     error: choreStatusError,
     isLoading: choreStatusIsLoading,
-    refetch: refetchChoreStatuses,
-  } = useQuery<any>("status_" + customerchore.id, fetchChoreStatuses);
+  } = useQuery<CustomerChoreResponseDto[]>("status_" + customerchore.id, fetchChoreStatuses);
 
   return (
     <>
@@ -39,9 +38,9 @@ const ChoreCard = ({ customerchore }: Props) => {
               if (choreStatusIsLoading) {
                 return <></>;
               }
-              if (choreStatuses.length === customerchore.frequency) {
+              if (choreStatuses && choreStatuses.length === customerchore.frequency) {
                 return <Card.Text className='small p-2 status completed'>Klar</Card.Text>;
-              } else if (choreStatuses.length > 0) {
+              } else if (choreStatuses && choreStatuses.length > 0) {
                 return <Card.Text className='small p-2 status initiated'>Påbörjad</Card.Text>;
               } else {
                 return (

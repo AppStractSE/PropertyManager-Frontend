@@ -3,18 +3,18 @@ import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useQuery } from "react-query";
 import { container, item } from "../animation";
+import { CustomerResponseDto } from "../api/client";
 import CustomerCard from "../components/CustomerCard";
 import SearchAndFilter from "../components/SearchAndFilter";
 import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import { useUser } from "../contexts/UserContext";
 import useAxios from "../hooks/useAxios";
-import { Customer } from "../models/Customer";
 
 const Home = () => {
   const { currentUser } = useUser();
   const [searchValue, setSearchValue] = useState("");
   const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
-  const { data, error, isLoading } = useQuery<Customer[]>("customers", fetchCustomers);
+  const { data, error, isLoading } = useQuery<CustomerResponseDto[]>("customers", fetchCustomers);
   const filterSearch = data?.filter((customer) =>
     customer.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
