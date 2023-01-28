@@ -4,7 +4,7 @@ import { RiDirectionLine, RiFlagLine, RiInformationLine } from "react-icons/ri";
 import { SlSupport } from "react-icons/sl";
 
 interface Props {
-  address: string;
+  address?: string;
 }
 
 const CustomerEllipsis = ({ address }: Props) => {

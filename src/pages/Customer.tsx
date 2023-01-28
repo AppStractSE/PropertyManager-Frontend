@@ -43,10 +43,10 @@ const Customer = () => {
                 <BsChevronLeft size={28} />
               </div>
               <Container>
-                <div className='h3 mb-0'>{data[0].customer.name}</div>
-                <div className='p mb-1'>{data[0].customer.address}</div>
+                <div className='h3 mb-0'>{data[0]?.customer?.name}</div>
+                <div className='p mb-1'>{data[0]?.customer?.address}</div>
               </Container>
-              <CustomerEllipsis address={data[0].customer.address} />
+              <CustomerEllipsis address={data[0]?.customer?.address} />
             </div>
             {data.map((data) => (
               <motion.div variants={item} key={data.id}>

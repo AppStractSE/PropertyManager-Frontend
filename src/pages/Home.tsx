@@ -16,7 +16,7 @@ const Home = () => {
   const fetchCustomers = useAxios({ url: "/Customer", method: "get" });
   const { data, error, isLoading } = useQuery<CustomerResponseDto[]>("customers", fetchCustomers);
   const filterSearch = data?.filter((customer) =>
-    customer.name.toLowerCase().includes(searchValue.toLowerCase()),
+    customer.name?.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
   if (isLoading || filterSearch === undefined || error) {
