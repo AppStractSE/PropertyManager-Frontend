@@ -1,13 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
-import { useMutation } from "react-query";
 import { Route, Routes } from "react-router-dom";
+import { Client } from "./api/client";
 import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import Layout from "./Layout";
 import { TokenInfo } from "./models/TokenInfo";
-import { User } from "./models/User";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOverview from "./pages/AdminOverview";
 import AdminRegisterChore from "./pages/AdminRegisterChore";
@@ -18,16 +17,16 @@ import NotFound from "./pages/NotFound";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
-import axiosClient from "./utils/axiosClient";
 
 const App = () => {
+  const client = new Client();
   const { currentUser, setCurrentUser } = useUser();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo);
 
   useEffect(() => {
     if (token && currentUser === InitialUserState) {
       if (token?.token !== "") {
-        fetchValidatedUser();
+        // fetchValidatedUser();
       }
     }
   }, [token]);
@@ -40,33 +39,33 @@ const App = () => {
     }
   }, [currentUser]);
 
-  const { mutateAsync: fetchValidatedUser } = useMutation(
-    async () => {
-      return await axiosClient.get(`/Authenticate/validation`, {
-        headers: {
-          Authorization: `Bearer ${token.token}`,
-        },
-      });
-    },
-    {
-      onSuccess: ({ data }) => {
-        setCurrentUser({
-          userName: data.userName,
-          userId: data.userId,
-          displayName: data.displayName,
-          tokenInfo: data.tokenInfo,
-        } as User);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    },
-  );
+  // const { data: fetchedUser } = useQuery<User>(["user", currentUser.userId], async () =>
+  //   client.authenticate_GetValidation(token.token));
 
-  // const queryClient = new QueryClient();
+  // const { mutateAsync: fetchValidatedUser } = useMutation(
+  //   async () => {
+  //     return await axiosClient.get(`/Authenticate/validation`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token.token}`,
+  //       },
+  //     });
+  //   },
+  //   {
+  //     onSuccess: ({ data }) => {
+  //       setCurrentUser({
+  //         userName: data.userName,
+  //         userId: data.userId,
+  //         displayName: data.displayName,
+  //         tokenInfo: data.tokenInfo,
+  //       } as User);
+  //     },
+  //     onError: (error) => {
+  //       console.log(error);
+  //     },
+  //   },
+  // );
 
   return (
-    // <QueryClientProvider client={queryClient}>
     <AnimatePresence mode='wait'>
       <Routes>
         <Route path='/' element={<Layout />}>
