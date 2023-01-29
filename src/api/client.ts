@@ -1664,6 +1664,7 @@ export interface UserDataResponseDto {
 
 export interface UserTeamData {
     teamId: string | undefined;
+    isTemporary: boolean;
     teamName: string | undefined;
     userCustomersData: UserCustomerData[] | undefined;
 }
