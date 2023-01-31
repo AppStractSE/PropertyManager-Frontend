@@ -7,7 +7,7 @@ import CustomerTeamCard from "../components/CustomerTeamCard";
 import AddAreaModal from "../components/modals/AddAreaModal";
 import { default as AddCustomerModal } from "../components/modals/AddCustomerModal";
 import AddTeamModal from "../components/modals/AddTeamModal";
-import AddCustomerChoreModal from "../components/modals/CustomerChore/AddCustomerChores";
+import AddCustomerChoreModal from "../components/modals/CustomerChore/AddCustomerChoreModal";
 import useAxios from "../hooks/useAxios";
 
 const AdminDashboard = () => {
@@ -20,7 +20,6 @@ const AdminDashboard = () => {
   const fetchTeams = useAxios({ url: "/team", method: "get" });
   const fetchPeriodics = useAxios({ url: "/periodic", method: "get" });
   const fetchChores = useAxios({ url: "/chore", method: "get" });
-  const fetchCustomerChores = useAxios({ url: "/customerchore", method: "get" });
 
   const {
     data: areas,

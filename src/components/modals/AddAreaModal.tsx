@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosClient from "../../utils/axiosClient";
 
 const AddAreaModal = (props: any) => {
   const [areaValue, setAreaValue] = useState("");
+  const queryClient = useQueryClient();
   const { mutate: postArea, isLoading: postingArea } = useMutation(
     async () => {
       return await axiosClient.post("/Area", {
@@ -14,6 +15,7 @@ const AddAreaModal = (props: any) => {
     {
       onSuccess: () => {
         setAreaValue("");
+        queryClient.invalidateQueries("areas");
         console.log("success");
         props.onHide();
       },
