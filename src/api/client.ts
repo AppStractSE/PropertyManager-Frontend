@@ -1385,6 +1385,41 @@ export class Client extends BaseClient {
         }
         return Promise.resolve<TeamMemberResponseDto[]>(null as any);
     }
+
+    userData_GetUserDataById(id: string | null | undefined): Promise<UserDataResponseDto> {
+        let url_ = this.baseUrl + "/GetUserDataById?";
+        if (id !== undefined && id !== null)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUserData_GetUserDataById(_response);
+        });
+    }
+
+    protected processUserData_GetUserDataById(response: Response): Promise<UserDataResponseDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDataResponseDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserDataResponseDto>(null as any);
+    }
 }
 
 export interface Area {
@@ -1621,6 +1656,32 @@ export interface PutTeamMemberRequestDto {
     userId: string | undefined;
     teamId: string | undefined;
     isTemporary: boolean;
+}
+
+export interface UserDataResponseDto {
+    userTeamsData: UserTeamData[] | undefined;
+}
+
+export interface UserTeamData {
+    teamId: string | undefined;
+    isTemporary: boolean;
+    teamName: string | undefined;
+    userCustomersData: UserCustomerData[] | undefined;
+}
+
+export interface UserCustomerData {
+    customerId: string | undefined;
+    customerName: string | undefined;
+    areaId: string | undefined;
+    customerAddress: string | undefined;
+    customerChores: UserCustomerChoreData[] | undefined;
+}
+
+export interface UserCustomerChoreData {
+    customerChoreId: string | undefined;
+    chore: Chore | undefined;
+    frequency: number;
+    periodic: Periodic | undefined;
 }
 
 export class ApiException extends Error {
