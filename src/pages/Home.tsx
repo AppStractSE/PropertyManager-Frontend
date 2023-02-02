@@ -23,7 +23,13 @@ const Home = () => {
   // const filterSearch = userData?.userTeamsData.userCustomersData.filter((customer) =>
   //   customer.name.toLowerCase().includes(searchValue.toLowerCase()),
   // );
-    // Needs to be redone
+  // Needs to be redone
+
+  const filterSearch = userData?.userTeamsData?.filter((team) => {
+    return team.userCustomersData?.every((customer) =>
+      customer.customerName?.toLowerCase().includes(searchValue.toLowerCase()),
+    );
+  });
 
   if (userDataIsLoading) {
     return (
@@ -53,10 +59,13 @@ const Home = () => {
           className='vstack gap-2 minBreakpoint-xs'
         >
           <div className='h3 mb-0'>Mina kunder</div>
-          <SearchAndFilter value={searchValue} onChange={setSearchValue} filtersearch={999} />
-          {userData?.userTeamsData?.map((team: UserTeamData) => (
+          <SearchAndFilter value={searchValue} onChange={setSearchValue} filtersearch={0} />
+
+          {filterSearch?.map((team: UserTeamData) => (
             <div key={team.teamId} className='vstack gap-2 minBreakpoint-xs'>
-              <div>{team.teamName}</div>
+              <div className='d-flex justify-content-between'>
+                <div>{team.teamName}</div>
+              </div>
               {team?.userCustomersData?.map((customer: UserCustomerData) => (
                 <motion.div variants={item} key={customer.customerId}>
                   <CustomerCard customer={customer} />
