@@ -7,7 +7,7 @@ const AddCustomerChoreModal = (props: any) => {
   const [choreValue, setChoreValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
   const [periodicValue, setPeriodicValue] = useState("");
-  const [frequencyValue, setFrequencyValue] = useState(0);
+  const [frequencyValue, setFrequencyValue] = useState(1);
   const queryClient = useQueryClient();
   const client = new Client();
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
@@ -36,14 +36,21 @@ const AddCustomerChoreModal = (props: any) => {
         <Modal.Title id='contained-modal-title-vcenter'>Lägg till syssla</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group className='mb-3 d-flex flex-column gap-3' controlId='formAddArea'>
+        <Form className='mb-3 d-flex flex-column gap-3'>
+          <Form.Group>
             <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
             <Form.Control
               type='number'
-              value={frequencyValue}
+              value={frequencyValue.toString().replace(/^0+/, "Skriv in ett tal")}
+              min={1}
+              max={100}
+              onKeyUp={() => {
+                if (frequencyValue > 100) setFrequencyValue(100);
+              }}
               onChange={(e) => setFrequencyValue(Number(e.target.value))}
             />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               aria-label='Chore'
               value={choreValue}
@@ -60,6 +67,8 @@ const AddCustomerChoreModal = (props: any) => {
                   );
                 })}
             </Form.Select>
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               aria-label='Tidsintervall'
               value={periodicValue}
@@ -76,6 +85,8 @@ const AddCustomerChoreModal = (props: any) => {
                   );
                 })}
             </Form.Select>
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               aria-label='Välj kund dropdown'
               value={customerValue}
