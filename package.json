@@ -13,6 +13,7 @@
     "prettier": "npm run format -- --write"
   },
   "dependencies": {
+    "@types/react-bootstrap": "^0.32.32",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "framer-motion": "^8.2.4",

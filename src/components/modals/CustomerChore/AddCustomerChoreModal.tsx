@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import axiosClient from "../../../utils/axiosClient";
+import { Client } from "../../../api/client";
 
 const AddCustomerChoreModal = (props: any) => {
   const [choreValue, setChoreValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
   const [periodicValue, setPeriodicValue] = useState("");
-  const [frequencyValue, setFrequencyValue] = useState("");
+  const [frequencyValue, setFrequencyValue] = useState(0);
   const queryClient = useQueryClient();
+  const client = new Client();
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
     async () => {
-      return await axiosClient.post("/CustomerChore", {
+      return await client.customerChore_PostCustomerChore({
         customerId: customerValue,
         choreId: choreValue,
         frequency: frequencyValue,
@@ -20,7 +21,7 @@ const AddCustomerChoreModal = (props: any) => {
     },
     {
       onSuccess: () => {
-        setFrequencyValue("");
+        setFrequencyValue(0);
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
@@ -41,7 +42,7 @@ const AddCustomerChoreModal = (props: any) => {
             <Form.Control
               type='number'
               value={frequencyValue}
-              onChange={(e) => setFrequencyValue(e.target.value)}
+              onChange={(e) => setFrequencyValue(Number(e.target.value))}
             />
             <Form.Select
               aria-label='Chore'
@@ -102,7 +103,7 @@ const AddCustomerChoreModal = (props: any) => {
                 ? true
                 : false || customerValue.includes("Välj")
                 ? true
-                : false || frequencyValue == null
+                : false || frequencyValue == 0
             }
           >
             Lägg till syssla på kund
