@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosClient from "../../utils/axiosClient";
 
 const AddCustomerModal = (props: any) => {
   const [teamValue, setTeamValue] = useState("");
   const [areaValue, setAreaValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
+  const queryClient = useQueryClient();
   const { mutate: postCustomer, isLoading: postingCustomer } = useMutation(
     async () => {
       return await axiosClient.post("/Customer", {
@@ -19,6 +20,7 @@ const AddCustomerModal = (props: any) => {
     {
       onSuccess: () => {
         setCustomerValue("");
+        queryClient.invalidateQueries("customers");
         console.log("success");
         props.onHide();
       },
@@ -39,7 +41,12 @@ const AddCustomerModal = (props: any) => {
               value={customerValue}
               onChange={(e) => setCustomerValue(e.target.value)}
             />
-            <Form.Select aria-label='Välj team dropdown' value={teamValue} onChange={(e) => setTeamValue(e.target.value)} className="form-active">
+            <Form.Select
+              aria-label='Välj team dropdown'
+              value={teamValue}
+              onChange={(e) => setTeamValue(e.target.value)}
+              className='form-active'
+            >
               <option>Välj team</option>
               {props.teams &&
                 props.teams.map((team: any) => {
@@ -50,7 +57,12 @@ const AddCustomerModal = (props: any) => {
                   );
                 })}
             </Form.Select>
-            <Form.Select aria-label='Välj område dropdown' value={areaValue} onChange={(e) => setAreaValue(e.target.value)}  className="form-active">
+            <Form.Select
+              aria-label='Välj område dropdown'
+              value={areaValue}
+              onChange={(e) => setAreaValue(e.target.value)}
+              className='form-active'
+            >
               <option>Välj område</option>
               {props.areas &&
                 props.areas.map((area: any) => {
@@ -65,7 +77,15 @@ const AddCustomerModal = (props: any) => {
           <Button
             className='w-100'
             onClick={() => postCustomer()}
-            disabled={customerValue.length < 3 ? true : false || teamValue.includes("Välj") ? true : false || areaValue.includes("Välj") ? true : false}
+            disabled={
+              customerValue.length < 3
+                ? true
+                : false || teamValue.includes("Välj")
+                ? true
+                : false || areaValue.includes("Välj")
+                ? true
+                : false
+            }
           >
             Lägg till kund
           </Button>

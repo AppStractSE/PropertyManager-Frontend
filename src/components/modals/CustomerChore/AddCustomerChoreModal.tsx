@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosClient from "../../../utils/axiosClient";
 
 const AddCustomerChoreModal = (props: any) => {
@@ -8,6 +8,7 @@ const AddCustomerChoreModal = (props: any) => {
   const [customerValue, setCustomerValue] = useState("");
   const [periodicValue, setPeriodicValue] = useState("");
   const [frequencyValue, setFrequencyValue] = useState("");
+  const queryClient = useQueryClient();
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
     async () => {
       return await axiosClient.post("/CustomerChore", {
@@ -20,6 +21,9 @@ const AddCustomerChoreModal = (props: any) => {
     {
       onSuccess: () => {
         setFrequencyValue("");
+        queryClient.invalidateQueries("customers");
+        queryClient.invalidateQueries("periodics");
+        queryClient.invalidateQueries("chores");
         console.log("success");
         props.onHide();
       },
