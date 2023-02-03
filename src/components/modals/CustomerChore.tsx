@@ -3,10 +3,9 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../../api/client";
+import { ChoreCommentResponseDto, ChoreStatusResponseDto, Client } from "../../api/client";
 import { useUser } from "../../contexts/UserContext";
 import useAxios from "../../hooks/useAxios";
-import axiosClient from "../../utils/axiosClient";
 import CustomToast from "../snacks/CustomToast";
 import { CustomerChoreComments } from "./CustomerChore/CustomerChoreComments";
 import { CustomerChoreStatus } from "./CustomerChore/CustomerChoreStatus";
@@ -19,6 +18,7 @@ const CustomerChore = (props: any) => {
   const [showToast, setShowToast] = useState(false);
   const [commentValue, setCommentValue] = useState("");
   const { currentUser } = useUser();
+  const client = new Client();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
@@ -53,7 +53,7 @@ const CustomerChore = (props: any) => {
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
-      return await axiosClient.post("/ChoreComment", {
+      return await client.choreComment_PostChoreComment({
         message: commentValue,
         customerChoreId: props.customerchore.id,
         userId: currentUser.userId,
@@ -69,7 +69,7 @@ const CustomerChore = (props: any) => {
 
   const { mutate: postChoreStatus, isLoading: postingChoreStatus } = useMutation(
     async () => {
-      return await axiosClient.post("/ChoreStatus", {
+      return await client.choreStatus_PostChoreStatus({
         customerChoreId: props.customerchore.id,
         doneBy: currentUser.userId,
       });
