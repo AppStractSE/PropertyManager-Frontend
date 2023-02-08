@@ -1542,7 +1542,6 @@ export interface ChoreStatusResponseDto {
 }
 
 export interface PostChoreStatusRequestDto {
-    id: string;
     customerChoreId: string | undefined;
     startDate: Date;
     completedDate: Date;
