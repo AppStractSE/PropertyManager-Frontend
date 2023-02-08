@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import axiosClient from "../../utils/axiosClient";
 import { Client } from "../../api/client";
 
 const AddAreaModal = (props: any) => {
@@ -9,6 +8,7 @@ const AddAreaModal = (props: any) => {
   const queryClient = useQueryClient();
   const client = new Client();
   const { mutate: postArea, isLoading: postingArea } = useMutation(
+    // TODO: isLoading används aldrig, åtgärda?
     async () => {
       return await client.area_PostArea({
         name: areaValue,

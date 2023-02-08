@@ -43,6 +43,7 @@ const App = () => {
   const { mutateAsync: fetchValidatedUser } = useMutation(
     async () => {
       return await axiosClient.get(`/Authenticate/validation`, {
+        // TODO: Replace with endSwagger
         headers: {
           Authorization: `Bearer ${token.token}`,
         },
@@ -50,6 +51,7 @@ const App = () => {
     },
     {
       onSuccess: ({ data }) => {
+        // TODO: Invalidate?
         setCurrentUser({
           userName: data.userName,
           userId: data.userId,
