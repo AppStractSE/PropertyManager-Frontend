@@ -1984,7 +1984,6 @@ export interface ChoreStatusResponseDto {
 }
 
 export interface PostChoreStatusRequestDto {
-  id: string; // TODO: Remove id from ChoreStatusRequestDto in the backend
   customerChoreId: string | undefined;
   startDate: Date;
   completedDate: Date;

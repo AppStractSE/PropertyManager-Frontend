@@ -19,12 +19,6 @@ const Home = () => {
     async () => client.userData_GetUserDataById(currentUser.userId!),
   );
 
-  // Needs to be redone
-  // const filterSearch = userData?.userTeamsData.userCustomersData.filter((customer) =>
-  //   customer.name.toLowerCase().includes(searchValue.toLowerCase()),
-  // );
-  // Needs to be redone
-
   const filterSearch = userData?.userTeamsData?.filter((team) => {
     return team.userCustomersData?.every((customer) =>
       customer.customerName?.toLowerCase().includes(searchValue.toLowerCase()),
