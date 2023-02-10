@@ -55,11 +55,11 @@ const CustomerChore = (props: any) => {
   );
 
   const {
-    data: choreStatuses,
+    data: choreStatus,
     error: choreStatusError, // TODO: Unused, use it?
     isLoading: choreStatusIsLoading,
   } = useQuery<ChoreStatusResponseDto[]>(
-    ["choreStatuses", props.customerchore.id],
+    ["choreStatus", props.customerchore.id],
     async () => await client.choreStatus_GetChoreStatusById(props.customerchore.id),
   );
 
@@ -72,21 +72,11 @@ const CustomerChore = (props: any) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("choreStatuses", props.customerchore.id);
+        queryClient.invalidateQueries("choreStatus", props.customerchore.id);
         setShowToast(true);
       },
     },
   );
-  // const fetchChoreStatuses = useAxios({
-  //   url: `/ChoreStatus/GetChoreStatusById?Id=${props.customerchore.id}`,
-  //   method: "get",
-  // });
-
-  // const {
-  //   data: choreStatuses,
-  //   error: choreStatusError,
-  //   isLoading: choreStatusIsLoading,
-  // } = useQuery<ChoreStatusResponseDto[]>("status_" + props.customerchore.id, fetchChoreStatuses);
 
   if (choreCommentLoading || choreStatusIsLoading) {
     return <></>;
@@ -105,10 +95,7 @@ const CustomerChore = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            <CustomerChoreStatus
-              chorestatuses={choreStatuses}
-              customerchore={props.customerchore}
-            />
+            <CustomerChoreStatus chorestatuses={choreStatus} customerchore={props.customerchore} />
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
@@ -179,7 +166,7 @@ const CustomerChore = (props: any) => {
         <Modal.Footer>
           <Button
             disabled={
-              choreStatuses && props.customerchore.frequency === choreStatuses.length ? true : false
+              choreStatus && props.customerchore.frequency === choreStatus.length ? true : false
             }
             type='submit'
             onClick={() => {
@@ -197,7 +184,7 @@ const CustomerChore = (props: any) => {
                 className='mx-2'
               />
             ) : null}
-            {choreStatuses && props.customerchore.frequency === choreStatuses.length
+            {choreStatus && props.customerchore.frequency === choreStatus.length
               ? "Uppgift är klar!"
               : "Markera som klar"}
           </Button>
