@@ -5,7 +5,6 @@ import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { ChoreCommentResponseDto, ChoreStatusResponseDto, Client } from "../../api/client";
 import { useUser } from "../../contexts/UserContext";
-import useAxios from "../../hooks/useAxios";
 import CustomToast from "../snacks/CustomToast";
 import { CustomerChoreComments } from "./CustomerChore/CustomerChoreComments";
 import { CustomerChoreStatus } from "./CustomerChore/CustomerChoreStatus";
@@ -30,26 +29,14 @@ const CustomerChore = (props: any) => {
     }
   };
 
-  const fetchChoreComments = useAxios({
-    url: `/ChoreComment/GetChoreCommentsByCustomerChoreId?Id=${props.customerchore.id}`,
-    method: "get",
-  });
-
-  const fetchChoreStatuses = useAxios({
-    url: `/ChoreStatus/GetChoreStatusById?Id=${props.customerchore.id}`,
-    method: "get",
-  });
-
-  const { data, error, isLoading } = useQuery<ChoreCommentResponseDto[]>(
-    "comment_" + props.customerchore.id,
-    fetchChoreComments,
-  );
-
   const {
-    data: choreStatuses,
-    error: choreStatusError,
-    isLoading: choreStatusIsLoading,
-  } = useQuery<ChoreStatusResponseDto[]>("status_" + props.customerchore.id, fetchChoreStatuses);
+    data: choreComment,
+    error: choreCommentError,
+    isLoading: choreCommentLoading,
+  } = useQuery<ChoreCommentResponseDto[]>(
+    ["choreComment", props.customerchore.id],
+    async () => await client.choreComment_GetCustomerChoresByCustomer(props.customerchore.id),
+  );
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
@@ -62,9 +49,18 @@ const CustomerChore = (props: any) => {
     {
       onSuccess: () => {
         setCommentValue("");
-        queryClient.invalidateQueries("comment_" + props.customerchore.id);
+        queryClient.invalidateQueries("choreComment", props.customerchore.id);
       },
     },
+  );
+
+  const {
+    data: choreStatuses,
+    error: choreStatusError, // TODO: Unused, use it?
+    isLoading: choreStatusIsLoading,
+  } = useQuery<ChoreStatusResponseDto[]>(
+    ["choreStatuses", props.customerchore.id],
+    async () => await client.choreStatus_GetChoreStatusById(props.customerchore.id),
   );
 
   const { mutate: postChoreStatus, isLoading: postingChoreStatus } = useMutation(
@@ -76,17 +72,27 @@ const CustomerChore = (props: any) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("status_" + props.customerchore.id);
+        queryClient.invalidateQueries("choreStatuses", props.customerchore.id);
         setShowToast(true);
       },
     },
   );
+  // const fetchChoreStatuses = useAxios({
+  //   url: `/ChoreStatus/GetChoreStatusById?Id=${props.customerchore.id}`,
+  //   method: "get",
+  // });
 
-  if (isLoading || choreStatusIsLoading) {
+  // const {
+  //   data: choreStatuses,
+  //   error: choreStatusError,
+  //   isLoading: choreStatusIsLoading,
+  // } = useQuery<ChoreStatusResponseDto[]>("status_" + props.customerchore.id, fetchChoreStatuses);
+
+  if (choreCommentLoading || choreStatusIsLoading) {
     return <></>;
   }
 
-  if (error || data == undefined) {
+  if (choreCommentError || choreComment == undefined) {
     return <div>Error!</div>;
   }
 
@@ -117,7 +123,7 @@ const CustomerChore = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
-            <CustomerChoreComments data={data} />
+            <CustomerChoreComments data={choreComment} />
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>
