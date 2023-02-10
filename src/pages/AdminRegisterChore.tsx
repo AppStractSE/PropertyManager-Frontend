@@ -2,22 +2,23 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { ChoreResponseDto } from "../api/client";
+import { ChoreResponseDto, Client } from "../api/client";
 import Search from "../components/Search";
-import useAxios from "../hooks/useAxios";
 
 const AdminRegisterChore = () => {
   const [searchValue, setSearchValue] = useState("");
-  const fetchChores = useAxios({
-    url: "/Chore",
-    method: "get",
-  });
-  const { data, error, isLoading } = useQuery<ChoreResponseDto[]>("chores", fetchChores, {
+  const client = new Client();
+
+  const {
+    data: chores,
+    error: choresError,
+    isLoading: choreIsLoading,
+  } = useQuery<ChoreResponseDto[]>(["chores"], async () => await client.chore_GetAllChores(), {
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-  console.log(data);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -35,7 +36,7 @@ const AdminRegisterChore = () => {
             <ListGroup.Item>SB</ListGroup.Item>
             <ListGroup.Item>T3</ListGroup.Item>
             <ListGroup.Item>AHG</ListGroup.Item>
-            {data?.map((data) => (
+            {chores?.map((data) => (
               <ListGroup.Item key={data.id}>{data.title}</ListGroup.Item>
             ))}
           </ListGroup>

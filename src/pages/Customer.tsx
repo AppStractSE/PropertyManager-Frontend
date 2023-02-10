@@ -4,23 +4,25 @@ import { BsChevronLeft } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { container, item } from "../animation";
-import { CustomerChoreResponseDto } from "../api/client";
+import { Client, CustomerChoreResponseDto } from "../api/client";
 import ChoreCard from "../components/ChoreCard";
 import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import CustomerPageSkeleton from "../components/skeletons/CustomerPageSkeleton";
-import useAxios from "../hooks/useAxios";
 
 const Customer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const fetchCustomerChores = useAxios({
-    url: `/CustomerChore/GetCustomerChoresByCustomerId?Id=${id}`,
-    method: "get",
-  });
-  const { data, error, isLoading } = useQuery<CustomerChoreResponseDto[]>(
-    "customerChores",
-    fetchCustomerChores,
+  const client = new Client();
+  const {
+    data: customerChores,
+    error: customerChoresError,
+    isLoading: customerChoresIsLoading,
+  } = useQuery<CustomerChoreResponseDto[]>(
+    // TODO: Does this work with "id"?
+    ["customerChores", id],
+    async () => client.customerChore_GetCustomerChoresByCustomer(id), // <-- Same here
   );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -28,9 +30,9 @@ const Customer = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      {isLoading || error ? (
+      {customerChoresIsLoading || customerChoresError ? (
         <CustomerPageSkeleton />
-      ) : data !== undefined ? (
+      ) : customerChores !== undefined ? (
         <Container className='mt-3 mb-3'>
           <motion.div
             variants={container}
@@ -43,12 +45,12 @@ const Customer = () => {
                 <BsChevronLeft size={28} />
               </div>
               <Container>
-                <div className='h3 mb-0'>{data[0]?.customer?.name}</div>
-                <div className='p mb-1'>{data[0]?.customer?.address}</div>
+                <div className='h3 mb-0'>{customerChores[0]?.customer?.name}</div>
+                <div className='p mb-1'>{customerChores[0]?.customer?.address}</div>
               </Container>
-              <CustomerEllipsis address={data[0]?.customer?.address} />
+              <CustomerEllipsis address={customerChores[0]?.customer?.address} />
             </div>
-            {data.map((data) => (
+            {customerChores?.map((data) => (
               <motion.div variants={item} key={data.id}>
                 <ChoreCard customerchore={data} />
               </motion.div>

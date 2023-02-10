@@ -23,9 +23,6 @@ const AdminDashboard = () => {
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
   const client = new Client();
 
-  // const fetchPeriodics = useAxios({ url: "/periodic", method: "get" });
-  // const fetchChores = useAxios({ url: "/chore", method: "get" });
-
   const {
     data: areas,
     error: areasError,
@@ -75,12 +72,6 @@ const AdminDashboard = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-
-  // const {
-  //   data: chores,
-  //   error: choresError,
-  //   isLoading: choresLoading,
-  // } = useQuery<Periodic>("chores", fetchChores);
 
   return (
     <motion.div
