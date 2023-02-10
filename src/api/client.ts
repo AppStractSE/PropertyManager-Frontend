@@ -32,7 +32,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_GetAllAreas(_response);
         });
     }
@@ -69,7 +71,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_PostArea(_response);
         });
     }
@@ -106,7 +110,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_PutArea(_response);
         });
     }
@@ -143,7 +149,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_GetAreaById(_response);
         });
     }
@@ -180,7 +188,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_Login(_response);
         });
     }
@@ -223,7 +233,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_GetAllUsers(_response);
         });
     }
@@ -251,7 +263,7 @@ export class Client extends BaseClient {
         return Promise.resolve<UserInfoDto[]>(null as any);
     }
 
-    authenticate_GetValidation(): Promise<User> {
+    authenticate_GetValidation(): Promise<AuthUser> {
         let url_ = this.baseUrl + "/api/v1/Authenticate/validation";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -262,18 +274,20 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_GetValidation(_response);
         });
     }
 
-    protected processAuthenticate_GetValidation(response: Response): Promise<User> {
+    protected processAuthenticate_GetValidation(response: Response): Promise<AuthUser> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as User;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AuthUser;
             return result200;
             });
         } else if (status === 400) {
@@ -297,7 +311,7 @@ export class Client extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<User>(null as any);
+        return Promise.resolve<AuthUser>(null as any);
     }
 
     authenticate_Register(model: RegisterModel): Promise<void> {
@@ -314,7 +328,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_Register(_response);
         });
     }
@@ -352,7 +368,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_RegisterAdmin(_response);
         });
     }
@@ -393,7 +411,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_GetAllChoreComments(_response);
         });
     }
@@ -430,7 +450,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_PostChoreComment(_response);
         });
     }
@@ -467,7 +489,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_GetCustomerChoresByCustomer(_response);
         });
     }
@@ -500,7 +524,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_GetAllChores(_response);
         });
     }
@@ -537,7 +563,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_PostChore(_response);
         });
     }
@@ -574,7 +602,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_PutChore(_response);
         });
     }
@@ -611,7 +641,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_GetChoreById(_response);
         });
     }
@@ -644,7 +676,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_GetAllChoreStatuses(_response);
         });
     }
@@ -681,7 +715,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_PostChoreStatus(_response);
         });
     }
@@ -718,7 +754,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_GetChoreStatusById(_response);
         });
     }
@@ -751,7 +789,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_GetAllChores(_response);
         });
     }
@@ -788,7 +828,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_PostCustomerChore(_response);
         });
     }
@@ -825,7 +867,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_PutCustomerChore(_response);
         });
     }
@@ -862,7 +906,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_GetCustomerChoresByCustomer(_response);
         });
     }
@@ -895,7 +941,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_GetAllCustomers(_response);
         });
     }
@@ -932,7 +980,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_PostCustomer(_response);
         });
     }
@@ -969,7 +1019,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_GetCustomerById(_response);
         });
     }
@@ -991,6 +1043,45 @@ export class Client extends BaseClient {
         return Promise.resolve<CustomerResponseDto>(null as any);
     }
 
+    customer_GetCustomersByTeamId(id: string | undefined): Promise<CustomerResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/Customer/GetCustomersByTeamId?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCustomer_GetCustomersByTeamId(_response);
+        });
+    }
+
+    protected processCustomer_GetCustomersByTeamId(response: Response): Promise<CustomerResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CustomerResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CustomerResponseDto[]>(null as any);
+    }
+
     periodic_GetAllPeriodics(): Promise<Periodic[]> {
         let url_ = this.baseUrl + "/api/v1/Periodic";
         url_ = url_.replace(/[?&]$/, "");
@@ -1002,7 +1093,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processPeriodic_GetAllPeriodics(_response);
         });
     }
@@ -1035,7 +1128,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_GetAllTeams(_response);
         });
     }
@@ -1072,7 +1167,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_PostTeam(_response);
         });
     }
@@ -1109,7 +1206,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_PutTeam(_response);
         });
     }
@@ -1146,7 +1245,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_GetTeamById(_response);
         });
     }
@@ -1179,7 +1280,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_GetAllTeamMembers(_response);
         });
     }
@@ -1216,7 +1319,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_PostTeamMember(_response);
         });
     }
@@ -1253,7 +1358,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_PutTeamMember(_response);
         });
     }
@@ -1290,7 +1397,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_GetTeamMemberById(_response);
         });
     }
@@ -1310,6 +1419,82 @@ export class Client extends BaseClient {
             });
         }
         return Promise.resolve<TeamMemberResponseDto>(null as any);
+    }
+
+    teamMember_GetTeamMembersByUserId(id: string | undefined): Promise<TeamMemberResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/TeamMember/GetTeamMembersByUserId?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processTeamMember_GetTeamMembersByUserId(_response);
+        });
+    }
+
+    protected processTeamMember_GetTeamMembersByUserId(response: Response): Promise<TeamMemberResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMemberResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamMemberResponseDto[]>(null as any);
+    }
+
+    userData_GetUserDataById(id: string | null | undefined): Promise<UserDataResponseDto> {
+        let url_ = this.baseUrl + "/GetUserDataById?";
+        if (id !== undefined && id !== null)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUserData_GetUserDataById(_response);
+        });
+    }
+
+    protected processUserData_GetUserDataById(response: Response): Promise<UserDataResponseDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDataResponseDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserDataResponseDto>(null as any);
     }
 }
 
@@ -1441,7 +1626,6 @@ export interface ChoreStatusResponseDto {
 }
 
 export interface PostChoreStatusRequestDto {
-    id: string;
     customerChoreId: string | undefined;
     startDate: Date;
     completedDate: Date;
@@ -1555,6 +1739,32 @@ export interface PutTeamMemberRequestDto {
     userId: string | undefined;
     teamId: string | undefined;
     isTemporary: boolean;
+}
+
+export interface UserDataResponseDto {
+    userTeamsData: UserTeamData[] | undefined;
+}
+
+export interface UserTeamData {
+    teamId: string | undefined;
+    isTemporary: boolean;
+    teamName: string | undefined;
+    userCustomersData: UserCustomerData[] | undefined;
+}
+
+export interface UserCustomerData {
+    customerId: string | undefined;
+    customerName: string | undefined;
+    areaId: string | undefined;
+    customerAddress: string | undefined;
+    customerChores: UserCustomerChoreData[] | undefined;
+}
+
+export interface UserCustomerChoreData {
+    customerChoreId: string | undefined;
+    chore: Chore | undefined;
+    frequency: number;
+    periodic: Periodic | undefined;
 }
 
 export class ApiException extends Error {

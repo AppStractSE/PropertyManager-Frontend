@@ -6,10 +6,10 @@ import Search from "./Search";
 interface Props {
   value: string;
   onChange: (value: string) => void;
-  filterSearch: number;
+  filtersearch: number;
 }
 
-const SearchAndFilter = ({ value, onChange, filterSearch }: Props) => {
+const SearchAndFilter = ({ value, onChange, filtersearch }: Props) => {
   const [modalShow, setModalShow] = useState(false);
   return (
     <>
@@ -18,12 +18,12 @@ const SearchAndFilter = ({ value, onChange, filterSearch }: Props) => {
         <IoOptions onClick={() => setModalShow(true)} size={32} className='ms-3' />
       </div>
       <div className='p small'>
-        Visar {filterSearch} st {filterSearch == 1 ? "kund" : "kunder"}
+        Visar {filtersearch} st {filtersearch == 1 ? "kund" : "kunder"}
       </div>
       <FilterOptions
         show={modalShow}
         onHide={() => setModalShow(false)}
-        filterSearch={filterSearch}
+        filtersearch={filtersearch}
       />
     </>
   );

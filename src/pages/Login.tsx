@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useMutation } from "react-query";
+import { AuthUser } from "../api/client";
 import { useUser } from "../contexts/UserContext";
-import { TokenInfo } from "../models/TokenInfo";
-import { User } from "../models/User";
 import axiosClient from "../utils/axiosClient";
 
 const Login = () => {
@@ -22,17 +21,8 @@ const Login = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          const token: TokenInfo = {
-            token: data.data.token,
-            expiration: data.data.expiration,
-          };
-          const user = {
-            userId: data.data.userId,
-            userName: data.data.userName,
-            displayName: data.data.displayName,
-            tokenInfo: token,
-          } as User;
-          setCurrentUser(user);
+          let authUser: AuthUser = data.data;
+          setCurrentUser(authUser);
         }
       },
     },

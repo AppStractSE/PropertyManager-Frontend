@@ -15,10 +15,14 @@ const Search = ({ value, onChange }: Props) => {
         e.preventDefault();
       }}
     >
-      <Form.Group controlId='searchCustomer' className='d-flex align-items-center form-control form-active'>
+      <Form.Group
+        controlId='searchCustomer'
+        className='d-flex align-items-center form-control form-active'
+      >
         <Form.Control
           type='text'
           name='searchCustomer'
+          autoComplete='off'
           placeholder='Sök kund...'
           value={value}
           onChange={(e) => onChange(e.target.value)}
