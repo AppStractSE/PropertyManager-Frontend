@@ -513,7 +513,7 @@ export class Client extends BaseClient {
         return Promise.resolve<ChoreCommentResponseDto[]>(null as any);
     }
 
-    chore_GetAllChores(): Promise<Chore[]> {
+    chore_GetAllChores(): Promise<ChoreResponseDto[]> {
         let url_ = this.baseUrl + "/api/v1/Chore";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -531,13 +531,13 @@ export class Client extends BaseClient {
         });
     }
 
-    protected processChore_GetAllChores(response: Response): Promise<Chore[]> {
+    protected processChore_GetAllChores(response: Response): Promise<ChoreResponseDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Chore[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ChoreResponseDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -545,7 +545,7 @@ export class Client extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Chore[]>(null as any);
+        return Promise.resolve<ChoreResponseDto[]>(null as any);
     }
 
     chore_PostChore(request: PostChoreRequestDto): Promise<Chore> {
@@ -1581,16 +1581,16 @@ export interface PostChoreCommentRequestDto {
     userId: string | undefined;
 }
 
-export interface Chore {
+export interface ChoreResponseDto {
     id: string;
-    categoryId: string | undefined;
+    categoryId: string;
     description: string | undefined;
     title: string | undefined;
 }
 
-export interface ChoreResponseDto {
+export interface Chore {
     id: string;
-    categoryId: string;
+    categoryId: string | undefined;
     description: string | undefined;
     title: string | undefined;
 }
