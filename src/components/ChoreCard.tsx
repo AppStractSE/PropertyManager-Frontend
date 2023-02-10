@@ -11,20 +11,14 @@ interface Props {
 const ChoreCard = ({ customerchore }: Props) => {
   const [modalShow, setModalShow] = useState(false);
   const client = new Client();
-  const { data: choreStatus } = useQuery<ChoreStatusResponseDto[]>(
+  const {
+    data: choreStatus,
+    error: choreStatusError,
+    isLoading: choreStatusIsLoading,
+  } = useQuery<ChoreStatusResponseDto[]>(
     ["choreStatus", customerchore.id],
     async () => await client.choreStatus_GetChoreStatusById(customerchore.id),
   );
-
-  // const fetchChoreStatuses = useAxios({
-  //   url: `/ChoreStatus/GetChoreStatusById?Id=${customerchore.id}`,
-  //   method: "get",
-  // });
-  // const {
-  //   data: choreStatuses,
-  //   error: choreStatusError,
-  //   isLoading: choreStatusIsLoading,
-  // } = useQuery<CustomerChoreResponseDto[]>("status_" + customerchore.id, fetchChoreStatuses);
 
   return (
     <>
@@ -40,13 +34,8 @@ const ChoreCard = ({ customerchore }: Props) => {
           <div className='me-auto'>
             <Card.Title className='small text-muted'>Status</Card.Title>
 
-            {/* if (choreStatusIsLoading) {
-                return <></>;
-              } */}
-
             {(() => {
-              if (!choreStatus) {
-                // TODO: Se över denna kanske, satt som ersättare för den utkommenterade koden ovanför?
+              if (choreStatusIsLoading) {
                 return <></>;
               }
               if (choreStatus && choreStatus.length === customerchore.frequency) {
