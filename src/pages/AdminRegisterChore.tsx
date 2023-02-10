@@ -12,7 +12,11 @@ const AdminRegisterChore = () => {
     url: "/Chore",
     method: "get",
   });
-  const { data, error, isLoading } = useQuery<ChoreResponseDto[]>("chores", fetchChores);
+  const { data, error, isLoading } = useQuery<ChoreResponseDto[]>("chores", fetchChores, {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
   console.log(data);
   return (
     <motion.div
@@ -32,7 +36,7 @@ const AdminRegisterChore = () => {
             <ListGroup.Item>T3</ListGroup.Item>
             <ListGroup.Item>AHG</ListGroup.Item>
             {data?.map((data) => (
-              <ListGroup.Item>{data.title}</ListGroup.Item>
+              <ListGroup.Item key={data.id}>{data.title}</ListGroup.Item>
             ))}
           </ListGroup>
         </div>

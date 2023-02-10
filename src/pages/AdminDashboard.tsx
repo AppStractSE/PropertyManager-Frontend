@@ -4,7 +4,6 @@ import { Button, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
 import {
   AreaResponseDto,
-  Chore,
   ChoreResponseDto,
   Client,
   CustomerResponseDto,
@@ -31,12 +30,20 @@ const AdminDashboard = () => {
     data: areas,
     error: areasError,
     isLoading: areasLoading,
-  } = useQuery<AreaResponseDto[]>(["areas"], async () => await client.area_GetAllAreas());
+  } = useQuery<AreaResponseDto[]>(["areas"], async () => await client.area_GetAllAreas(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
   const {
     data: teams,
     error: teamsError,
     isLoading: teamsLoading,
-  } = useQuery<TeamResponseDto[]>(["teams"], async () => await client.team_GetAllTeams());
+  } = useQuery<TeamResponseDto[]>(["teams"], async () => await client.team_GetAllTeams(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
   const {
     data: customers,
     error: customersError,
@@ -44,17 +51,30 @@ const AdminDashboard = () => {
   } = useQuery<CustomerResponseDto[]>(
     ["customers"],
     async () => await client.customer_GetAllCustomers(),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
   );
   const {
     data: periodics,
     error: periodicsError,
     isLoading: periodicsLoading,
-  } = useQuery<Periodic[]>(["periodics"], async () => await client.periodic_GetAllPeriodics());
+  } = useQuery<Periodic[]>(["periodics"], async () => await client.periodic_GetAllPeriodics(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
   const {
     data: chores,
     error: choresError,
     isLoading: choresLoading,
-  } = useQuery<ChoreResponseDto[]>(["chores"], async () => await client.chore_GetAllChores());
+  } = useQuery<ChoreResponseDto[]>(["chores"], async () => await client.chore_GetAllChores(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
   // const {
   //   data: chores,

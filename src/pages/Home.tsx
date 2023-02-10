@@ -15,8 +15,9 @@ const Home = () => {
   const client = new Client();
 
   const { data: userData, isLoading: userDataIsLoading } = useQuery<UserDataResponseDto>(
-    ["userData", currentUser.userId],
-    async () => client.userData_GetUserDataById(currentUser.userId!),
+    ["userData", currentUser?.user?.userId],
+    async () => client.userData_GetUserDataById(currentUser?.user?.userId || ""),
+    { refetchOnWindowFocus: false, refetchOnMount: false },
   );
 
   const filterSearch = userData?.userTeamsData?.filter((team) => {

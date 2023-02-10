@@ -32,7 +32,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_GetAllAreas(_response);
         });
     }
@@ -69,7 +71,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_PostArea(_response);
         });
     }
@@ -106,7 +110,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_PutArea(_response);
         });
     }
@@ -143,7 +149,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processArea_GetAreaById(_response);
         });
     }
@@ -180,7 +188,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_Login(_response);
         });
     }
@@ -223,7 +233,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_GetAllUsers(_response);
         });
     }
@@ -262,7 +274,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_GetValidation(_response);
         });
     }
@@ -314,7 +328,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_Register(_response);
         });
     }
@@ -352,7 +368,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAuthenticate_RegisterAdmin(_response);
         });
     }
@@ -393,7 +411,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_GetAllChoreComments(_response);
         });
     }
@@ -430,7 +450,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_PostChoreComment(_response);
         });
     }
@@ -467,7 +489,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreComment_GetCustomerChoresByCustomer(_response);
         });
     }
@@ -500,7 +524,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_GetAllChores(_response);
         });
     }
@@ -537,7 +563,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_PostChore(_response);
         });
     }
@@ -574,7 +602,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_PutChore(_response);
         });
     }
@@ -611,7 +641,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChore_GetChoreById(_response);
         });
     }
@@ -644,7 +676,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_GetAllChoreStatuses(_response);
         });
     }
@@ -681,7 +715,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_PostChoreStatus(_response);
         });
     }
@@ -718,7 +754,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processChoreStatus_GetChoreStatusById(_response);
         });
     }
@@ -751,7 +789,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_GetAllChores(_response);
         });
     }
@@ -788,7 +828,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_PostCustomerChore(_response);
         });
     }
@@ -825,7 +867,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_PutCustomerChore(_response);
         });
     }
@@ -862,7 +906,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomerChore_GetCustomerChoresByCustomer(_response);
         });
     }
@@ -895,7 +941,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_GetAllCustomers(_response);
         });
     }
@@ -932,7 +980,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_PostCustomer(_response);
         });
     }
@@ -969,7 +1019,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_GetCustomerById(_response);
         });
     }
@@ -1006,7 +1058,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processCustomer_GetCustomersByTeamId(_response);
         });
     }
@@ -1039,7 +1093,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processPeriodic_GetAllPeriodics(_response);
         });
     }
@@ -1072,7 +1128,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_GetAllTeams(_response);
         });
     }
@@ -1109,7 +1167,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_PostTeam(_response);
         });
     }
@@ -1146,7 +1206,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_PutTeam(_response);
         });
     }
@@ -1183,7 +1245,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeam_GetTeamById(_response);
         });
     }
@@ -1216,7 +1280,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_GetAllTeamMembers(_response);
         });
     }
@@ -1253,7 +1319,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_PostTeamMember(_response);
         });
     }
@@ -1290,7 +1358,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_PutTeamMember(_response);
         });
     }
@@ -1327,7 +1397,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_GetTeamMemberById(_response);
         });
     }
@@ -1364,7 +1436,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processTeamMember_GetTeamMembersByUserId(_response);
         });
     }
@@ -1399,7 +1473,9 @@ export class Client extends BaseClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUserData_GetUserDataById(_response);
         });
     }
@@ -1442,10 +1518,18 @@ export interface PutAreaRequestDto {
 }
 
 export interface AuthUser {
-    userId: string | undefined;
-    userName: string | undefined;
+    tokenInfo: TokenInfo | undefined;
+    user: User | undefined;
+}
+
+export interface TokenInfo {
     token: string | undefined;
     expiration: Date;
+}
+
+export interface User {
+    userId: string | undefined;
+    userName: string | undefined;
     displayName: string | undefined;
 }
 
