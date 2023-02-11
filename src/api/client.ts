@@ -513,6 +513,41 @@ export class Client extends BaseClient {
         return Promise.resolve<ChoreCommentResponseDto[]>(null as any);
     }
 
+    choreComment_GetLatestFiveChoreComments(): Promise<ChoreCommentResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/ChoreComment/GetLatestFiveChoreComments";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processChoreComment_GetLatestFiveChoreComments(_response);
+        });
+    }
+
+    protected processChoreComment_GetLatestFiveChoreComments(response: Response): Promise<ChoreCommentResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ChoreCommentResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ChoreCommentResponseDto[]>(null as any);
+    }
+
     chore_GetAllChores(): Promise<ChoreResponseDto[]> {
         let url_ = this.baseUrl + "/api/v1/Chore";
         url_ = url_.replace(/[?&]$/, "");
@@ -665,7 +700,7 @@ export class Client extends BaseClient {
         return Promise.resolve<ChoreResponseDto>(null as any);
     }
 
-    choreStatus_GetAllChoreStatuses(): Promise<ChoreStatus[]> {
+    choreStatus_GetAllChoreStatuses(): Promise<ChoreStatusResponseDto[]> {
         let url_ = this.baseUrl + "/api/v1/ChoreStatus";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -683,13 +718,13 @@ export class Client extends BaseClient {
         });
     }
 
-    protected processChoreStatus_GetAllChoreStatuses(response: Response): Promise<ChoreStatus[]> {
+    protected processChoreStatus_GetAllChoreStatuses(response: Response): Promise<ChoreStatusResponseDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ChoreStatus[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ChoreStatusResponseDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -697,7 +732,7 @@ export class Client extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ChoreStatus[]>(null as any);
+        return Promise.resolve<ChoreStatusResponseDto[]>(null as any);
     }
 
     choreStatus_PostChoreStatus(request: PostChoreStatusRequestDto): Promise<ChoreStatus> {
@@ -1608,17 +1643,17 @@ export interface PutChoreRequestDto {
     title: string | undefined;
 }
 
-export interface ChoreStatus {
+export interface ChoreStatusResponseDto {
     id: string;
-    customerChoreId: string | undefined;
+    customerChoreId: string;
     startDate: Date;
     completedDate: Date;
     doneBy: string | undefined;
 }
 
-export interface ChoreStatusResponseDto {
+export interface ChoreStatus {
     id: string;
-    customerChoreId: string;
+    customerChoreId: string | undefined;
     startDate: Date;
     completedDate: Date;
     doneBy: string | undefined;
