@@ -18,20 +18,17 @@ import {
   TeamResponseDto,
   UserInfoDto
 } from "../api/client";
+import AddCustomer from "../components/admindashboard/AddCustomer";
+import AddTeam from "../components/admindashboard/AddTeam";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import CustomerTable from "../components/admindashboard/CustomerTable";
 import Overview from "../components/admindashboard/Overview";
-import useAxios from "../hooks/useAxios";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);
   const [addTeamModal, showAddTeamModal] = useState(false);
   const [addCustomerModal, showAddCustomerModal] = useState(false);
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
-  // const fetchAreas = useAxios({ url: "/area", method: "get" });
-  // const fetchCustomers = useAxios({ url: "/customer", method: "get" });
-  // const fetchTeams = useAxios({ url: "/team", method: "get" });
-  // const fetchPeriodics = useAxios({ url: "/periodic", method: "get" });
-  // const fetchChores = useAxios({ url: "/chore", method: "get" });
+
   const client = new Client();
   const queryClient = useQueryClient();
   const {
@@ -110,7 +107,7 @@ const AdminDashboard = () => {
     client.choreStatus_GetAllChoreStatuses(),
   );
 
-  console.log(choreStatuses)
+  console.log(choreStatuses);
 
   return (
     <motion.div
@@ -173,7 +170,6 @@ const AdminDashboard = () => {
                   {teamMembers && customers && teams && (
                     <CustomerTable customers={customers} teams={teams} teammembers={teamMembers} />
                   )}
-                  {/* <GenericTable title="Kunder" tableHeaders={["Kundnamn", "Adress", "Team"]} /> */}
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
                   <Container>
@@ -213,67 +209,56 @@ const AdminDashboard = () => {
                     </Table>
                   </Container>
                 </Tab.Pane>
+                <Tab.Pane eventKey='third'>
+                  <Container>
+                    </Container>
+                </Tab.Pane>
                 <Tab.Pane eventKey='fourth'>
                   <Container>
-                    <div className='fs-4 mb-2'>Skapa</div>
-                    <Tab.Container defaultActiveKey="first">
-          <Nav variant="pills" className="flex-row">
-            <Nav.Item>
-              <Nav.Link eventKey="first">Kund</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="second">Syssla</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        <Col sm={9}>
-          <Tab.Content>
-            <Tab.Pane eventKey="first">
-              <div className="fs-4 mb-3 mt-3">Skapa kund</div>
-              <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Kundnamn</Form.Label>
-                  <Form.Control type="text" placeholder="Kundnamn" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Adress</Form.Label>
-                  <Form.Control type="text" placeholder="Adress" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Team</Form.Label>
-                  <Form.Control as="select">
-                    {teams?.map((team) => (
-                      <option>{team.name}</option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Skapa
-                </Button>
-                
-              </Form>
-            </Tab.Pane>
-            <Tab.Pane eventKey="second">
-              <div className="fs-4 mb-3 mt-3">Skapa syssla</div>
-              <Form>
-                <Form.Group className="mb-3" controlId="name">
-                  <Form.Label>Namn</Form.Label>
-                  <Form.Control type="text" placeholder="Namn på syssla" />
-                </Form.Group>
-                  <Form.Group className="mb-3" controlId="category">
-                  <Form.Label>Huvudkategori</Form.Label>
-                  <Form.Control as="select">
-                    <option>SE1.2.3.4.255</option>
-                    <option>KR1.2.2.1</option>
-                    <option>SKK1.1.2.1</option>
-                    <option>SKK1.1.2.2</option>
-                    <option>SKK1.1.2.2.3</option>
-                    </Form.Control>
-                    </Form.Group>
-                </Form>
-            </Tab.Pane>
-          </Tab.Content>
-        </Col>
-    </Tab.Container>
+                    <Tab.Container defaultActiveKey='first'>
+                      <Nav variant='pills' className='flex-row'>
+                        <Nav.Item>
+                          <Nav.Link eventKey='first'>Kund</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link eventKey='second'>Syssla</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link eventKey='third'>Team</Nav.Link>
+                        </Nav.Item>
+                      </Nav>
+                      <Col>
+                        <Tab.Content>
+                          <Tab.Pane eventKey='first'>
+                            <div className='fs-4 mb-3 mt-3'>Skapa kund</div>
+                            {teams && areas && <AddCustomer teams={teams} areas={areas} />}
+                          </Tab.Pane>
+                          <Tab.Pane eventKey='second'>
+                            <div className='fs-4 mb-3 mt-3'>Skapa syssla</div>
+                            <Form>
+                              <Form.Group className='mb-3' controlId='name'>
+                                <Form.Label>Namn</Form.Label>
+                                <Form.Control type='text' placeholder='Namn på syssla' />
+                              </Form.Group>
+                              <Form.Group className='mb-3' controlId='category'>
+                                <Form.Label>Huvudkategori</Form.Label>
+                                <Form.Control as='select'>
+                                  <option>SE1.2.3.4.255</option>
+                                  <option>KR1.2.2.1</option>
+                                  <option>SKK1.1.2.1</option>
+                                  <option>SKK1.1.2.2</option>
+                                  <option>SKK1.1.2.2.3</option>
+                                </Form.Control>
+                              </Form.Group>
+                            </Form>
+                          </Tab.Pane>
+                          <Tab.Pane eventKey='third'>
+                            <div className='fs-4 mb-3 mt-3'>Skapa team</div>
+                            {users && teams && <AddTeam users={users} teams={teams} />}
+                          </Tab.Pane>
+                        </Tab.Content>
+                      </Col>
+                    </Tab.Container>
                   </Container>
                 </Tab.Pane>
               </Tab.Content>
@@ -281,65 +266,6 @@ const AdminDashboard = () => {
           </Row>
         </Tab.Container>
       </Container>
-      {/* <div>
-        <div className='mb-4 mt-2'>
-          <ButtonGroup size='lg' aria-label='Basic example'>
-            <Button variant='primary'>Kunder</Button>
-            <Button variant='primary'>Teams</Button>
-            <Button variant='primary'>Sysslor</Button>
-          </ButtonGroup>
-        </div>
-        <div>
-          <Row className='d-flex gap-2'>
-            {customers?.map((customer) => (
-              <Card key={customer.id} className='col col-xl-3 col-lg-4 col-sm-6'>
-                <Card.Header className='d-flex align-items-center p-2'>
-                  <div className='me-auto'>
-                    <Card.Title>{customer.name}</Card.Title>
-                    <div>{customer.address}</div>
-                  </div>
-                  <IoEllipsisVertical
-                    size={32}
-                    onClick={() => console.log("Open dropdown with options")}
-                  />
-                </Card.Header>
-                <Card.Body className='d-flex gap-2 flex-column'>
-                  <Card className='container' onClick={() => showAddCustomerChoreModal(true)}>
-                    <Card.Body className='d-flex'>
-                      <div className='me-auto'>Lägg till syssla</div>
-                      <AiOutlinePlus size={28} />
-                    </Card.Body>
-                  </Card>
-                  {customerChores?.filter((x) => x.customerId === customer.id).length === 0 ? (
-                    <Card className='container'>
-                      <Card.Body className='d-flex'>
-                        <div className='me-auto'>Denna kund har inga sysslor</div>
-                      </Card.Body>
-                    </Card>
-                  ) : (
-                    <div className='d-flex gap-2 flex-column'>
-                      {customerChores
-                        ?.filter((x) => x.customerId === customer.id)
-                        .map((customerChore) => (
-                          <Card className='container' key={customerChore.id}>
-                            <Card.Body className='d-flex'>
-                              <div className='me-auto'>{customerChore.chore?.title}</div>
-                              <IoEllipsisVertical
-                                className='ms-5'
-                                size={28}
-                                onClick={() => console.log("Open dropdown with options")}
-                              />
-                            </Card.Body>
-                          </Card>
-                        ))}
-                    </div>
-                  )}
-                </Card.Body>
-              </Card>
-            ))}
-          </Row>
-        </div>
-      </div> */}
     </motion.div>
   );
 };

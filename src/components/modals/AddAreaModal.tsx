@@ -3,7 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { Client } from "../../api/client";
 
-const AddAreaModal = (props: any) => {
+const AddArea = () => {
   const [areaValue, setAreaValue] = useState("");
   const queryClient = useQueryClient();
   const client = new Client();
@@ -18,18 +18,11 @@ const AddAreaModal = (props: any) => {
       onSuccess: () => {
         setAreaValue("");
         queryClient.invalidateQueries("areas");
-        console.log("success");
-        props.onHide();
       },
     },
   );
 
   return (
-    <Modal {...props} centered>
-      <Modal.Header closeButton>
-        <Modal.Title id='contained-modal-title-vcenter'>Lägg till område</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
         <Form>
           <Form.Group className='mb-3' controlId='formAddArea'>
             <Form.Label>Area</Form.Label>
@@ -48,9 +41,7 @@ const AddAreaModal = (props: any) => {
             Lägg till område
           </Button>
         </Form>
-      </Modal.Body>
-    </Modal>
   );
 };
 
-export default AddAreaModal;
+export default AddArea;

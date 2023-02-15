@@ -23,7 +23,7 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
           onChange={(e) => setCustomerName(e.target.value)}
           value={customerName}
           style={{ borderColor: "transparent" }}
-          className={`w-auto rounded-0 ${rowIsDisabled ? "" : "border"}`}
+          className={`rounded-0 ${rowIsDisabled ? "" : "border"}`}
         />
       </td>
       <td>
@@ -34,16 +34,16 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
           value={customerAddress}
           onChange={(e) => setCustomerAddress(e.target.value)}
           style={{ borderColor: "transparent" }}
-          className={`w-auto rounded-0 ${rowIsDisabled ? "" : "border"}`}
+          className={`rounded-0 ${rowIsDisabled ? "" : "border"}`}
         />
       </td>
       <td>
         {rowIsDisabled ? (
-          <div className='w-auto rounded-0 form-control' style={{ borderColor: "transparent" }}>
+          <div className='rounded-0 form-control' style={{ borderColor: "transparent" }}>
             {teams?.find((x) => x.id === team)?.name}
           </div>
         ) : (
-          <Form.Select value={team} className='w-auto rounded-0'>
+          <Form.Select value={team} className='rounded-0'>
             {teams?.map((team) => (
               <option onClick={() => setTeam(team.id)} value={team.id}>
                 {team.name}
