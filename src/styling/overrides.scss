@@ -231,7 +231,6 @@ form>div,
       .nav-pills {
         --bs-nav-pills-link-active-color:#fff;
       }
-
     }
     .nav-pills {
       --bs-nav-pills-border-radius:0.375rem;
@@ -254,6 +253,9 @@ form>div,
       border-color: var(--bs-nav-link-color);
       div {
         margin-left: 4px;
-
       }
-     }
+    }
+    .flex-row .nav-link {
+      border-left: 0;
+      border-bottom: 2px solid transparent;
+    }

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Button, Col, Container, Nav, Row, Tab, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Nav, Row, Tab, Table } from "react-bootstrap";
 import { AiOutlineHeart, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
@@ -16,7 +16,7 @@ import {
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto,
+  UserInfoDto
 } from "../api/client";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import CustomerTable from "../components/admindashboard/CustomerTable";
@@ -27,11 +27,11 @@ const AdminDashboard = () => {
   const [addTeamModal, showAddTeamModal] = useState(false);
   const [addCustomerModal, showAddCustomerModal] = useState(false);
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
-  const fetchAreas = useAxios({ url: "/area", method: "get" });
-  const fetchCustomers = useAxios({ url: "/customer", method: "get" });
-  const fetchTeams = useAxios({ url: "/team", method: "get" });
-  const fetchPeriodics = useAxios({ url: "/periodic", method: "get" });
-  const fetchChores = useAxios({ url: "/chore", method: "get" });
+  // const fetchAreas = useAxios({ url: "/area", method: "get" });
+  // const fetchCustomers = useAxios({ url: "/customer", method: "get" });
+  // const fetchTeams = useAxios({ url: "/team", method: "get" });
+  // const fetchPeriodics = useAxios({ url: "/periodic", method: "get" });
+  // const fetchChores = useAxios({ url: "/chore", method: "get" });
   const client = new Client();
   const queryClient = useQueryClient();
   const {
@@ -211,6 +211,69 @@ const AdminDashboard = () => {
                         ))}
                       </tbody>
                     </Table>
+                  </Container>
+                </Tab.Pane>
+                <Tab.Pane eventKey='fourth'>
+                  <Container>
+                    <div className='fs-4 mb-2'>Skapa</div>
+                    <Tab.Container defaultActiveKey="first">
+          <Nav variant="pills" className="flex-row">
+            <Nav.Item>
+              <Nav.Link eventKey="first">Kund</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="second">Syssla</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        <Col sm={9}>
+          <Tab.Content>
+            <Tab.Pane eventKey="first">
+              <div className="fs-4 mb-3 mt-3">Skapa kund</div>
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Kundnamn</Form.Label>
+                  <Form.Control type="text" placeholder="Kundnamn" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Adress</Form.Label>
+                  <Form.Control type="text" placeholder="Adress" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Team</Form.Label>
+                  <Form.Control as="select">
+                    {teams?.map((team) => (
+                      <option>{team.name}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Skapa
+                </Button>
+                
+              </Form>
+            </Tab.Pane>
+            <Tab.Pane eventKey="second">
+              <div className="fs-4 mb-3 mt-3">Skapa syssla</div>
+              <Form>
+                <Form.Group className="mb-3" controlId="name">
+                  <Form.Label>Namn</Form.Label>
+                  <Form.Control type="text" placeholder="Namn på syssla" />
+                </Form.Group>
+                  <Form.Group className="mb-3" controlId="category">
+                  <Form.Label>Huvudkategori</Form.Label>
+                  <Form.Control as="select">
+                    <option>SE1.2.3.4.255</option>
+                    <option>KR1.2.2.1</option>
+                    <option>SKK1.1.2.1</option>
+                    <option>SKK1.1.2.2</option>
+                    <option>SKK1.1.2.2.3</option>
+                    </Form.Control>
+                    </Form.Group>
+                </Form>
+            </Tab.Pane>
+          </Tab.Content>
+        </Col>
+    </Tab.Container>
                   </Container>
                 </Tab.Pane>
               </Tab.Content>
