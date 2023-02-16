@@ -16,9 +16,10 @@ import {
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto
+  UserInfoDto,
 } from "../api/client";
 import AddCustomer from "../components/admindashboard/AddCustomer";
+import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
 import AddTeam from "../components/admindashboard/AddTeam";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import CustomerTable from "../components/admindashboard/CustomerTable";
@@ -210,8 +211,7 @@ const AdminDashboard = () => {
                   </Container>
                 </Tab.Pane>
                 <Tab.Pane eventKey='third'>
-                  <Container>
-                    </Container>
+                  <Container></Container>
                 </Tab.Pane>
                 <Tab.Pane eventKey='fourth'>
                   <Container>
@@ -251,6 +251,12 @@ const AdminDashboard = () => {
                                 </Form.Control>
                               </Form.Group>
                             </Form>
+                            <div className='fs-4 mb-3 mt-3'>Skapa kundsyssla</div>
+                            <AddCustomerChore
+                              customers={customers}
+                              periodics={periodics}
+                              chores={chores}
+                            />
                           </Tab.Pane>
                           <Tab.Pane eventKey='third'>
                             <div className='fs-4 mb-3 mt-3'>Skapa team</div>
