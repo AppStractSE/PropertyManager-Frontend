@@ -21,8 +21,8 @@ import {
 import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
 import AddTeam from "../components/admindashboard/AddTeam";
 import AddCustomer from "../components/admindashboard/customer/AddCustomer";
+import CustomerTable from "../components/admindashboard/customer/CustomerTable";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
-import CustomerTable from "../components/admindashboard/CustomerTable";
 import Overview from "../components/admindashboard/Overview";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);
