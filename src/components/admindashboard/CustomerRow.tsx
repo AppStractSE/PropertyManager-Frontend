@@ -35,12 +35,9 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("customers");
-        console.log("Customer updated");
       },
     },
   );
-
-  // use client to put customerobject
 
   return (
     <>
@@ -91,10 +88,7 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
           variant='outline-primary'
           size='sm'
           onClick={() => {
-            if (!rowIsDisabled) {
-              console.log("Update customer button clicked");
-              updateCustomer();
-            }
+            if (!rowIsDisabled) updateCustomer();
             setRowIsDisabled(!rowIsDisabled);
           }}
         >
