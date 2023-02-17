@@ -18,9 +18,9 @@ import {
   TeamResponseDto,
   UserInfoDto,
 } from "../api/client";
-import AddCustomer from "../components/admindashboard/AddCustomer";
 import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
 import AddTeam from "../components/admindashboard/AddTeam";
+import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import CustomerTable from "../components/admindashboard/CustomerTable";
 import Overview from "../components/admindashboard/Overview";

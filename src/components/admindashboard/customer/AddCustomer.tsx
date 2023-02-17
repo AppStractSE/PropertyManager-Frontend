@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { AreaResponseDto, Client, TeamResponseDto } from "../../api/client";
+import { AreaResponseDto, Client, TeamResponseDto } from "../../../api/client";
 
 interface Props {
   teams: TeamResponseDto[];

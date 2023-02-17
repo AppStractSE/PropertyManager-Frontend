@@ -6,7 +6,7 @@ import {
   CustomerResponseDto,
   TeamMemberResponseDto,
   TeamResponseDto,
-} from "../../api/client";
+} from "../../../api/client";
 
 interface Props {
   customer: CustomerResponseDto;
