@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto } from "../../api/client";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  Client,
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+} from "../../api/client";
 
 interface Props {
   customer: CustomerResponseDto;
@@ -13,6 +19,29 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
   const [team, setTeam] = useState(customer.teamId);
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
+  const client = new Client();
+  const queryClient = useQueryClient();
+  const customerObject = {
+    id: customer.id,
+    name: customerName,
+    address: customerAddress,
+    teamId: team,
+    areaId: customer.areaId,
+  };
+  const { mutate: updateCustomer, isLoading: updatingCustomer } = useMutation(
+    async () => {
+      return await client.customer_PutCustomer(customerObject);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("customers");
+        console.log("Customer updated");
+      },
+    },
+  );
+
+  // use client to put customerobject
+
   return (
     <>
       <td>
@@ -43,9 +72,9 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
             {teams?.find((x) => x.id === team)?.name}
           </div>
         ) : (
-          <Form.Select value={team} className='rounded-0'>
+          <Form.Select value={team} className='rounded-0' onChange={(e) => setTeam(e.target.value)}>
             {teams?.map((team) => (
-              <option onClick={() => setTeam(team.id)} value={team.id}>
+              <option value={team.id}>
                 {team.name}
                 <div className='d-flex flex-column gap-4'>
                   <div> - Alex</div>
@@ -61,7 +90,13 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
           className='me-2'
           variant='outline-primary'
           size='sm'
-          onClick={() => setRowIsDisabled(!rowIsDisabled)}
+          onClick={() => {
+            if (!rowIsDisabled) {
+              console.log("Update customer button clicked");
+              updateCustomer();
+            }
+            setRowIsDisabled(!rowIsDisabled);
+          }}
         >
           {rowIsDisabled ? "Redigera" : "Spara"}
         </Button>
