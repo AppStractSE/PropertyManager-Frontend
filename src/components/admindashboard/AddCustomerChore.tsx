@@ -25,6 +25,7 @@ const AddCustomerChore = (props: any) => {
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
+        queryClient.invalidateQueries("customerchores")
         console.log("success");
       },
     },

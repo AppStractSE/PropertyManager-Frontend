@@ -95,7 +95,6 @@ const AddTeam = ({ users, teams }: Props) => {
             }}
           />
         ))}
-        {/* </Form.Select> */}
       </Form.Group>
 
       <Button

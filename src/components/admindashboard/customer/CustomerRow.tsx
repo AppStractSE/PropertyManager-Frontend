@@ -1,24 +1,31 @@
 import { useState } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
-import { useMutation, useQueryClient } from "react-query";
+import { Button } from "react-bootstrap";
+import { useQueryClient } from "react-query";
 import {
   Client,
+  CustomerChoreResponseDto,
   CustomerResponseDto,
   TeamMemberResponseDto,
   TeamResponseDto,
+  Periodic
+
 } from "../../../api/client";
+import EditCustomerModal from "../modals/EditCustomerModal";
 
 interface Props {
   customer: CustomerResponseDto;
   teams: TeamResponseDto[];
   teammembers: TeamMemberResponseDto[];
+  customerchores: CustomerChoreResponseDto[];
+  periodics: Periodic[];
 }
 
-const CustomerRow = ({ teams, customer, teammembers }: Props) => {
+const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }: Props) => {
   const [rowIsDisabled, setRowIsDisabled] = useState(true);
   const [team, setTeam] = useState(customer.teamId);
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
+  const [showModal, setShowModal] = useState(false);
   const client = new Client();
   const queryClient = useQueryClient();
   const customerObject = {
@@ -28,83 +35,21 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
     teamId: team,
     areaId: customer.areaId,
   };
-  const { mutate: updateCustomer, isLoading: updatingCustomer } = useMutation(
-    async () => {
-      return await client.customer_PutCustomer(customerObject);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("customers");
-      },
-    },
-  );
 
   return (
     <>
-      <td>
-        <Form.Control
-          autoFocus={true}
-          disabled={rowIsDisabled ? true : false}
-          type='text'
-          onChange={(e) => setCustomerName(e.target.value)}
-          value={customerName}
-          style={{ borderColor: "transparent" }}
-          className={`rounded-0 ${rowIsDisabled ? "" : "border"}`}
-        />
-      </td>
-      <td>
-        <Form.Control
-          autoFocus={true}
-          disabled={rowIsDisabled ? true : false}
-          type='text'
-          value={customerAddress}
-          onChange={(e) => setCustomerAddress(e.target.value)}
-          style={{ borderColor: "transparent" }}
-          className={`rounded-0 ${rowIsDisabled ? "" : "border"}`}
-        />
-      </td>
-      <td>
-        {rowIsDisabled ? (
-          <div className='rounded-0 form-control' style={{ borderColor: "transparent" }}>
-            {teams?.find((x) => x.id === team)?.name}
-          </div>
-        ) : (
-          <Form.Select value={team} className='rounded-0' onChange={(e) => setTeam(e.target.value)}>
-            {teams?.map((team) => (
-              <option value={team.id}>
-                {team.name}
-                <div className='d-flex flex-column gap-4'>
-                  <div> - Alex</div>
-                  <div> - Konny</div>
-                </div>
-              </option>
-            ))}
-          </Form.Select>
-        )}
-      </td>
+      <td>{customer.name}</td>
+      <td>{customer.address}</td>
+      <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
+      <td>{customerchores.filter((customerchore) => customerchore.customerId === customer.id).length}</td>
       <td>
         <Button
           className='me-2'
           variant='outline-primary'
           size='sm'
-          onClick={() => {
-            if (!rowIsDisabled) updateCustomer();
-            setRowIsDisabled(!rowIsDisabled);
-          }}
+          onClick={() => setShowModal(!showModal)}
         >
-          {updatingCustomer && (
-            <Spinner
-              className='mx-2'
-              size='sm'
-              as='span'
-              animation='border'
-              role='status'
-              aria-hidden='true'
-            />
-          )}
-          {updatingCustomer && "Uppdaterar..."}
-          {rowIsDisabled && !updatingCustomer && "Redigera"}
-          {!rowIsDisabled && !updatingCustomer && "Spara"}
+          Redigera
         </Button>
         {!rowIsDisabled && (
           <Button
@@ -116,6 +61,15 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
           </Button>
         )}
       </td>
+      <EditCustomerModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        customer={customer}
+        teams={teams}
+        teammembers={teammembers}
+        customerchores={customerchores}
+        periodics={periodics}
+      />
     </>
   );
 };

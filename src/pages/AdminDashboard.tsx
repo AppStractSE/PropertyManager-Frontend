@@ -119,7 +119,7 @@ const AdminDashboard = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <Container className='p-3'>
-        <Tab.Container id='left-tabs-example' defaultActiveKey='zero'>
+        <Tab.Container defaultActiveKey='zero'>
           <Row>
             <Col sm={12} md={12} lg={2}>
               <Nav variant='pills' className='flex-column'>
@@ -168,8 +168,8 @@ const AdminDashboard = () => {
                 <Tab.Pane eventKey='first'>
                   <div className='fs-4 mb-2'>Kundöversikt</div>
                   <CustomerGraph />
-                  {teamMembers && customers && teams && (
-                    <CustomerTable customers={customers} teams={teams} teammembers={teamMembers} />
+                  {teamMembers && customers && teams && customerChores && periodics && (
+                    <CustomerTable periodics={periodics} customerchores={customerChores} customers={customers} teams={teams} teammembers={teamMembers} />
                   )}
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
