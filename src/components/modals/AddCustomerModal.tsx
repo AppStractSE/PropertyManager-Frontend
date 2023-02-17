@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import axiosClient from "../../utils/axiosClient";
+import { Client } from "../../api/client";
 
 const AddCustomerModal = (props: any) => {
   const [teamValue, setTeamValue] = useState("");
   const [areaValue, setAreaValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
+  const client = new Client();
   const queryClient = useQueryClient();
   const { mutate: postCustomer, isLoading: postingCustomer } = useMutation(
+    // TODO: postingCustomer används aldrig, åtgärda?
     async () => {
-      return await axiosClient.post("/Customer", {
+      return await client.customer_PostCustomer({
         name: customerValue,
         teamId: teamValue,
         areaId: areaValue,

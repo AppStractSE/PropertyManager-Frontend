@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { CustomerChoreResponseDto } from "../api/client";
-import useAxios from "../hooks/useAxios";
+import { ChoreStatusResponseDto, Client, CustomerChoreResponseDto } from "../api/client";
 import ChoreInfoCard from "./modals/CustomerChore";
 
 interface Props {
@@ -11,15 +10,15 @@ interface Props {
 
 const ChoreCard = ({ customerchore }: Props) => {
   const [modalShow, setModalShow] = useState(false);
-  const fetchChoreStatuses = useAxios({
-    url: `/ChoreStatus/GetChoreStatusById?Id=${customerchore.id}`,
-    method: "get",
-  });
+  const client = new Client();
   const {
-    data: choreStatuses,
+    data: choreStatus,
     error: choreStatusError,
     isLoading: choreStatusIsLoading,
-  } = useQuery<CustomerChoreResponseDto[]>("status_" + customerchore.id, fetchChoreStatuses);
+  } = useQuery<ChoreStatusResponseDto[]>(
+    ["choreStatus", customerchore.id],
+    async () => await client.choreStatus_GetChoreStatusById(customerchore.id),
+  );
 
   return (
     <>
@@ -38,9 +37,9 @@ const ChoreCard = ({ customerchore }: Props) => {
               if (choreStatusIsLoading) {
                 return <></>;
               }
-              if (choreStatuses && choreStatuses.length === customerchore.frequency) {
+              if (choreStatus && choreStatus.length === customerchore.frequency) {
                 return <Card.Text className='small p-2 status completed'>Klar</Card.Text>;
-              } else if (choreStatuses && choreStatuses.length > 0) {
+              } else if (choreStatus && choreStatus.length > 0) {
                 return <Card.Text className='small p-2 status initiated'>Påbörjad</Card.Text>;
               } else {
                 return (

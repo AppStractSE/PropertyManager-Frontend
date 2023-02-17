@@ -3,10 +3,8 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../../api/client";
+import { ChoreCommentResponseDto, ChoreStatusResponseDto, Client } from "../../api/client";
 import { useUser } from "../../contexts/UserContext";
-import useAxios from "../../hooks/useAxios";
-import axiosClient from "../../utils/axiosClient";
 import CustomToast from "../snacks/CustomToast";
 import { CustomerChoreComments } from "./CustomerChore/CustomerChoreComments";
 import { CustomerChoreStatus } from "./CustomerChore/CustomerChoreStatus";
@@ -19,6 +17,7 @@ const CustomerChore = (props: any) => {
   const [showToast, setShowToast] = useState(false);
   const [commentValue, setCommentValue] = useState("");
   const { currentUser } = useUser();
+  const client = new Client();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {
@@ -30,30 +29,18 @@ const CustomerChore = (props: any) => {
     }
   };
 
-  const fetchChoreComments = useAxios({
-    url: `/ChoreComment/GetChoreCommentsByCustomerChoreId?Id=${props.customerchore.id}`,
-    method: "get",
-  });
-
-  const fetchChoreStatuses = useAxios({
-    url: `/ChoreStatus/GetChoreStatusById?Id=${props.customerchore.id}`,
-    method: "get",
-  });
-
-  const { data, error, isLoading } = useQuery<ChoreCommentResponseDto[]>(
-    "comment_" + props.customerchore.id,
-    fetchChoreComments,
-  );
-
   const {
-    data: choreStatuses,
-    error: choreStatusError,
-    isLoading: choreStatusIsLoading,
-  } = useQuery<ChoreStatusResponseDto[]>("status_" + props.customerchore.id, fetchChoreStatuses);
+    data: choreComment,
+    error: choreCommentError,
+    isLoading: choreCommentLoading,
+  } = useQuery<ChoreCommentResponseDto[]>(
+    ["choreComment", props.customerchore.id],
+    async () => await client.choreComment_GetCustomerChoresByCustomer(props.customerchore.id),
+  );
 
   const { mutate: postComment, isLoading: postingComment } = useMutation(
     async () => {
-      return await axiosClient.post("/ChoreComment", {
+      return await client.choreComment_PostChoreComment({
         message: commentValue,
           customerChoreId: props.customerchore.id,
           userId: currentUser.user!.userId,
@@ -62,31 +49,40 @@ const CustomerChore = (props: any) => {
     {
       onSuccess: () => {
         setCommentValue("");
-        queryClient.invalidateQueries("comment_" + props.customerchore.id);
+        queryClient.invalidateQueries("choreComment", props.customerchore.id);
       },
     },
   );
 
+  const {
+    data: choreStatus,
+    error: choreStatusError, // TODO: Unused, use it?
+    isLoading: choreStatusIsLoading,
+  } = useQuery<ChoreStatusResponseDto[]>(
+    ["choreStatus", props.customerchore.id],
+    async () => await client.choreStatus_GetChoreStatusById(props.customerchore.id),
+  );
+
   const { mutate: postChoreStatus, isLoading: postingChoreStatus } = useMutation(
     async () => {
-      return await axiosClient.post("/ChoreStatus", {
+      return await client.choreStatus_PostChoreStatus({
         customerChoreId: props.customerchore.id,
         doneBy: currentUser.user!.userId,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("status_" + props.customerchore.id);
+        queryClient.invalidateQueries("choreStatus", props.customerchore.id);
         setShowToast(true);
       },
     },
   );
 
-  if (isLoading || choreStatusIsLoading) {
+  if (choreCommentLoading || choreStatusIsLoading) {
     return <></>;
   }
 
-  if (error || data == undefined) {
+  if (choreCommentError || choreComment == undefined) {
     return <div>Error!</div>;
   }
 
@@ -99,10 +95,7 @@ const CustomerChore = (props: any) => {
         <Modal.Body>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Status</Modal.Title>
-            <CustomerChoreStatus
-              chorestatuses={choreStatuses}
-              customerchore={props.customerchore}
-            />
+            <CustomerChoreStatus chorestatuses={choreStatus} customerchore={props.customerchore} />
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Återkommer</Modal.Title>
@@ -117,7 +110,7 @@ const CustomerChore = (props: any) => {
           </div>
           <div className='modal-body-section'>
             <Modal.Title className='p small'>Kommentarer</Modal.Title>
-            <CustomerChoreComments data={data} />
+            <CustomerChoreComments data={choreComment} />
           </div>
           <div className='modal-body-section'>
             <div className='d-flex align-items-center camera-container'>
@@ -173,7 +166,7 @@ const CustomerChore = (props: any) => {
         <Modal.Footer>
           <Button
             disabled={
-              choreStatuses && props.customerchore.frequency === choreStatuses.length ? true : false
+              choreStatus && props.customerchore.frequency === choreStatus.length ? true : false
             }
             type='submit'
             onClick={() => {
@@ -191,7 +184,7 @@ const CustomerChore = (props: any) => {
                 className='mx-2'
               />
             ) : null}
-            {choreStatuses && props.customerchore.frequency === choreStatuses.length
+            {choreStatus && props.customerchore.frequency === choreStatus.length
               ? "Uppgift är klar!"
               : "Markera som klar"}
           </Button>

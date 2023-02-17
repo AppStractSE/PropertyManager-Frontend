@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import axiosClient from "../../utils/axiosClient";
+import { Client } from "../../api/client";
 
 const AddTeamModal = (props: any) => {
   const [teamValue, setTeamValue] = useState("");
   const queryClient = useQueryClient();
+  const client = new Client();
   const { mutate: postTeam, isLoading: postingTeam } = useMutation(
     async () => {
-      return await axiosClient.post("/Team", {
+      return await client.team_PostTeam({
         name: teamValue,
       });
     },
