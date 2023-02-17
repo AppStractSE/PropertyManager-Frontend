@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
   Client,
@@ -92,7 +92,19 @@ const CustomerRow = ({ teams, customer, teammembers }: Props) => {
             setRowIsDisabled(!rowIsDisabled);
           }}
         >
-          {rowIsDisabled ? "Redigera" : "Spara"}
+          {updatingCustomer && (
+            <Spinner
+              className='mx-2'
+              size='sm'
+              as='span'
+              animation='border'
+              role='status'
+              aria-hidden='true'
+            />
+          )}
+          {updatingCustomer && "Uppdaterar..."}
+          {rowIsDisabled && !updatingCustomer && "Redigera"}
+          {!rowIsDisabled && !updatingCustomer && "Spara"}
         </Button>
         {!rowIsDisabled && (
           <Button
