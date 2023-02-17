@@ -26,7 +26,7 @@ const ChoreCard = ({ customerchore }: Props) => {
       <Card onClick={() => setModalShow(true)}>
         <Card.Header className='d-flex align-items-center'>
           <Container>
-            <Card.Title>{customerchore.chore.title}</Card.Title>
+            <Card.Title>{customerchore.chore!.title}</Card.Title>
             <Card.Title className='small text-muted'>Planteringsytor</Card.Title>
           </Container>
         </Card.Header>

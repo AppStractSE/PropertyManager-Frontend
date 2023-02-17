@@ -55,8 +55,8 @@ const CustomerChore = (props: any) => {
     async () => {
       return await axiosClient.post("/ChoreComment", {
         message: commentValue,
-        customerChoreId: props.customerchore.id,
-        userId: currentUser.userId,
+          customerChoreId: props.customerchore.id,
+          userId: currentUser.user!.userId,
       });
     },
     {
@@ -71,7 +71,7 @@ const CustomerChore = (props: any) => {
     async () => {
       return await axiosClient.post("/ChoreStatus", {
         customerChoreId: props.customerchore.id,
-        doneBy: currentUser.userId,
+        doneBy: currentUser.user!.userId,
       });
     },
     {
