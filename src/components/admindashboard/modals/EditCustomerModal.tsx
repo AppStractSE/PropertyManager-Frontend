@@ -4,7 +4,7 @@ import {
   CustomerResponseDto,
   Periodic,
   TeamMemberResponseDto,
-  TeamResponseDto,
+  TeamResponseDto
 } from "../../../api/client";
 import EditCustomerChores from "../customer/edit/EditCustomerChoreTable";
 import EditCustomer from "../customer/EditCustomer";

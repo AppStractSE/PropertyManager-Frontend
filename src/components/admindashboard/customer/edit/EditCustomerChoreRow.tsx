@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { Client, CustomerChoreResponseDto, Periodic } from "../../../../api/client";
 
@@ -11,12 +12,14 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   const queryClient = useQueryClient();
   const client = new Client();
   const [periodicsValue, setPeriodicsValue] = useState(customerchore.periodic?.name);
-  const [frequency, setFrequency] = useState(customerchore.frequency);
+  const [disableRow, setDisableRow] = useState(true);
+  const [frequencyValue, setFrequencyValue] = useState(customerchore.frequency);
+  console.log(frequencyValue);
   const { mutate: updateCustomerChore, isLoading: updatingCustomerChore } = useMutation(
     async () => {
       return await client.customerChore_PutCustomerChore({
         id: customerchore.id,
-        frequency: frequency,
+        frequency: frequencyValue,
       });
     },
     {
@@ -28,12 +31,66 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
       },
     },
   );
-
   return (
     <tr>
-      <td>{customerchore.chore?.title}</td>
-      <td>{customerchore.frequency}</td>
-      <td>{customerchore.periodic?.name}</td>
+      <td>
+        <div className='form-control border-transparent ps-0'>{customerchore.chore?.title}</div>
+      </td>
+      <td>
+        <Form.Control
+          disabled={disableRow ? true : false}
+          className={`${disableRow ? "border-transparent" : ""} w-auto`}
+          type='text'
+          value={frequencyValue.toString().replace(/^0+/, "").replace(/\D/g, "")}
+          min={1}
+          max={100}
+          onKeyUp={() => {
+            if (frequencyValue > 100) setFrequencyValue(100);
+          }}
+          onChange={(e) => setFrequencyValue(Number(e.target.value.replace(/\D/g, "")))}
+        />
+      </td>
+      <td>
+        <Form.Select
+          disabled={disableRow ? true : false}
+          className={`${disableRow ? "border-transparent" : ""} w-auto`}
+          value={periodicsValue}
+          onChange={(e) => setPeriodicsValue(e.target.value)}
+        >
+          <option value={customerchore.periodic?.id}>{customerchore.periodic?.name}</option>
+          {periodics
+            .filter((y) => y.id !== customerchore.periodic?.id)
+            .map((periodic) => (
+              <option value={periodic.id} onClick={() => setPeriodicsValue(periodic.id)}>
+                {periodic.name}
+              </option>
+            ))}
+        </Form.Select>
+      </td>
+      <td>
+        {!disableRow ? (
+          <Button
+            className='me-2'
+            onClick={() => {
+              setDisableRow(!disableRow);
+              setFrequencyValue(customerchore.frequency);
+              setPeriodicsValue(customerchore.periodic?.name);
+            }}
+          >
+            Avbryt
+          </Button>
+        ) : null}
+        <Button
+          disabled={
+            !disableRow && customerchore.frequency === frequencyValue && customerchore.periodic?.name === periodicsValue 
+              ? true
+              : false
+          }
+          onClick={() => setDisableRow(!disableRow)}
+        >
+          {disableRow ? "Redigera" : "Spara"}
+        </Button>
+      </td>
     </tr>
   );
 };

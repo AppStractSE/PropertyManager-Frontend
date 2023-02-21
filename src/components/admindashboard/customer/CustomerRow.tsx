@@ -49,7 +49,7 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
           size='sm'
           onClick={() => setShowModal(!showModal)}
         >
-          Redigera
+          Visa mer
         </Button>
         {!rowIsDisabled && (
           <Button
