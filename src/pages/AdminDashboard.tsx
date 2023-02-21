@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Button, Col, Container, Form, Nav, Row, Tab, Table } from "react-bootstrap";
+import { Col, Container, Form, Nav, Row, Tab } from "react-bootstrap";
 import { AiOutlineHeart, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
@@ -24,11 +24,13 @@ import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerTable from "../components/admindashboard/customer/CustomerTable";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import Overview from "../components/admindashboard/Overview";
+import TeamTable from "../components/admindashboard/team/TeamTable";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);
   const [addTeamModal, showAddTeamModal] = useState(false);
   const [addCustomerModal, showAddCustomerModal] = useState(false);
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const client = new Client();
   const queryClient = useQueryClient();
@@ -104,9 +106,9 @@ const AdminDashboard = () => {
     client.teamMember_GetAllTeamMembers(),
   );
 
-  const { data: choreStatuses } = useQuery<ChoreStatusResponseDto[]>("choreStatuses", async () =>
-    client.choreStatus_GetAllChoreStatuses(),
-  );
+  const { data: choreStatuses, isLoading: loadingChoreStatuses } = useQuery<
+    ChoreStatusResponseDto[]
+  >("choreStatuses", async () => client.choreStatus_GetAllChoreStatuses());
 
   console.log(choreStatuses);
 
@@ -169,46 +171,20 @@ const AdminDashboard = () => {
                   <div className='fs-4 mb-2'>Kundöversikt</div>
                   <CustomerGraph />
                   {teamMembers && customers && teams && customerChores && periodics && (
-                    <CustomerTable periodics={periodics} customerchores={customerChores} customers={customers} teams={teams} teammembers={teamMembers} />
+                    <CustomerTable
+                      periodics={periodics}
+                      customerchores={customerChores}
+                      customers={customers}
+                      teams={teams}
+                      teammembers={teamMembers}
+                    />
                   )}
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
-                  <Container>
-                    <div className='fs-4 mb-2'>Team</div>
-                    <Table hover>
-                      <thead>
-                        <tr>
-                          <th style={{ textTransform: "uppercase", fontSize: 12 }}>Teamnamn</th>
-                          <th style={{ textTransform: "uppercase", fontSize: 12 }}>Medlemmar</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {teams?.map((team) => (
-                          <tr>
-                            <td>{team.name}</td>
-                            <td>
-                              {teamMembers
-                                ?.filter((x) => x.teamId === team.id)
-                                .map((teammember) => (
-                                  <div>
-                                    {
-                                      users?.find((user) => teammember.userId === user.userId)
-                                        ?.displayName
-                                    }
-                                  </div>
-                                ))}
-                            </td>
-                            <td>
-                              <Button variant='outline-primary' size='sm'>
-                                Visa mer
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </Container>
+                  <div className='fs-4 mb-2'>Team</div>
+                  {teams && teamMembers && users && (
+                    <TeamTable teams={teams} teammembers={teamMembers} users={users} />
+                  )}
                 </Tab.Pane>
                 <Tab.Pane eventKey='third'>
                   <Container></Container>
