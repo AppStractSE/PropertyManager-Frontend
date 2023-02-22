@@ -33,6 +33,7 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
             onHide={() => setShowModal(false)}
             team={team}
             teammembers={teammembers}
+            users={users}
           ></EditTeamModal>
         )}
       </td>

@@ -1,5 +1,5 @@
 import { Modal, Nav, Tab } from "react-bootstrap";
-import { TeamMemberResponseDto, TeamResponseDto } from "../../../api/client";
+import { TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeam from "../team/EditTeam";
 
 interface Props {
@@ -7,9 +7,10 @@ interface Props {
   onHide: () => void;
   team: TeamResponseDto;
   teammembers: TeamMemberResponseDto[];
+  users: UserInfoDto[];
 }
 
-const EditCustomerModal = ({ team, teammembers, show, onHide }: Props) => {
+const EditCustomerModal = ({ team, teammembers, users, show, onHide }: Props) => {
   return (
     <Modal show={show} id='editCustomer' size='lg' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
@@ -24,7 +25,7 @@ const EditCustomerModal = ({ team, teammembers, show, onHide }: Props) => {
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey='first'>
-              <EditTeam team={team} teammembers={teammembers} onHide={onHide} />
+              <EditTeam users={users} team={team} teammembers={teammembers} onHide={onHide} />
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>

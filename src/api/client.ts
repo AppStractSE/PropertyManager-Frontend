@@ -1378,45 +1378,6 @@ export class Client extends BaseClient {
         return Promise.resolve<TeamMember[]>(null as any);
     }
 
-    teamMember_PutTeamMember(request: PutTeamMemberRequestDto): Promise<TeamMember> {
-        let url_ = this.baseUrl + "/api/v1/TeamMember";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processTeamMember_PutTeamMember(_response);
-        });
-    }
-
-    protected processTeamMember_PutTeamMember(response: Response): Promise<TeamMember> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMember;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<TeamMember>(null as any);
-    }
-
     teamMember_GetTeamMemberById(id: string | undefined): Promise<TeamMemberResponseDto> {
         let url_ = this.baseUrl + "/api/v1/TeamMember/GetTeamMemberById?";
         if (id === null)
@@ -1557,6 +1518,84 @@ export class Client extends BaseClient {
     }
 
     protected processTeamMember_PostTeamMembers(response: Response): Promise<TeamMember[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMember[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamMember[]>(null as any);
+    }
+
+    teamMember_PutTeamMember(request: PutTeamMemberRequestDto): Promise<TeamMember> {
+        let url_ = this.baseUrl + "/api/v1/TeamMember/UpdateTeamMember";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processTeamMember_PutTeamMember(_response);
+        });
+    }
+
+    protected processTeamMember_PutTeamMember(response: Response): Promise<TeamMember> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMember;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<TeamMember>(null as any);
+    }
+
+    teamMember_PutTeamMembers(request: PutTeamMembersRequestDto): Promise<TeamMember[]> {
+        let url_ = this.baseUrl + "/api/v1/TeamMember/UpdateTeamMembers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processTeamMember_PutTeamMembers(_response);
+        });
+    }
+
+    protected processTeamMember_PutTeamMembers(response: Response): Promise<TeamMember[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -1856,10 +1895,13 @@ export interface PostTeamMembersRequestDto {
 }
 
 export interface PutTeamMemberRequestDto {
-    id: string;
     userId: string | undefined;
     teamId: string | undefined;
     isTemporary: boolean;
+}
+
+export interface PutTeamMembersRequestDto {
+    teamMembers: PutTeamMemberRequestDto[] | undefined;
 }
 
 export interface UserDataResponseDto {
