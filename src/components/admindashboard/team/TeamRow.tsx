@@ -23,11 +23,11 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
                 {users?.find((user) => teammember.userId === user.userId)?.displayName}
               </div>
               <Badge
-                className='text-uppercase' style={{ fontSize: "0.7rem" }}
+                className='text-uppercase' style={{ fontSize: "0.6rem" }}
                 text={teammember.isTemporary ? "dark" : undefined}
                 bg={teammember.isTemporary ? "warning" : "primary"}
               >
-                {teammember.isTemporary ? "Temporär" : "Ordinarie"}
+                {teammember.isTemporary ? "Tillfällig" : "Ordinarie"}
               </Badge>
             </div>
           ))}

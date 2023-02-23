@@ -87,7 +87,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
                 }}
               />
               <div className='me-2'>{user.displayName}</div>
-              <div>
+              <div className="d-flex align-items-center" style={{ fontSize: ".9rem" }}>
                 {teamMembers
                   .filter((tm) => tm.userId === user.userId)
                   .map((tm) => (
