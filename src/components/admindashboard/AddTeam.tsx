@@ -10,19 +10,19 @@ interface Props {
 
 const AddTeam = ({ users, teams }: Props) => {
   const [teamValue, setTeamValue] = useState("");
-  const [teammembers, setTeammembers] = useState<PostTeamMemberRequestDto[]>([]);
+  const [teamMembers, setTeamMembers] = useState<PostTeamMemberRequestDto[]>([]);
   const queryClient = useQueryClient();
   const client = new Client();
   const { mutate: postTeamMember, isLoading: postingTeamMember } = useMutation(
     async (id: string) => {
       return await client.teamMember_PostTeamMembers({
-        teamMembers: teammembers.map((tm) => {
+        teamMembers: teamMembers.map((tm) => {
           return { ...tm, teamId: id };
         }),
       });
     },
     {
-      onSuccess: (test) => {
+      onSuccess: () => {
         console.log("Successfully posted team member");
         queryClient.invalidateQueries("teamMembers");
         setTeamValue("");
@@ -39,11 +39,10 @@ const AddTeam = ({ users, teams }: Props) => {
       });
     },
     {
-      onSuccess: (asd) => {
+      onSuccess: (team) => {
         console.log("Successfully posted team");
         queryClient.invalidateQueries("teams");
-        console.log(asd.id);
-        postTeamMember(asd.id);
+        postTeamMember(team.id);
       },
     },
   );
@@ -61,36 +60,19 @@ const AddTeam = ({ users, teams }: Props) => {
       </Form.Group>
       <Form.Group className='mb-3' controlId='formAddTeamMember'>
         <Form.Label>Teammedlem</Form.Label>
-        {/* <Form.Select multiple itemType="checkbox"
-          onChange={(e) => {
-            if (e.target.value !== "") {
-              setTeammembers([
-                ...teammembers,
-                { userId: e.target.value, teamId: "", isTemporary: false },
-              ]);
-            }
-          }}
-
-          className='form-active'
-        >
-          <option value=''>Välj teammedlem</option>
-          {users.map((user) => (
-            <option value={user.userId}>{user.displayName}</option>
-          ))} */}
-
         {users.map((user) => (
           <Form.Check
             type='checkbox'
             label={user.displayName}
-            checked={teammembers.some((tm) => tm.userId === user.userId)}
+            checked={teamMembers.some((tm) => tm.userId === user.userId)}
             onChange={(e) => {
               if (e.target.checked) {
-                setTeammembers([
-                  ...teammembers,
+                setTeamMembers([
+                  ...teamMembers,
                   { userId: user.userId, teamId: "", isTemporary: false },
                 ]);
               } else {
-                setTeammembers(teammembers.filter((tm) => tm.userId !== user.userId));
+                setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
               }
             }}
           />
