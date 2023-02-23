@@ -19,11 +19,11 @@ import {
   UserInfoDto,
 } from "../api/client";
 import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
-import AddTeam from "../components/admindashboard/AddTeam";
 import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerTable from "../components/admindashboard/customer/CustomerTable";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
 import Overview from "../components/admindashboard/Overview";
+import AddTeam from "../components/admindashboard/team/AddTeam";
 import TeamTable from "../components/admindashboard/team/TeamTable";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);

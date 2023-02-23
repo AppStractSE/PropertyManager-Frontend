@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client, PostTeamMemberRequestDto, TeamResponseDto, UserInfoDto } from "../../api/client";
+import {
+  Client,
+  PostTeamMemberRequestDto,
+  TeamResponseDto,
+  UserInfoDto,
+} from "../../../api/client";
 
 interface Props {
   users: UserInfoDto[];
