@@ -84,7 +84,6 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
                   } else {
                     setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
                   }
-                  console.log(teamMembers);
                 }}
               />
               <div className='me-2'>{user.displayName}</div>

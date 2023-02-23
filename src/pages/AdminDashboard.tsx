@@ -110,8 +110,6 @@ const AdminDashboard = () => {
     ChoreStatusResponseDto[]
   >("choreStatuses", async () => client.choreStatus_GetAllChoreStatuses());
 
-  console.log(choreStatuses);
-
   return (
     <motion.div
       className='d-flex'

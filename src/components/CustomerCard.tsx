@@ -10,7 +10,6 @@ interface Props {
 }
 const CustomerCard = ({ customer, isTemp }: Props) => {
   isTemp === undefined && (isTemp = false);
-  // console.log(customer.customerChores);
   return (
     <Link to={`/customer/${customer.customerId}`} className='router-link'>
       <Card>

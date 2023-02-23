@@ -14,7 +14,6 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   const [periodicsValue, setPeriodicsValue] = useState(customerchore.periodic?.name);
   const [disableRow, setDisableRow] = useState(true);
   const [frequencyValue, setFrequencyValue] = useState(customerchore.frequency);
-  console.log(frequencyValue);
   const { mutate: updateCustomerChore, isLoading: updatingCustomerChore } = useMutation(
     async () => {
       return await client.customerChore_PutCustomerChore({

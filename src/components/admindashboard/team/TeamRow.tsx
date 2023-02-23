@@ -11,8 +11,6 @@ interface Props {
 
 const TeamRow = ({ team, teammembers, users }: Props) => {
   const [showModal, setShowModal] = useState(false);
-
-  console.log(teammembers.filter((x) => x.teamId === team.id));
   return (
     <>
       <td>{team.name}</td>
