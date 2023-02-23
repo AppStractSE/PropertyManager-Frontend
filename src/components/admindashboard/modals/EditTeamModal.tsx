@@ -10,9 +10,9 @@ interface Props {
   users: UserInfoDto[];
 }
 
-const EditCustomerModal = ({ team, teammembers, users, show, onHide }: Props) => {
+const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
   return (
-    <Modal show={show} id='editCustomer' size='lg' onEscapeKeyDown={() => onHide()}>
+    <Modal show={show} id='editTeam' size='lg' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title id='contained-modal-title-vcenter'>{team.name}</Modal.Title>
       </Modal.Header>
@@ -20,12 +20,15 @@ const EditCustomerModal = ({ team, teammembers, users, show, onHide }: Props) =>
         <Tab.Container defaultActiveKey='first'>
           <Nav variant='pills' className='flex-row mb-4'>
             <Nav.Item>
-              <Nav.Link eventKey='first'>Kunduppgifter</Nav.Link>
+              <Nav.Link eventKey='first'>Översikt</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey='second'>Inställningar</Nav.Link>
             </Nav.Item>
           </Nav>
           <Tab.Content>
-            <Tab.Pane eventKey='first'>
-              <EditTeam users={users} team={team} teammembers={teammembers} onHide={onHide} />
+            <Tab.Pane eventKey='second'>
+              <EditTeam users={users} team={team} teammembers={teammembers} />
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
@@ -34,4 +37,4 @@ const EditCustomerModal = ({ team, teammembers, users, show, onHide }: Props) =>
   );
 };
 
-export default EditCustomerModal;
+export default EditTeamModal;

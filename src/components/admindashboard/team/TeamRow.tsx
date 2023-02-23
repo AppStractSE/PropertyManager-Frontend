@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import { TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeamModal from "../modals/EditTeamModal";
 
@@ -10,9 +10,9 @@ interface Props {
 }
 
 const TeamRow = ({ team, teammembers, users }: Props) => {
-  const [rowIsDisabled, setRowIsDisabled] = useState(true);
-  const [teamName, setTeamName] = useState();
   const [showModal, setShowModal] = useState(false);
+
+  console.log(teammembers.filter((x) => x.teamId === team.id));
   return (
     <>
       <td>{team.name}</td>
@@ -20,7 +20,18 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
         {teammembers
           ?.filter((x) => x.teamId === team.id)
           .map((teammember) => (
-            <div>{users?.find((user) => teammember.userId === user.userId)?.displayName}</div>
+            <div className='d-flex gap-2 mb-1 align-items-center'>
+              <div className='me-2'>
+                {users?.find((user) => teammember.userId === user.userId)?.displayName}
+              </div>
+              <Badge
+                className='text-uppercase' style={{ fontSize: "0.7rem" }}
+                text={teammember.isTemporary ? "dark" : undefined}
+                bg={teammember.isTemporary ? "warning" : "primary"}
+              >
+                {teammember.isTemporary ? "Temporär" : "Ordinarie"}
+              </Badge>
+            </div>
           ))}
       </td>
       <td>
@@ -32,9 +43,9 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
             show={showModal}
             onHide={() => setShowModal(false)}
             team={team}
-            teammembers={teammembers}
+            teammembers={teammembers.filter((x) => x.teamId === team.id)}
             users={users}
-          ></EditTeamModal>
+          />
         )}
       </td>
     </>
