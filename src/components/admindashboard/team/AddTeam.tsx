@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import {
   Client,
   PostTeamMemberRequestDto,
+  TeamMemberResponseDto,
   TeamResponseDto,
   UserInfoDto,
 } from "../../../api/client";
@@ -11,9 +12,10 @@ import {
 interface Props {
   users: UserInfoDto[];
   teams: TeamResponseDto[];
+  teammembers: TeamMemberResponseDto[];
 }
 
-const AddTeam = ({ users, teams }: Props) => {
+const AddTeam = ({ users, teams, teammembers }: Props) => {
   const [teamValue, setTeamValue] = useState("");
   const [teamMembers, setTeamMembers] = useState<PostTeamMemberRequestDto[]>([]);
   const queryClient = useQueryClient();
@@ -69,6 +71,7 @@ const AddTeam = ({ users, teams }: Props) => {
           <Form.Check
             type='checkbox'
             label={user.displayName}
+            disabled={teammembers.some((member) => member.userId === user.userId)}
             checked={teamMembers.some((tm) => tm.userId === user.userId)}
             onChange={(e) => {
               if (e.target.checked) {

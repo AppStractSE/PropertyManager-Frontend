@@ -234,7 +234,9 @@ const AdminDashboard = () => {
                           </Tab.Pane>
                           <Tab.Pane eventKey='third'>
                             <div className='fs-4 mb-3 mt-3'>Skapa team</div>
-                            {users && teams && <AddTeam users={users} teams={teams} />}
+                            {users && teams && teamMembers && (
+                              <AddTeam users={users} teams={teams} teammembers={teamMembers} />
+                            )}
                           </Tab.Pane>
                         </Tab.Content>
                       </Col>
