@@ -43,6 +43,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
     id: team.id,
     name: teamName,
   };
+
   return (
     <Form className='d-flex flex-column gap-4'>
       <Form.Group className='flex-grow-1'>
@@ -87,7 +88,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
                 }}
               />
               <div className='me-2'>{user.displayName}</div>
-              <div className="d-flex align-items-center" style={{ fontSize: ".9rem" }}>
+              <div className='d-flex align-items-center' style={{ fontSize: ".9rem" }}>
                 {teamMembers
                   .filter((tm) => tm.userId === user.userId)
                   .map((tm) => (
@@ -117,8 +118,11 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
       </Form.Group>
       <Button
         className='w-50'
-        onClick={() => updateTeam()}
-        disabled={updatingTeam || teamName === team.name}
+        onClick={() => {
+          updateTeam();
+          updateTeamMembers();
+        }}
+        disabled={updatingTeam}
       >
         {updatingTeam && (
           <Spinner
@@ -135,6 +139,5 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
     </Form>
   );
 };
-
 
 export default EditTeam;
