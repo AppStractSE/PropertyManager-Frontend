@@ -66,24 +66,27 @@ const AddTeam = ({ users, teams, teammembers }: Props) => {
         />
       </Form.Group>
       <Form.Group className='mb-3' controlId='formAddTeamMember'>
-        <Form.Label>Teammedlem</Form.Label>
+        <Form.Label>Välj teammedlemmar</Form.Label>
+        <Form.Text as='div' className='mb-2 mt-0'>Utgråade medlemmar ingår redan i ett team som ordinarie</Form.Text>
         {users.map((user) => (
-          <Form.Check
-            type='checkbox'
-            label={user.displayName}
-            disabled={teammembers.some((member) => member.userId === user.userId)}
-            checked={teamMembers.some((tm) => tm.userId === user.userId)}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setTeamMembers([
-                  ...teamMembers,
-                  { userId: user.userId, teamId: "", isTemporary: false },
-                ]);
-              } else {
-                setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
-              }
-            }}
-          />
+          <div className='d-flex gap-2 align-items-center' key={user.userId}>
+            <Form.Check
+              type='checkbox'
+              disabled={teammembers.some((member) => member.userId === user.userId)}
+              checked={teamMembers.some((tm) => tm.userId === user.userId)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setTeamMembers([
+                    ...teamMembers,
+                    { userId: user.userId, teamId: "", isTemporary: false },
+                  ]);
+                } else {
+                  setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
+                }
+              }}
+            />
+            <div className={teammembers.some((member) => member.userId === user.userId) ? "opacity-50" : undefined}>{user.displayName}</div>
+          </div>
         ))}
       </Form.Group>
 

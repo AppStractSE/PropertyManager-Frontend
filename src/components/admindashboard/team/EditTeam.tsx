@@ -26,14 +26,15 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("team");
-        queryClient.invalidateQueries(["teammembers"]);
+        queryClient.invalidateQueries("teams");
+        updateTeamMembers();
+        queryClient.invalidateQueries("teamMembers");
       },
     },
   );
   const { mutate: updateTeamMembers, isLoading: updatingTeamMembers } = useMutation(async () => {
     return await client.teamMember_PutTeamMembers({
-      teamMembers: teammembers.map((tm) => {
+      teamMembers: teamMembers.map((tm) => {
         return { ...tm, teamId: team.id };
       }),
     });
@@ -77,6 +78,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
                     setTeamMembers([
                       ...teamMembers,
                       {
+                        // id: "",
                         teamId: team.id,
                         userId: user.userId,
                         isTemporary: false,
@@ -120,7 +122,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
         className='w-50'
         onClick={() => {
           updateTeam();
-          updateTeamMembers();
+          // updateTeamMembers();
         }}
         disabled={updatingTeam}
       >
