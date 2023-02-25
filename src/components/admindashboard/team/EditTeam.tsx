@@ -122,7 +122,6 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
         className='w-50'
         onClick={() => {
           updateTeam();
-          // updateTeamMembers();
         }}
         disabled={updatingTeam}
       >
