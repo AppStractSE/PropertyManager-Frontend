@@ -400,6 +400,41 @@ export class Client extends BaseClient {
         return Promise.resolve<void>(null as any);
     }
 
+    category_GetAllCategories(): Promise<CategoryResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/Category";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCategory_GetAllCategories(_response);
+        });
+    }
+
+    protected processCategory_GetAllCategories(response: Response): Promise<CategoryResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CategoryResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CategoryResponseDto[]>(null as any);
+    }
+
     choreComment_GetAllChoreComments(): Promise<ChoreComment[]> {
         let url_ = this.baseUrl + "/api/v1/ChoreComment";
         url_ = url_.replace(/[?&]$/, "");
@@ -1712,6 +1747,20 @@ export interface RegisterModel {
     displayName: string;
 }
 
+export interface CategoryResponseDto {
+    id: string;
+    title: string | undefined;
+    description: string | undefined;
+    subCategories: SubCategoryResponseDto[] | undefined;
+}
+
+export interface SubCategoryResponseDto {
+    id: string;
+    categoryId: string;
+    title: string | undefined;
+    reference: string | undefined;
+}
+
 export interface ChoreComment {
     id: string;
     message: string | undefined;
@@ -1742,7 +1791,7 @@ export interface ChoreResponseDto {
 
 export interface Chore {
     id: string;
-    categoryId: string | undefined;
+    subCategoryId: string | undefined;
     description: string | undefined;
     title: string | undefined;
 }

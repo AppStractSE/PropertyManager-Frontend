@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Col, Container, Form, Nav, Row, Tab } from "react-bootstrap";
+import { Col, Container, Nav, Row, Tab } from "react-bootstrap";
 import { AiOutlineHeart, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
 import { useQuery, useQueryClient } from "react-query";
 import {
   AreaResponseDto,
+  CategoryResponseDto,
   ChoreCommentResponseDto,
   ChoreResponseDto,
   ChoreStatusResponseDto,
@@ -19,6 +20,7 @@ import {
   UserInfoDto,
 } from "../api/client";
 import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
+import AddChore from "../components/admindashboard/chore/AddChore";
 import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerTable from "../components/admindashboard/customer/CustomerTable";
 import CustomerGraph from "../components/admindashboard/CustomerGraph";
@@ -109,6 +111,11 @@ const AdminDashboard = () => {
   const { data: choreStatuses, isLoading: loadingChoreStatuses } = useQuery<
     ChoreStatusResponseDto[]
   >("choreStatuses", async () => client.choreStatus_GetAllChoreStatuses());
+
+  const { data: categories, isLoading: loadingCategories } = useQuery<CategoryResponseDto[]>(
+    "categories",
+    async () => client.category_GetAllCategories(),
+  );
 
   return (
     <motion.div
@@ -209,22 +216,7 @@ const AdminDashboard = () => {
                           </Tab.Pane>
                           <Tab.Pane eventKey='second'>
                             <div className='fs-4 mb-3 mt-3'>Skapa syssla</div>
-                            <Form>
-                              <Form.Group className='mb-3' controlId='name'>
-                                <Form.Label>Namn</Form.Label>
-                                <Form.Control type='text' placeholder='Namn på syssla' />
-                              </Form.Group>
-                              <Form.Group className='mb-3' controlId='category'>
-                                <Form.Label>Huvudkategori</Form.Label>
-                                <Form.Control as='select'>
-                                  <option>SE1.2.3.4.255</option>
-                                  <option>KR1.2.2.1</option>
-                                  <option>SKK1.1.2.1</option>
-                                  <option>SKK1.1.2.2</option>
-                                  <option>SKK1.1.2.2.3</option>
-                                </Form.Control>
-                              </Form.Group>
-                            </Form>
+                            <AddChore />
                             <div className='fs-4 mb-3 mt-3'>Skapa kundsyssla</div>
                             <AddCustomerChore
                               customers={customers}
