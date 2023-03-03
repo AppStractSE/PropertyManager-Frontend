@@ -18,7 +18,8 @@ const AdminRegisterChore = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-
+  const { data, error, isLoading } = useQuery<ChoreResponseDto[]>("chores", fetchChores);
+  console.log(data);
   return (
     <motion.div
       initial={{ opacity: 0 }}
