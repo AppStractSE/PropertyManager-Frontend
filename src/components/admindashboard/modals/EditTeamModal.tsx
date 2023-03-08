@@ -1,5 +1,6 @@
 import { Modal, Nav, Tab } from "react-bootstrap";
-import { TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { BsFillTrashFill } from "react-icons/bs";
+import { Client, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeam from "../team/EditTeam";
 
 interface Props {
@@ -11,10 +12,14 @@ interface Props {
 }
 
 const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
+  const client = new Client();
+
   return (
     <Modal show={show} id='editTeam' size='lg' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
-        <Modal.Title id='contained-modal-title-vcenter'>{team.name}</Modal.Title>
+        <Modal.Title id='contained-modal-title-vcenter'>
+          {team.name} <BsFillTrashFill className='ms-4' size={24} color={"red"} />
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body className='px-3 py-2 mb-2'>
         <Tab.Container defaultActiveKey='first'>
