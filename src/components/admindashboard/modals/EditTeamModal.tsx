@@ -1,5 +1,6 @@
-import { Modal, Nav, Tab } from "react-bootstrap";
+import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
+import { useMutation, useQueryClient } from "react-query";
 import { Client, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeam from "../team/EditTeam";
 
@@ -13,12 +14,31 @@ interface Props {
 
 const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
   const client = new Client();
+  const queryClient = useQueryClient();
+  const {
+    mutate: deleteTeam,
+    error: deleteTeamError,
+    isLoading: deleteTeamIsLoading,
+  } = useMutation(
+    ["deleteTeam", team.id],
+    async () => await client.team_DeleteTeamById(team.id),
+
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("teams");
+        console.log("success");
+      },
+    },
+  );
 
   return (
     <Modal show={show} id='editTeam' size='lg' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title id='contained-modal-title-vcenter'>
-          {team.name} <BsFillTrashFill className='ms-4' size={24} color={"red"} />
+          {team.name}{" "}
+          <Button onClick={() => deleteTeam()}>
+            <BsFillTrashFill className='ms-4' size={24} color={"red"} />
+          </Button>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className='px-3 py-2 mb-2'>
