@@ -1531,6 +1531,7 @@ export interface User {
     userId: string | undefined;
     userName: string | undefined;
     displayName: string | undefined;
+    role: string | undefined;
 }
 
 export interface ProblemDetails {
