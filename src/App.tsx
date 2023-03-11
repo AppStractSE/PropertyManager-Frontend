@@ -22,13 +22,14 @@ const App = () => {
   const client = new Client();
   const { currentUser, setCurrentUser } = useUser();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo);
+
   const { data: fetchedUser } = useQuery<AuthUser>(
     ["user", currentUser?.user?.userId],
     async () => {
-      console.log(currentUser);
+      console.log("User: " + currentUser.tokenInfo?.token);
       return currentUser === InitialUserState && currentUser.tokenInfo?.token !== ""
         ? await client.authenticate_GetValidation()
-        : new Promise(() => undefined);
+        : new Promise(() => currentUser);
     },
     {
       onSuccess: (data) => {
@@ -43,6 +44,13 @@ const App = () => {
       refetchOnWindowFocus: false,
     },
   );
+
+  useEffect(() => {
+    if (token !== InitialUserState.tokenInfo) {
+      console.log("SET USER");
+      setCurrentUser({ ...currentUser, tokenInfo: token });
+    }
+  }, [token]);
 
   useEffect(() => {
     if (currentUser !== InitialUserState) {
