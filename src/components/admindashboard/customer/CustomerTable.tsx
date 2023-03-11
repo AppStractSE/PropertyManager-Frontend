@@ -1,5 +1,4 @@
-import { Button, Table } from "react-bootstrap";
-import { useQueryClient } from "react-query";
+import { Table } from "react-bootstrap";
 import {
   CustomerChoreResponseDto,
   CustomerResponseDto,
@@ -31,7 +30,7 @@ const CustomerTable = ({ customers, teams, teammembers, customerchores, periodic
       </thead>
       <tbody>
         {customers?.map((customer, i) => (
-          <tr>
+          <tr key={i}>
             <CustomerRow
               customer={customer}
               teams={teams}
