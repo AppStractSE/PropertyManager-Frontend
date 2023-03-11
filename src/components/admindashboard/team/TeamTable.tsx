@@ -20,9 +20,7 @@ const TeamTable = ({ teams, teammembers, users }: Props) => {
       </thead>
       <tbody>
         {teams?.map((team) => (
-          <tr>
-            <TeamRow team={team} teammembers={teammembers} users={users} />
-          </tr>
+          <TeamRow key={team.id} team={team} teammembers={teammembers} users={users} />
         ))}
       </tbody>
     </Table>

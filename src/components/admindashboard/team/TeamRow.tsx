@@ -12,18 +12,19 @@ interface Props {
 const TeamRow = ({ team, teammembers, users }: Props) => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <>
+    <tr>
       <td>{team.name}</td>
       <td>
         {teammembers
           ?.filter((x) => x.teamId === team.id)
           .map((teammember) => (
-            <div className='d-flex gap-2 mb-1 align-items-center'>
+            <div className='d-flex gap-2 mb-1 align-items-center' key={teammember.userId}>
               <div className='me-2'>
                 {users?.find((user) => teammember.userId === user.userId)?.displayName}
               </div>
               <Badge
-                className='text-uppercase' style={{ fontSize: "0.6rem" }}
+                className='text-uppercase'
+                style={{ fontSize: "0.6rem" }}
                 text={teammember.isTemporary ? "dark" : undefined}
                 bg={teammember.isTemporary ? "warning" : "primary"}
               >
@@ -46,7 +47,7 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
           />
         )}
       </td>
-    </>
+    </tr>
   );
 };
 

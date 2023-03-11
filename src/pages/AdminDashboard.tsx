@@ -1,121 +1,41 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Col, Container, Nav, Row, Tab } from "react-bootstrap";
-import { AiOutlineHeart, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
-import { useQuery, useQueryClient } from "react-query";
-import {
-  AreaResponseDto,
-  CategoryResponseDto,
-  ChoreCommentResponseDto,
-  ChoreResponseDto,
-  ChoreStatusResponseDto,
-  Client,
-  CustomerChoreResponseDto,
-  CustomerResponseDto,
-  Periodic,
-  TeamMemberResponseDto,
-  TeamResponseDto,
-  UserInfoDto,
-} from "../api/client";
 import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
 import AddChore from "../components/admindashboard/chore/AddChore";
 import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerTable from "../components/admindashboard/customer/CustomerTable";
-import CustomerGraph from "../components/admindashboard/CustomerGraph";
-import Overview from "../components/admindashboard/Overview";
 import AddTeam from "../components/admindashboard/team/AddTeam";
-import TeamTable from "../components/admindashboard/team/TeamTable";
+import Team from "../components/admindashboard/team/Team";
+import { useQueries } from "../hooks/useQueries";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);
-  const [addTeamModal, showAddTeamModal] = useState(false);
   const [addCustomerModal, showAddCustomerModal] = useState(false);
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
-  const client = new Client();
-  const queryClient = useQueryClient();
   const {
-    data: areas,
-    error: areasError,
-    isLoading: areasLoading,
-  } = useQuery<AreaResponseDto[]>(["areas"], async () => await client.area_GetAllAreas(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
-  const {
-    data: teams,
-    error: teamsError,
-    isLoading: teamsLoading,
-  } = useQuery<TeamResponseDto[]>(["teams"], async () => await client.team_GetAllTeams(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
-  const {
-    data: customers,
-    error: customersError,
-    isLoading: customersLoading,
-  } = useQuery<CustomerResponseDto[]>(
-    ["customers"],
-    async () => await client.customer_GetAllCustomers(),
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    },
-  );
-  const {
-    data: periodics,
-    error: periodicsError,
-    isLoading: periodicsLoading,
-  } = useQuery<Periodic[]>(["periodics"], async () => await client.periodic_GetAllPeriodics(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
-  const {
-    data: chores,
-    error: choresError,
-    isLoading: choresLoading,
-  } = useQuery<ChoreResponseDto[]>(["chores"], async () => await client.chore_GetAllChores(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-  });
-
-  const { data: customerChores } = useQuery<CustomerChoreResponseDto[]>(
-    ["customerchores"],
-    async () => client.customerChore_GetAllChores(),
-  );
-
-  const { data: choreComments } = useQuery<ChoreCommentResponseDto[]>(["chorecomments"], async () =>
-    client.choreComment_GetAllChoreComments(),
-  );
-
-  const { data: latestChoreComments } = useQuery<ChoreCommentResponseDto[]>(
-    ["latestchorecomments"],
-    async () => client.choreComment_GetLatestFiveChoreComments(),
-  );
-
-  const { data: users } = useQuery<UserInfoDto[]>("users", async () =>
-    client.authenticate_GetAllUsers(),
-  );
-
-  const { data: teamMembers } = useQuery<TeamMemberResponseDto[]>("teamMembers", async () =>
-    client.teamMember_GetAllTeamMembers(),
-  );
-
-  const { data: choreStatuses, isLoading: loadingChoreStatuses } = useQuery<
-    ChoreStatusResponseDto[]
-  >("choreStatuses", async () => client.choreStatus_GetAllChoreStatuses());
-
-  const { data: categories, isLoading: loadingCategories } = useQuery<CategoryResponseDto[]>(
-    "categories",
-    async () => client.category_GetAllCategories(),
-  );
+    areas,
+    chores,
+    customers,
+    customerChores,
+    periodics,
+    teamMembers,
+    teams,
+    users,
+  } = useQueries();
+  if (
+    !areas ||
+    !chores ||
+    !customers ||
+    !customerChores ||
+    !periodics ||
+    !teamMembers ||
+    !teams ||
+    !users
+  ) return null;
 
   return (
     <motion.div
@@ -126,20 +46,10 @@ const AdminDashboard = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <Container className='p-3'>
-        <Tab.Container defaultActiveKey='zero'>
+        <Tab.Container defaultActiveKey='first'>
           <Row>
             <Col sm={12} md={12} lg={2}>
               <Nav variant='pills' className='flex-column'>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey='zero'
-                    className='d-flex align-items-center gap-4'
-                    onClick={() => queryClient.invalidateQueries("latestchorecomments")}
-                  >
-                    <AiOutlineHeart size={24} />
-                    <div>Översikt</div>
-                  </Nav.Link>
-                </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey='first' className='d-flex align-items-center gap-4'>
                     <IoBriefcaseOutline size={24} />
@@ -169,27 +79,18 @@ const AdminDashboard = () => {
             </Col>
             <Col sm={12} md={12} lg={12 - 2}>
               <Tab.Content>
-                <Tab.Pane eventKey='zero'>
-                  {latestChoreComments && <Overview chorecomments={latestChoreComments} />}
-                </Tab.Pane>
                 <Tab.Pane eventKey='first'>
                   <div className='fs-4 mb-2'>Kundöversikt</div>
-                  <CustomerGraph />
-                  {teamMembers && customers && teams && customerChores && periodics && (
-                    <CustomerTable
-                      periodics={periodics}
-                      customerchores={customerChores}
-                      customers={customers}
-                      teams={teams}
-                      teammembers={teamMembers}
-                    />
-                  )}
+                  <CustomerTable
+                    periodics={periodics}
+                    customerchores={customerChores}
+                    customers={customers}
+                    teams={teams}
+                    teammembers={teamMembers}
+                  />
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
-                  <div className='fs-4 mb-2'>Team</div>
-                  {teams && teamMembers && users && (
-                    <TeamTable teams={teams} teammembers={teamMembers} users={users} />
-                  )}
+                  <Team teams={teams} teammembers={teamMembers} users={users} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='third'>
                   <Container></Container>
@@ -212,7 +113,7 @@ const AdminDashboard = () => {
                         <Tab.Content>
                           <Tab.Pane eventKey='first'>
                             <div className='fs-4 mb-3 mt-3'>Skapa kund</div>
-                            {teams && areas && <AddCustomer teams={teams} areas={areas} />}
+                            <AddCustomer teams={teams} areas={areas} />
                           </Tab.Pane>
                           <Tab.Pane eventKey='second'>
                             <div className='fs-4 mb-3 mt-3'>Skapa syssla</div>
@@ -226,9 +127,7 @@ const AdminDashboard = () => {
                           </Tab.Pane>
                           <Tab.Pane eventKey='third'>
                             <div className='fs-4 mb-3 mt-3'>Skapa team</div>
-                            {users && teams && teamMembers && (
-                              <AddTeam users={users} teams={teams} teammembers={teamMembers} />
-                            )}
+                            <AddTeam users={users} teammembers={teamMembers} />
                           </Tab.Pane>
                         </Tab.Content>
                       </Col>

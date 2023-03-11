@@ -5,18 +5,18 @@ import {
   Client,
   PostTeamMemberRequestDto,
   TeamMemberResponseDto,
-  TeamResponseDto,
   UserInfoDto,
 } from "../../../api/client";
 
 interface Props {
   users: UserInfoDto[];
-  teams: TeamResponseDto[];
   teammembers: TeamMemberResponseDto[];
+  close?: () => void;
 }
 
-const AddTeam = ({ users, teams, teammembers }: Props) => {
+const AddTeam = ({ users, teammembers, close }: Props) => {
   const [teamValue, setTeamValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [teamMembers, setTeamMembers] = useState<PostTeamMemberRequestDto[]>([]);
   const queryClient = useQueryClient();
   const client = new Client();
@@ -33,6 +33,8 @@ const AddTeam = ({ users, teams, teammembers }: Props) => {
         console.log("Successfully posted team member");
         queryClient.invalidateQueries("teamMembers");
         setTeamValue("");
+        setTeamMembers([]);
+        if (close) close();
       },
       onError: (error) => {
         console.log(error);
@@ -57,37 +59,58 @@ const AddTeam = ({ users, teams, teammembers }: Props) => {
   return (
     <Form>
       <Form.Group className='mb-3' controlId='formAddTeam'>
-        <Form.Label>Team</Form.Label>
+        <Form.Label>Teamnamn</Form.Label>
         <Form.Control
           type='text'
-          placeholder='Enter team name'
+          placeholder='Fyll i teamnamn'
           value={teamValue}
           onChange={(e) => setTeamValue(e.target.value)}
         />
       </Form.Group>
       <Form.Group className='mb-3' controlId='formAddTeamMember'>
         <Form.Label>Välj teammedlemmar</Form.Label>
-        <Form.Text as='div' className='mb-2 mt-0'>Utgråade medlemmar ingår redan i ett team som ordinarie</Form.Text>
-        {users.map((user) => (
-          <div className='d-flex gap-2 align-items-center' key={user.userId}>
-            <Form.Check
-              type='checkbox'
-              disabled={teammembers.some((member) => member.userId === user.userId)}
-              checked={teamMembers.some((tm) => tm.userId === user.userId)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setTeamMembers([
-                    ...teamMembers,
-                    { userId: user.userId, teamId: "", isTemporary: false },
-                  ]);
-                } else {
-                  setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
+        <Form.Text as='div' className='mb-2 mt-0'>
+          Utgråade medlemmar ingår redan i ett team som ordinarie
+        </Form.Text>
+        <Form.Control
+          className='mb-2'
+          type='text'
+          placeholder='Sök efter användare'
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+        {users
+          .filter((user) =>
+            user.displayName!.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()),
+          )
+          .map((user) => (
+            <div className='d-flex gap-2 align-items-center' key={user.userId}>
+              <Form.Check
+                type='checkbox'
+                disabled={teammembers.some((member) => member.userId === user.userId)}
+                checked={teamMembers.some((tm) => tm.userId === user.userId)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setTeamMembers([
+                      ...teamMembers,
+                      { userId: user.userId, teamId: "", isTemporary: false },
+                    ]);
+                  } else {
+                    setTeamMembers(teamMembers.filter((tm) => tm.userId !== user.userId));
+                  }
+                }}
+              />
+              <div
+                className={
+                  teammembers.some((member) => member.userId === user.userId)
+                    ? "opacity-50"
+                    : undefined
                 }
-              }}
-            />
-            <div className={teammembers.some((member) => member.userId === user.userId) ? "opacity-50" : undefined}>{user.displayName}</div>
-          </div>
-        ))}
+              >
+                {user.displayName}
+              </div>
+            </div>
+          ))}
       </Form.Group>
 
       <Button

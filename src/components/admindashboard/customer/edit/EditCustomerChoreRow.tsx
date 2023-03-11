@@ -60,7 +60,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
           {periodics
             .filter((y) => y.id !== customerchore.periodic?.id)
             .map((periodic) => (
-              <option value={periodic.id} onClick={() => setPeriodicsValue(periodic.id)}>
+              <option key={periodic.id} value={periodic.id} onClick={() => setPeriodicsValue(periodic.id)}>
                 {periodic.name}
               </option>
             ))}

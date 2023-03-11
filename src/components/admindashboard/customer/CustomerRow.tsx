@@ -37,7 +37,7 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
   };
 
   return (
-    <>
+    <tr>
       <td>{customer.name}</td>
       <td>{customer.address}</td>
       <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
@@ -70,7 +70,7 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
         customerchores={customerchores}
         periodics={periodics}
       />
-    </>
+    </tr>
   );
 };
 

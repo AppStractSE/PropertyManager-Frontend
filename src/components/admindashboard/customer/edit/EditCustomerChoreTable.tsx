@@ -24,7 +24,7 @@ const EditCustomerChoreTable = ({ customerchores, periodics, customer }: Props) 
       {customerchores
         .filter((x) => x.customerId === customer.id)
             .map((customerchore) => (
-          <EditCustomerChore customerchore={customerchore} periodics={periodics} />
+          <EditCustomerChore key={customerchore.id} customerchore={customerchore} periodics={periodics} />
         ))}
 
         </tbody>

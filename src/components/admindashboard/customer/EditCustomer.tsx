@@ -62,7 +62,7 @@ const EditCustomer = ({
           <Form.Label>Team</Form.Label>
           <Form.Select value={team} className='rounded-0' onChange={(e) => setTeam(e.target.value)}>
             {teams?.map((team) => (
-              <option value={team.id}>{team.name}</option>
+              <option key={team.id} value={team.id}>{team.name}</option>
             ))}
           </Form.Select>
         </Form.Group>
