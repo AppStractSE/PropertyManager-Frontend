@@ -90,7 +90,7 @@ const AdminDashboard = () => {
                   />
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
-                  <Team teams={teams} teammembers={teamMembers} users={users} />
+                  <Team teams={teams} teammembers={teamMembers} users={users} customers={customers} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='third'>
                   <Container></Container>

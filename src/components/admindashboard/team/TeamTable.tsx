@@ -1,14 +1,15 @@
 import { Table } from "react-bootstrap";
-import { TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import TeamRow from "./TeamRow";
 
 interface Props {
   teams: TeamResponseDto[];
   teammembers: TeamMemberResponseDto[];
   users: UserInfoDto[];
+  customers: CustomerResponseDto[];
 }
 
-const TeamTable = ({ teams, teammembers, users }: Props) => {
+const TeamTable = ({ teams, teammembers, users, customers }: Props) => {
   return (
     <Table hover>
       <thead>
@@ -20,7 +21,7 @@ const TeamTable = ({ teams, teammembers, users }: Props) => {
       </thead>
       <tbody>
         {teams?.map((team) => (
-          <TeamRow key={team.id} team={team} teammembers={teammembers} users={users} />
+          <TeamRow key={team.id} team={team} teammembers={teammembers} users={users} customers={customers} />
         ))}
       </tbody>
     </Table>

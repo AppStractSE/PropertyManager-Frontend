@@ -1,18 +1,19 @@
 import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
-import { Client, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { Client, CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeam from "../team/EditTeam";
 
 interface Props {
   show: boolean;
   onHide: () => void;
   team: TeamResponseDto;
+  customers: CustomerResponseDto[];
   teammembers: TeamMemberResponseDto[];
   users: UserInfoDto[];
 }
 
-const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
+const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Props) => {
   const client = new Client();
   const queryClient = useQueryClient();
   const {
@@ -29,6 +30,7 @@ const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
         console.log("success");
       },
     },
+
   );
 
   return (
@@ -52,6 +54,31 @@ const EditTeamModal = ({ team, teammembers, users, show, onHide }: Props) => {
             </Nav.Item>
           </Nav>
           <Tab.Content>
+            <Tab.Pane eventKey='first'>
+              <div className="mb-2">
+                <div className="fs-5">Kunder</div>
+                {customers.map((customer) => {
+                    return (
+                      <div key={customer.id}>
+                        {customer.name}
+                      </div>
+                    );
+                
+                })
+                }
+              </div>
+              <div>
+                <div className="fs-5">Teammedlemmar</div>
+                {teammembers.filter(x => x.teamId === team.id).map((teammember) => {
+                  return (
+                    <div key={teammember.userId}>
+                      {users?.find((user) => teammember.userId === user.userId)?.displayName}
+                      </div>
+                  );
+                })}
+
+              </div>
+            </Tab.Pane>
             <Tab.Pane eventKey='second'>
               <EditTeam users={users} team={team} teammembers={teammembers} />
             </Tab.Pane>

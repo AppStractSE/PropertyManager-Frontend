@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Badge, Button } from "react-bootstrap";
-import { TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
 import EditTeamModal from "../modals/EditTeamModal";
 
 interface Props {
   team: TeamResponseDto;
   teammembers: TeamMemberResponseDto[];
   users: UserInfoDto[];
+  customers: CustomerResponseDto[];
 }
 
-const TeamRow = ({ team, teammembers, users }: Props) => {
+const TeamRow = ({ team, teammembers, users, customers }: Props) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <tr>
@@ -42,6 +43,7 @@ const TeamRow = ({ team, teammembers, users }: Props) => {
             show={showModal}
             onHide={() => setShowModal(false)}
             team={team}
+            customers={customers.filter((x) => x.teamId === team.id)}
             teammembers={teammembers.filter((x) => x.teamId === team.id)}
             users={users}
           />
