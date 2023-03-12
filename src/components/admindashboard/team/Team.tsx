@@ -22,7 +22,7 @@ const Team = ({ teams, teammembers, users }: Props) => {
           className='d-flex align-items-center gap-2'
           onClick={() => setShowAddTeamModal(true)}
         >
-          <AiOutlinePlus size={20} />
+          <AiOutlinePlus size={18} />
           <div>Skapa nytt team</div>
         </Button>
       </div>

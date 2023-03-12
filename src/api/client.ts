@@ -1466,7 +1466,7 @@ export class Client extends BaseClient {
         return Promise.resolve<FileResponse>(null as any);
     }
 
-    teamMember_GetAllTeamMembers(): Promise<TeamMember[]> {
+    teamMember_GetAllTeamMembers(): Promise<TeamMemberResponseDto[]> {
         let url_ = this.baseUrl + "/api/v1/TeamMember";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1484,13 +1484,13 @@ export class Client extends BaseClient {
         });
     }
 
-    protected processTeamMember_GetAllTeamMembers(response: Response): Promise<TeamMember[]> {
+    protected processTeamMember_GetAllTeamMembers(response: Response): Promise<TeamMemberResponseDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMember[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMemberResponseDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1498,46 +1498,7 @@ export class Client extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<TeamMember[]>(null as any);
-    }
-
-    teamMember_GetTeamMemberById(id: string | undefined): Promise<TeamMemberResponseDto> {
-        let url_ = this.baseUrl + "/api/v1/TeamMember/GetTeamMemberById?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processTeamMember_GetTeamMemberById(_response);
-        });
-    }
-
-    protected processTeamMember_GetTeamMemberById(response: Response): Promise<TeamMemberResponseDto> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TeamMemberResponseDto;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<TeamMemberResponseDto>(null as any);
+        return Promise.resolve<TeamMemberResponseDto[]>(null as any);
     }
 
     teamMember_GetTeamMembersByUserId(id: string | undefined): Promise<TeamMemberResponseDto[]> {
@@ -2007,15 +1968,13 @@ export interface PutTeamRequestDto {
     name: string | undefined;
 }
 
-export interface TeamMember {
-    id: string;
+export interface TeamMemberResponseDto {
     userId: string | undefined;
     teamId: string | undefined;
     isTemporary: boolean;
 }
 
-export interface TeamMemberResponseDto {
-    id: string;
+export interface TeamMember {
     userId: string | undefined;
     teamId: string | undefined;
     isTemporary: boolean;

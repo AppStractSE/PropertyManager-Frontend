@@ -35,27 +35,22 @@ export function useQueries() {
   );
 
   const { data: chores } = useQuery<ChoreResponseDto[]>(
-    ["chores"],
+    "chores",
     async () => await client.chore_GetAllChores(),
   );
 
   const { data: customers } = useQuery<CustomerResponseDto[]>(
-    ["customers"],
+    "customers",
     async () => await client.customer_GetAllCustomers(),
   );
 
   const { data: customerChores } = useQuery<CustomerChoreResponseDto[]>(
-    ["customerchores"],
+    "customerchores",
     async () => client.customerChore_GetAllChores(),
   );
 
-  const { data: latestChoreComments } = useQuery<ChoreCommentResponseDto[]>(
-    ["latestchorecomments"],
-    async () => client.choreComment_GetLatestFiveChoreComments(),
-  );
-
   const { data: periodics } = useQuery<Periodic[]>(
-    ["periodics"],
+    "periodics",
     async () => await client.periodic_GetAllPeriodics(),
   );
 
@@ -64,7 +59,7 @@ export function useQueries() {
   );
 
   const { data: teams } = useQuery<TeamResponseDto[]>(
-    ["teams"],
+    "teams",
     async () => await client.team_GetAllTeams(),
   );
 
@@ -80,7 +75,6 @@ export function useQueries() {
     chores,
     customers,
     customerChores,
-    latestChoreComments,
     periodics,
     teamMembers,
     teams,
