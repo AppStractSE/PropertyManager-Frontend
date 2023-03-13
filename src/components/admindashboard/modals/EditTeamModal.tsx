@@ -34,7 +34,7 @@ const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Pr
   );
 
   return (
-    <Modal show={show} id='editTeam' size='lg' onEscapeKeyDown={() => onHide()}>
+    <Modal show={show} id='editTeam' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title id='contained-modal-title-vcenter'>
           {team.name}{" "}

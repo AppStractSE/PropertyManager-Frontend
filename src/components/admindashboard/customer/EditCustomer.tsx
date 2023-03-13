@@ -78,11 +78,7 @@ const EditCustomer = ({
       </Form.Group>
 
       <div className='d-flex gap-4'>
-        <Button className='w-50' onClick={() => onHide()}>
-          Avbryt
-        </Button>
-        <Button
-          className='w-50'
+        <Button className="w-100"
           onClick={() => updateCustomer()}
           disabled={
             updatingCustomer ||

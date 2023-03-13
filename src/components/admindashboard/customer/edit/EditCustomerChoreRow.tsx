@@ -38,7 +38,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
       <td>
         <Form.Control
           disabled={disableRow ? true : false}
-          className={`${disableRow ? "border-transparent" : ""} w-auto`}
+          className={`${disableRow ? "border-transparent" : ""}`}
           type='text'
           value={frequencyValue.toString().replace(/^0+/, "").replace(/\D/g, "")}
           min={1}
@@ -52,7 +52,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
       <td>
         <Form.Select
           disabled={disableRow ? true : false}
-          className={`${disableRow ? "border-transparent" : ""} w-auto`}
+          className={`${disableRow ? "border-transparent" : ""}`}
           value={periodicsValue}
           onChange={(e) => setPeriodicsValue(e.target.value)}
         >
