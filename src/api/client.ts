@@ -1767,6 +1767,7 @@ export interface User {
     userId: string | undefined;
     userName: string | undefined;
     displayName: string | undefined;
+    role: string | undefined;
 }
 
 export interface ProblemDetails {
@@ -1787,6 +1788,7 @@ export interface LoginModel {
 export interface UserInfoDto {
     userId: string | undefined;
     displayName: string | undefined;
+    role: string | undefined;
 }
 
 export interface RegisterModel {
