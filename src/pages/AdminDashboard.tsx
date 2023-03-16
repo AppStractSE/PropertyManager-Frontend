@@ -10,22 +10,15 @@ import AddCustomer from "../components/admindashboard/customer/AddCustomer";
 import CustomerTable from "../components/admindashboard/customer/CustomerTable";
 import AddTeam from "../components/admindashboard/team/AddTeam";
 import Team from "../components/admindashboard/team/Team";
+import AddUser from "../components/admindashboard/user/AddUser";
 import { useQueries } from "../hooks/useQueries";
 const AdminDashboard = () => {
   const [addAreaModal, showAddAreaModal] = useState(false);
   const [addCustomerModal, showAddCustomerModal] = useState(false);
   const [addCustomerChoreModal, showAddCustomerChoreModal] = useState(false);
 
-  const {
-    areas,
-    chores,
-    customers,
-    customerChores,
-    periodics,
-    teamMembers,
-    teams,
-    users,
-  } = useQueries();
+  const { areas, chores, customers, customerChores, periodics, teamMembers, teams, users } =
+    useQueries();
   if (
     !areas ||
     !chores ||
@@ -35,7 +28,8 @@ const AdminDashboard = () => {
     !teamMembers ||
     !teams ||
     !users
-  ) return null;
+  )
+    return null;
 
   return (
     <motion.div
@@ -90,7 +84,12 @@ const AdminDashboard = () => {
                   />
                 </Tab.Pane>
                 <Tab.Pane eventKey='second'>
-                  <Team teams={teams} teammembers={teamMembers} users={users} customers={customers} />
+                  <Team
+                    teams={teams}
+                    teammembers={teamMembers}
+                    users={users}
+                    customers={customers}
+                  />
                 </Tab.Pane>
                 <Tab.Pane eventKey='third'>
                   <Container></Container>
@@ -107,6 +106,9 @@ const AdminDashboard = () => {
                         </Nav.Item>
                         <Nav.Item>
                           <Nav.Link eventKey='third'>Team</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link eventKey='fourth'>Användare</Nav.Link>
                         </Nav.Item>
                       </Nav>
                       <Col>
@@ -128,6 +130,10 @@ const AdminDashboard = () => {
                           <Tab.Pane eventKey='third'>
                             <div className='fs-4 mb-3 mt-3'>Skapa team</div>
                             <AddTeam users={users} teammembers={teamMembers} />
+                          </Tab.Pane>
+                          <Tab.Pane eventKey='fourth'>
+                            <div className='fs-4 mb-3 mt-3'>Skapa användare</div>
+                            <AddUser users={users} teams={teams} />
                           </Tab.Pane>
                         </Tab.Content>
                       </Col>
