@@ -26,6 +26,7 @@ export const InitialDate = new Date(0, 0, 0, 0, 0, 0, 0);
 
 export const InitialUserState: AuthUser = {
   user: {
+    role: "",
     userName: "",
     userId: "",
     displayName: "",
@@ -38,11 +39,11 @@ export const InitialUserState: AuthUser = {
 
 function UserProvider({ children }: Props) {
   const [currentUser, setCurrentUser] = useState<AuthUser>(InitialUserState);
-  const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo);
+  const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
 
   const logout = () => {
-    setToken({ token: "", expiration: InitialDate });
     setCurrentUser(InitialUserState);
+    window.localStorage.removeItem("token");
   };
 
   return (
