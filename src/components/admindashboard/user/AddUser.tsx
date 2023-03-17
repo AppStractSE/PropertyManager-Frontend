@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { useMutation, useQueryClient } from "react-query";
+import { Client, TeamResponseDto, UserInfoDto } from "../../../api/client";
 
 interface Props {
   users: UserInfoDto[];
@@ -9,22 +10,70 @@ interface Props {
 }
 
 const AddUser = ({ users, teams, close }: Props) => {
-  const [userNameValue, setUserNameValue] = useState("");
-  const [displayNameValue, setDisplayNameValue] = useState("");
   const [roleValue, setRoleValue] = useState("Fastighetsskötare");
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const [validated, setValidated] = useState(false);
+  const client = new Client();
+  const queryClient = useQueryClient();
 
-  const newUser = {
-    userName: userNameValue,
-    displayName: displayNameValue,
-    role: roleValue,
+  const [userData, setUserData] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    username: "",
+  });
+
+  const { mutate: postUser, isLoading: postingUser } = useMutation(
+    async (user: typeof userData) =>
+      roleValue === "Admin"
+        ? await client.authenticate_RegisterAdmin(user)
+        : await client.authenticate_Register(user),
+    {
+      onSuccess: () => {
+        roleValue !== "Admin" && queryClient.invalidateQueries("users");
+        setUserData({
+          displayName: "",
+          email: "",
+          password: "",
+          username: "",
+        });
+        setValidated(false);
+      },
+    },
+  );
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    event.preventDefault();
+    setValidated(true);
+    postUser(userData);
+    form.reset();
   };
 
-  console.log(newUser);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    let username = value
+      .toLowerCase()
+      .replace(/ä/g, "ae")
+      .replace(/å/g, "a")
+      .replace(/ö/g, "oe")
+      .replace(/\s/g, "_")
+      .normalize("NFD")
+      .replace(/[^\w\s]/g, "");
+
+    if (name === "displayName") {
+      setUserData((prevState) => ({ ...prevState, [name]: value, username }));
+    } else {
+      setUserData((prevState) => ({ ...prevState, [name]: value }));
+    }
+  };
 
   return (
-    <Form>
+    <Form noValidate validated={validated} onSubmit={handleSubmit}>
       <div className='row'>
         <Form.Group className='col-6'>
           <Form.Label>Visningsnamn</Form.Label>
@@ -32,29 +81,47 @@ const AddUser = ({ users, teams, close }: Props) => {
             Visningsnamn är det namn som visas för andra användare.
           </Form.Text>
           <Form.Control
+            required
+            name='displayName'
+            minLength={3}
+            maxLength={50}
             type='text'
-            placeholder='Fyll i visningsnamn'
-            value={displayNameValue}
-            onChange={(e) => {
-              setDisplayNameValue(e.target.value);
-              setUserNameValue(e.target.value.replace(/ /g, "_").toLocaleLowerCase());
-            }}
+            placeholder='Fyll i visningsnamn. Ex: Johan Andersson'
+            value={userData.displayName
+              .split(" ")
+              .map((word) => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+              })
+              .join(" ")}
+            onChange={handleChange}
           />
+          <Form.Control.Feedback className='mb-2' type='invalid'>
+            Ange ett visningsnamn som är mellan 3 och 50 tecken.
+          </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group className='col-6'>
           <Form.Label>Användarnamn</Form.Label>
           <Form.Text as='div' className='mb-2 mt-0'>
-            Användarnamnet används vid inlogg.
+            Användarnamnet används vid inlogg (Endast A-Z).
           </Form.Text>
           <Form.Control
             className='mb-2'
             type='text'
-            placeholder='Fyll i användarnamn'
-            value={userNameValue}
-            onChange={(e) => setUserNameValue(e.target.value)}
+            placeholder='Fyll i användarnamn. Ex: johan_andersson'
+            name='username'
+            minLength={3}
+            maxLength={50}
+            required
+            value={userData.username}
+            onChange={handleChange}
           />
+          <Form.Control.Feedback className='mb-2' type='invalid'>
+            Ange ett användarnamn som är mellan 3 och 50 tecken.
+          </Form.Control.Feedback>
         </Form.Group>
       </div>
+
       <div className='row'>
         <Form.Group className='col-6'>
           <Form.Label>Email</Form.Label>
@@ -62,12 +129,18 @@ const AddUser = ({ users, teams, close }: Props) => {
             Email används för att återställa lösenord.
           </Form.Text>
           <Form.Control
+            required
+            name='email'
+            isInvalid={userData.email.length > 0 && !userData.email.includes("@" && ".")}
             className='mb-2'
             type='email'
-            placeholder='Fyll i email'
-            value={emailValue}
-            onChange={(e) => setEmailValue(e.target.value)}
+            placeholder='Fyll i email. Ex: johan_andersson123@gmail.com'
+            value={userData.email}
+            onChange={handleChange}
           />
+          <Form.Control.Feedback className='mb-2' type='invalid'>
+            Ange en giltig email.
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='col-6'>
           <Form.Label>Lösenord</Form.Label>
@@ -75,14 +148,19 @@ const AddUser = ({ users, teams, close }: Props) => {
             Lösenordet används vid inlogg.
           </Form.Text>
           <Form.Control
+            required
             className='mb-2'
+            name='password'
+            pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}'
             type='password'
             placeholder='Fyll i lösenord'
-            value={passwordValue}
-            onChange={(e) => {
-              setPasswordValue(e.target.value);
-            }}
+            value={userData.password}
+            onChange={handleChange}
           />
+          <Form.Control.Feedback className='mb-2' type='invalid'>
+            Ange ett giltigt lösenord (minst 8 tecken långt, innehållande 1 versal bokstav, 1 siffra
+            och 1 specialtecken).
+          </Form.Control.Feedback>
         </Form.Group>
       </div>
       <div className='row'>
@@ -113,11 +191,7 @@ const AddUser = ({ users, teams, close }: Props) => {
         </Form.Group>
       </div>
 
-      <Button
-        className='w-100'
-        onClick={() => console.log("Add user")}
-        disabled={userNameValue.length < 3 ? true : false}
-      >
+      <Button type='submit' className='w-100'>
         Lägg till användare
       </Button>
     </Form>
