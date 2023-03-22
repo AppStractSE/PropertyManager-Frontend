@@ -1,7 +1,8 @@
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
   users: UserInfoDto[];
@@ -12,7 +13,7 @@ interface Props {
 const AddUser = ({ users, teams, close }: Props) => {
   const [roleValue, setRoleValue] = useState("Fastighetsskötare");
   const [validated, setValidated] = useState(false);
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
 
   const [userData, setUserData] = useState({

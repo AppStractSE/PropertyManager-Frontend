@@ -2,14 +2,11 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useQueryClient } from "react-query";
 import {
-  Client,
-  CustomerChoreResponseDto,
-  CustomerResponseDto,
-  TeamMemberResponseDto,
-  TeamResponseDto,
-  Periodic
-
+    CustomerChoreResponseDto,
+    CustomerResponseDto, Periodic, TeamMemberResponseDto,
+    TeamResponseDto
 } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 import EditCustomerModal from "../modals/EditCustomerModal";
 
 interface Props {
@@ -26,7 +23,7 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
   const [showModal, setShowModal] = useState(false);
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
   const customerObject = {
     id: customer.id,

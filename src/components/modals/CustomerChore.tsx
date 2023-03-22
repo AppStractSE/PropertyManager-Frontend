@@ -3,7 +3,8 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { BsCameraFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { ChoreCommentResponseDto, ChoreStatusResponseDto, Client } from "../../api/client";
+import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../../api/client";
+import { useClient } from "../../contexts/ClientContext";
 import { useUser } from "../../contexts/UserContext";
 import CustomToast from "../snacks/CustomToast";
 import { CustomerChoreComments } from "./CustomerChore/CustomerChoreComments";
@@ -17,7 +18,7 @@ const CustomerChore = (props: any) => {
   const [showToast, setShowToast] = useState(false);
   const [commentValue, setCommentValue] = useState("");
   const { currentUser } = useUser();
-  const client = new Client();
+  const client = useClient();
 
   const handlePhotoCapture = (target: any) => {
     if (target.files) {

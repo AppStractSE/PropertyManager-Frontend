@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Badge, Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
-  Client,
-  PutTeamMemberRequestDto,
-  TeamMemberResponseDto,
-  TeamResponseDto,
-  UserInfoDto,
+    PutTeamMemberRequestDto,
+    TeamMemberResponseDto,
+    TeamResponseDto,
+    UserInfoDto
 } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
   team: TeamResponseDto;
@@ -18,7 +18,7 @@ interface Props {
 const EditTeam = ({ team, teammembers, users }: Props) => {
   const [teamName, setTeamName] = useState(team.name);
   const [teamMembers, setTeamMembers] = useState<PutTeamMemberRequestDto[]>(teammembers);
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
   const { mutate: updateTeam, isLoading: updatingTeam } = useMutation(
     async () => {

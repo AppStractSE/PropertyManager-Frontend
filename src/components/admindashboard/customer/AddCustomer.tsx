@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { AreaResponseDto, Client, TeamResponseDto } from "../../../api/client";
+import { AreaResponseDto, TeamResponseDto } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
   teams: TeamResponseDto[];
@@ -13,7 +14,7 @@ const AddCustomer = ({ teams, areas }: Props) => {
   const [areaValue, setAreaValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
   const { mutate: postCustomer, isLoading: postingCustomer } = useMutation(
     async () => {

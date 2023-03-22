@@ -1,7 +1,8 @@
 import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
-import { Client, CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 import EditTeam from "../team/EditTeam";
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Props) => {
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
   const {
     mutate: deleteTeam,

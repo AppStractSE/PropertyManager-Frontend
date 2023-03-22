@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
-  Client,
-  PostTeamMemberRequestDto,
-  TeamMemberResponseDto,
-  UserInfoDto,
+    PostTeamMemberRequestDto,
+    TeamMemberResponseDto,
+    UserInfoDto
 } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
   users: UserInfoDto[];
@@ -19,7 +19,7 @@ const AddTeam = ({ users, teammembers, close }: Props) => {
   const [searchValue, setSearchValue] = useState("");
   const [teamMembers, setTeamMembers] = useState<PostTeamMemberRequestDto[]>([]);
   const queryClient = useQueryClient();
-  const client = new Client();
+  const client = useClient();
   const { mutate: postTeamMember, isLoading: postingTeamMember } = useMutation(
     async (id: string) => {
       return await client.teamMember_PostTeamMembers({
