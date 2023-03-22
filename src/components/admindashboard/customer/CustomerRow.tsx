@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import { useQueryClient } from "react-query";
+import { Link } from "react-router-dom";
 import {
-  Client,
   CustomerChoreResponseDto,
-  CustomerResponseDto,
-  TeamMemberResponseDto,
-  TeamResponseDto,
-  Periodic
-
+  CustomerResponseDto, Periodic, TeamMemberResponseDto,
+  TeamResponseDto
 } from "../../../api/client";
 import EditCustomerModal from "../modals/EditCustomerModal";
 
@@ -21,20 +17,7 @@ interface Props {
 }
 
 const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }: Props) => {
-  const [rowIsDisabled, setRowIsDisabled] = useState(true);
-  const [team, setTeam] = useState(customer.teamId);
-  const [customerName, setCustomerName] = useState(customer.name);
-  const [customerAddress, setCustomerAddress] = useState(customer.address);
   const [showModal, setShowModal] = useState(false);
-  const client = new Client();
-  const queryClient = useQueryClient();
-  const customerObject = {
-    id: customer.id,
-    name: customerName,
-    address: customerAddress,
-    teamId: team,
-    areaId: customer.areaId,
-  };
 
   return (
     <tr>
@@ -51,15 +34,14 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
         >
           Visa mer
         </Button>
-        {!rowIsDisabled && (
+        <Link to={`/customer/${customer.id}`} className='router-link'>
           <Button
-            variant='outline-primary'
-            size='sm'
-            onClick={() => console.log("Delete customer")}
+          variant='outline-primary'
+          size='sm'
           >
-            Radera
+            Gå till
           </Button>
-        )}
+            </Link>
       </td>
       <EditCustomerModal
         show={showModal}
