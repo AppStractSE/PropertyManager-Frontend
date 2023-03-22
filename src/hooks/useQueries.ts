@@ -4,18 +4,17 @@ import {
   CategoryResponseDto,
   ChoreCommentResponseDto,
   ChoreResponseDto,
-  ChoreStatusResponseDto,
-  Client,
-  CustomerChoreResponseDto,
+  ChoreStatusResponseDto, CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto,
+  UserInfoDto
 } from "../api/client";
+import { useClient } from "../contexts/ClientContext";
 
 export function useQueries() {
-  const client = new Client();
+  const client = useClient();
 
   const { data: areas } = useQuery<AreaResponseDto[]>(
     ["areas"],

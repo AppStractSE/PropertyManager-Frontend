@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { ChoreStatusResponseDto, Client, CustomerChoreResponseDto } from "../api/client";
+import { ChoreStatusResponseDto, CustomerChoreResponseDto } from "../api/client";
+import { useClient } from "../contexts/ClientContext";
 import ChoreInfoCard from "./modals/CustomerChore";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 
 const ChoreCard = ({ customerchore }: Props) => {
   const [modalShow, setModalShow] = useState(false);
-  const client = new Client();
+  const client = useClient();
   const {
     data: choreStatus,
     error: choreStatusError,

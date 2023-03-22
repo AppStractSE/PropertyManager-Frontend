@@ -3,7 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { Route, Routes } from "react-router-dom";
-import { AuthUser, Client, TokenInfo } from "./api/client";
+import { AuthUser, TokenInfo } from "./api/client";
+import { useClient } from "./contexts/ClientContext";
 import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import Layout from "./Layout";
@@ -15,9 +16,8 @@ import NotFound from "./pages/NotFound";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
-
 const App = () => {
-  const client = new Client();
+  const client = useClient();
   const { currentUser, setCurrentUser } = useUser();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
 

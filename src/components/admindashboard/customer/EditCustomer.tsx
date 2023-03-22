@@ -2,13 +2,10 @@ import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
-  Client,
-  CustomerChoreResponseDto,
-  CustomerResponseDto,
-  Periodic,
-  TeamMemberResponseDto,
-  TeamResponseDto
+    CustomerResponseDto, TeamMemberResponseDto,
+    TeamResponseDto
 } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
   customer: CustomerResponseDto;
@@ -25,7 +22,7 @@ const EditCustomer = ({
   const [team, setTeam] = useState(customer.teamId);
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
-  const client = new Client();
+  const client = useClient();
   const queryClient = useQueryClient();
   const { mutate: updateCustomer, isLoading: updatingCustomer } = useMutation(
     async () => {

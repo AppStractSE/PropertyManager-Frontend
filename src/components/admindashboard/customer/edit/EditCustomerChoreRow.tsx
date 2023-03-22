@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client, CustomerChoreResponseDto, Periodic } from "../../../../api/client";
+import { CustomerChoreResponseDto, Periodic } from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   customerchore: CustomerChoreResponseDto;
@@ -10,7 +11,7 @@ interface Props {
 
 const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   const queryClient = useQueryClient();
-  const client = new Client();
+  const client = useClient();
   const [periodicsValue, setPeriodicsValue] = useState(customerchore.periodic?.name);
   const [disableRow, setDisableRow] = useState(true);
   const [frequencyValue, setFrequencyValue] = useState(customerchore.frequency);

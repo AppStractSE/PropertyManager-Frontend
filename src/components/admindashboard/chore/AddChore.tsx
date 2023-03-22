@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Form, Label } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 
 
 const AddChore = () => {
-  const client = new Client();
-  const queryClient = new useQueryClient();
+  const client = useClient();
+  const queryClient = useQueryClient();
   const [titleValue, setChoreTitle] = useState("");
   const [categoryValue, setChoreCategory] = useState("");
   const [subCategoryValue, setChoreSubCategory] = useState("");

@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {
-  CustomerChoreResponseDto,
-  CustomerResponseDto, Periodic, TeamMemberResponseDto,
-  TeamResponseDto
-} from "../../../api/client";
+import { CustomerChoreResponseDto, CustomerResponseDto, Periodic, TeamMemberResponseDto, TeamResponseDto } from "../../../api/client";
+import { useClient } from "../../../contexts/ClientContext";
 import EditCustomerModal from "../modals/EditCustomerModal";
 
 interface Props {
@@ -18,7 +15,7 @@ interface Props {
 
 const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }: Props) => {
   const [showModal, setShowModal] = useState(false);
-
+  const client = useClient();
   return (
     <tr>
       <td>{customer.name}</td>

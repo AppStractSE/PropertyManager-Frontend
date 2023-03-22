@@ -1,8 +1,9 @@
 import { useQuery } from "react-query";
-import { AreaResponseDto, Client, TeamResponseDto } from "../api/client";
+import { AreaResponseDto, TeamResponseDto } from "../api/client";
+import { useClient } from "../contexts/ClientContext";
 
 const CustomerTeamCard = ({ customer }: any) => {
-  const client = new Client();
+  const client = useClient();
 
   const { data: area } = useQuery<AreaResponseDto>(["area", customer.areaId], async () =>
     client.area_GetAreaById(customer.areaId!),

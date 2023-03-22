@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client } from "../../api/client";
+import { useClient } from "../../contexts/ClientContext";
 
 const AddCustomerChore = (props: any) => {
   const [choreValue, setChoreValue] = useState("");
@@ -9,7 +9,7 @@ const AddCustomerChore = (props: any) => {
   const [periodicValue, setPeriodicValue] = useState("");
   const [frequencyValue, setFrequencyValue] = useState(1);
   const queryClient = useQueryClient();
-  const client = new Client();
+  const client = useClient();
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
     async () => {
       return await client.customerChore_PostCustomerChore({

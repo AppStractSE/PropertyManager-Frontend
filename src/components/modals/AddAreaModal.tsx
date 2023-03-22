@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { Client } from "../../api/client";
+import { useClient } from "../../contexts/ClientContext";
 
 const AddArea = () => {
   const [areaValue, setAreaValue] = useState("");
   const queryClient = useQueryClient();
-  const client = new Client();
+  const client = useClient();
   const { mutate: postArea, isLoading: postingArea } = useMutation(
     // TODO: isLoading används aldrig, åtgärda?
     async () => {
