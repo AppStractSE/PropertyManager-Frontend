@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { container, item } from "../animation";
 import { UserCustomerData, UserDataResponseDto, UserTeamData } from "../api/client";
 import CustomerCard from "../components/CustomerCard";
-import SearchAndFilter from "../components/SearchAndFilter";
+import Search from "../components/Search";
 import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import { useClient } from "../contexts/ClientContext";
 import { useUser } from "../contexts/UserContext";
@@ -22,10 +22,14 @@ const Home = () => {
   );
 
   const filterSearch = userData?.userTeamsData?.filter((team) => {
-    return team.userCustomersData?.every((customer) =>
-      customer.customerName?.toLowerCase().includes(searchValue.toLowerCase()),
-    );
+    return team.userCustomersData?.every((customer) => customer.customerName?.toLowerCase());
   });
+
+  const filteredCustomers = filterSearch
+    ?.flatMap((team) => team?.userCustomersData)
+    .filter((customer) =>
+      customer?.customerName?.toLowerCase().includes(searchValue?.toLowerCase()),
+    );
 
   if (userDataIsLoading) {
     return (
@@ -39,7 +43,6 @@ const Home = () => {
       </motion.div>
     );
   }
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -56,21 +59,30 @@ const Home = () => {
         >
           <div className='h3 mb-0'>Mina kunder</div>
           <div className='h5'>{currentUser.user?.displayName}</div>
-
-          <SearchAndFilter value={searchValue} onChange={setSearchValue} filtersearch={0} />
-
-          {filterSearch?.map((team: UserTeamData) => (
-            <div key={team.teamId} className='vstack gap-2 minBreakpoint-xs'>
-              <div className='d-flex justify-content-between'>
-                <div>{team.teamName}</div>
-              </div>
-              {team?.userCustomersData?.map((customer: UserCustomerData) => (
-                <motion.div variants={item} key={customer.customerId}>
-                  <CustomerCard customer={customer} />
-                </motion.div>
-              ))}
-            </div>
-          ))}
+          <div className='d-flex align-items-center'>
+            <Search value={searchValue} onChange={(value) => setSearchValue(value)} />
+          </div>
+          <div className='p small'>
+            {(filteredCustomers?.length || 0) > 0
+              ? `Visar ${filteredCustomers?.length}st kunder`
+              : "Inga kunder hittades"}
+          </div>
+          {(filteredCustomers?.length || 0 > 0) &&
+            filterSearch?.map((team: UserTeamData) => (
+              <motion.div
+                variants={item}
+                key={team.teamId}
+                className='vstack gap-2 minBreakpoint-xs'
+              >
+                {team?.userCustomersData
+                  ?.filter((x) => x.customerName?.toLowerCase().includes(searchValue.toLowerCase()))
+                  .map((customer: UserCustomerData) => (
+                    <div key={customer.customerId}>
+                      <CustomerCard team={team} customer={customer} />
+                    </div>
+                  ))}
+              </motion.div>
+            ))}
         </motion.div>
       </Container>
     </motion.div>
