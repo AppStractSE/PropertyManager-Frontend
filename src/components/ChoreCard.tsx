@@ -33,21 +33,23 @@ const ChoreCard = ({ customerchore }: Props) => {
         <Card.Body className='d-flex align-items-end'>
           <div className='me-auto'>
             <Card.Title className='small text-muted'>Status</Card.Title>
-
-            {(() => {
-              if (choreStatusIsLoading) {
-                return <></>;
-              }
-              if (choreStatus && choreStatus.length === customerchore.frequency) {
-                return <Card.Text className='small p-2 status completed'>Klar</Card.Text>;
-              } else if (choreStatus && choreStatus.length > 0) {
-                return <Card.Text className='small p-2 status initiated'>Påbörjad</Card.Text>;
-              } else {
-                return (
-                  <Card.Text className='small p-2 status not-initiated'>Ej påbörjad</Card.Text>
-                );
-              }
-            })()}
+            {!choreStatusIsLoading && (
+              <Card.Text
+                className={`small p-2 status ${
+                  choreStatus && choreStatus.length === customerchore.frequency
+                    ? "completed"
+                    : choreStatus && choreStatus.length > 0
+                    ? "initiated"
+                    : "not-initiated"
+                }`}
+              >
+                {choreStatus && choreStatus.length === customerchore.frequency
+                  ? "Klar"
+                  : choreStatus && choreStatus.length > 0
+                  ? "Påbörjad"
+                  : "Ej påbörjad"}
+              </Card.Text>
+            )}
           </div>
           <Button>Läs mer</Button>
         </Card.Body>
