@@ -2,31 +2,32 @@ import { Badge, Card, Container } from "react-bootstrap";
 import { BsChevronRight } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { UserCustomerData } from "../api/client";
+import { UserCustomerData, UserTeamData } from "../api/client";
 
 interface Props {
   customer: UserCustomerData;
-  isTemp?: boolean;
+  team: UserTeamData;
 }
-const CustomerCard = ({ customer, isTemp }: Props) => {
-  isTemp === undefined && (isTemp = false);
+const CustomerCard = ({ customer, team }: Props) => {
   return (
     <Link to={`/customer/${customer.customerId}`} className='router-link'>
       <Card>
         <Card.Header className='d-flex align-items-center'>
           <Container>
-            {isTemp === true && (
-              <Badge pill bg='success'>
-                Temp
-              </Badge>
-            )}
             <Card.Title>{customer.customerName}</Card.Title>
             <Container className='d-flex align-items-center'>
               <MdLocationOn size={22} />
               <Card.Text className='ms-1'>{customer.customerAddress}</Card.Text>
             </Container>
           </Container>
-          <BsChevronRight size={24} />
+          <div className='d-flex align-items-center justify-content-between'>
+            {team.isTemporary === true && (
+              <Badge className="me-2" text='dark' pill bg='warning'>
+                TEMP
+              </Badge>
+            )}
+            <BsChevronRight size={24} />
+          </div>
         </Card.Header>
         <Card.Body>
           <Container>
