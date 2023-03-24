@@ -24,6 +24,7 @@ const AdminDashboard = () => {
     !periodics ||
     !teamMembers ||
     !teams ||
+    !chores ||
     !users
   )
     return null;
@@ -76,6 +77,7 @@ const AdminDashboard = () => {
               customers={customers}
               teams={teams}
               teammembers={teamMembers}
+              chores={chores}
             />
           </Tab.Pane>
           <Tab.Pane eventKey='second'>

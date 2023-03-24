@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
+  ChoreResponseDto,
   CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
@@ -17,9 +18,17 @@ interface Props {
   teammembers: TeamMemberResponseDto[];
   customerchores: CustomerChoreResponseDto[];
   periodics: Periodic[];
+  chores: ChoreResponseDto[];
 }
 
-const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }: Props) => {
+const CustomerRow = ({
+  teams,
+  customer,
+  teammembers,
+  customerchores,
+  periodics,
+  chores,
+}: Props) => {
   const [showModal, setShowModal] = useState(false);
   const client = useClient();
   return (
@@ -53,6 +62,7 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
         teammembers={teammembers}
         customerchores={customerchores}
         periodics={periodics}
+        chores={chores}
       />
     </tr>
   );

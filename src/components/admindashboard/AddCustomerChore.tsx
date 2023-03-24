@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
+import { ChoreResponseDto, CustomerResponseDto, Periodic } from "../../api/client";
 import { useClient } from "../../contexts/ClientContext";
 
-const AddCustomerChore = (props: any) => {
+interface Props {
+  customers?: CustomerResponseDto[];
+  customer?: CustomerResponseDto;
+  periodics: Periodic[];
+  chores: ChoreResponseDto[];
+}
+
+const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => {
   const [choreValue, setChoreValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
   const [periodicValue, setPeriodicValue] = useState("");
@@ -13,7 +21,7 @@ const AddCustomerChore = (props: any) => {
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
     async () => {
       return await client.customerChore_PostCustomerChore({
-        customerId: customerValue,
+        customerId: customer ? customer.id : customerValue,
         choreId: choreValue,
         frequency: frequencyValue,
         periodicId: periodicValue,
@@ -53,14 +61,13 @@ const AddCustomerChore = (props: any) => {
           className='form-active'
         >
           <option>Välj syssla</option>
-          {props.chores &&
-            props.chores.map((chore: any) => {
-              return (
-                <option key={chore.id} value={chore.id}>
-                  {chore.title}
-                </option>
-              );
-            })}
+          {chores.map((chore) => {
+            return (
+              <option key={chore.id} value={chore.id}>
+                {chore.title}
+              </option>
+            );
+          })}
         </Form.Select>
       </Form.Group>
       <Form.Group>
@@ -71,34 +78,34 @@ const AddCustomerChore = (props: any) => {
           className='form-active'
         >
           <option>Välj tidsintervall</option>
-          {props.periodics &&
-            props.periodics.map((periodic: any) => {
-              return (
-                <option key={periodic.id} value={periodic.id}>
-                  {periodic.name}
-                </option>
-              );
-            })}
+          {periodics.map((periodic) => {
+            return (
+              <option key={periodic.id} value={periodic.id}>
+                {periodic.name}
+              </option>
+            );
+          })}
         </Form.Select>
       </Form.Group>
-      <Form.Group>
-        <Form.Select
-          aria-label='Välj kund dropdown'
-          value={customerValue}
-          onChange={(e) => setCustomerValue(e.target.value)}
-          className='form-active'
-        >
-          <option>Välj kund</option>
-          {props.customers &&
-            props.customers.map((customer: any) => {
+      {customers ? (
+        <Form.Group>
+          <Form.Select
+            aria-label='Välj kund dropdown'
+            value={customerValue}
+            onChange={(e) => setCustomerValue(e.target.value)}
+            className='form-active'
+          >
+            <option>Välj kund</option>
+            {customers?.map((customer) => {
               return (
                 <option key={customer.id} value={customer.id}>
                   {customer.name}
                 </option>
               );
             })}
-        </Form.Select>
-      </Form.Group>
+          </Form.Select>
+        </Form.Group>
+      ) : undefined}
       <Button
         className='w-100'
         onClick={() => postCustomerChore()}

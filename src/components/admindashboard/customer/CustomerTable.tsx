@@ -1,5 +1,6 @@
 import { Table } from "react-bootstrap";
 import {
+  ChoreResponseDto,
   CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
@@ -14,9 +15,17 @@ interface Props {
   teammembers: TeamMemberResponseDto[];
   customerchores: CustomerChoreResponseDto[];
   periodics: Periodic[];
+  chores: ChoreResponseDto[];
 }
 
-const CustomerTable = ({ customers, teams, teammembers, customerchores, periodics }: Props) => {
+const CustomerTable = ({
+  customers,
+  teams,
+  teammembers,
+  customerchores,
+  periodics,
+  chores,
+}: Props) => {
   return (
     <Table hover>
       <thead>
@@ -37,6 +46,7 @@ const CustomerTable = ({ customers, teams, teammembers, customerchores, periodic
             teammembers={teammembers}
             customerchores={customerchores}
             periodics={periodics}
+            chores={chores}
           />
         ))}
       </tbody>

@@ -2,6 +2,7 @@ import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
 import {
+  ChoreResponseDto,
   CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
@@ -9,6 +10,7 @@ import {
   TeamResponseDto,
 } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
+import AddCustomerChore from "../AddCustomerChore";
 import EditCustomerChores from "../customer/edit/EditCustomerChoreTable";
 import EditCustomer from "../customer/EditCustomer";
 
@@ -20,6 +22,7 @@ interface Props {
   teammembers: TeamMemberResponseDto[];
   customerchores: CustomerChoreResponseDto[];
   periodics: Periodic[];
+  chores: ChoreResponseDto[];
 }
 
 const EditCustomerModal = ({
@@ -30,6 +33,7 @@ const EditCustomerModal = ({
   periodics,
   show,
   onHide,
+  chores,
 }: Props) => {
   const client = useClient();
   const queryClient = useQueryClient();
@@ -67,6 +71,9 @@ const EditCustomerModal = ({
             <Nav.Item>
               <Nav.Link eventKey='second'>Kundsysslor</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey='third'>Skapa kundsyssla</Nav.Link>
+            </Nav.Item>
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey='first'>
@@ -83,6 +90,10 @@ const EditCustomerModal = ({
                 customerchores={customerchores}
                 periodics={periodics}
               />
+            </Tab.Pane>
+
+            <Tab.Pane eventKey='third'>
+              <AddCustomerChore periodics={periodics} customer={customer} chores={chores} />
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
