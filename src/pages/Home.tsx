@@ -6,7 +6,7 @@ import { container, item } from "../animation";
 import { UserCustomerData, UserDataResponseDto, UserTeamData } from "../api/client";
 import CustomerCard from "../components/CustomerCard";
 import Search from "../components/Search";
-import HomePageSkeleton from "../components/skeletons/CustomerPageSkeleton";
+import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
 import { useClient } from "../contexts/ClientContext";
 import { useUser } from "../contexts/UserContext";
 

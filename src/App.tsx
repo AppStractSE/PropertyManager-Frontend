@@ -70,9 +70,6 @@ const App = () => {
                 element={currentUser.user?.role !== "Admin" ? <Home /> : <AdminDashboard />}
               />
               <Route path='customer/:id' element={<Customer />} />
-              {/* <Route path='admin' element={<AdminDashboard />} />
-              <Route path='admin/overview' element={<AdminOverview />} />
-              <Route path='admin/register' element={<AdminRegisterChore />} /> */}
             </>
           )}
           <Route path='*' element={<NotFound />} />

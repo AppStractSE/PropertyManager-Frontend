@@ -55,7 +55,7 @@ const EditCustomerModal = ({
   );
 
   return (
-    <Modal show={show} id='editCustomer' size='lg' onEscapeKeyDown={() => onHide()}>
+    <Modal show={show} id='editCustomer' size='xl' onEscapeKeyDown={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title id='contained-modal-title-vcenter'>{customer.name}</Modal.Title>
         <Button onClick={() => deleteCustomer()}>

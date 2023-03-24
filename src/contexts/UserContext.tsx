@@ -22,7 +22,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const InitialDate = new Date(0, 0, 0, 0, 0, 0, 0);
+const InitialDate = new Date(0, 0, 0, 0, 0, 0, 0);
 
 export const InitialUserState: AuthUser = {
   user: {
