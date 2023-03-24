@@ -1323,12 +1323,12 @@ export class Client extends BaseClient {
         return Promise.resolve<CustomerResponseDto[]>(null as any);
     }
 
-    customer_DeleteCustomerById(id: string | undefined): Promise<FileResponse> {
+    customer_DeleteCustomerById(customerId: string | undefined): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/v1/Customer/DeleteCustomerById?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
