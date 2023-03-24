@@ -26,8 +26,27 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries(["teams"]);
-        queryClient.invalidateQueries(["teammembers"]);
+        queryClient.invalidateQueries(["teamMembers"]);
         queryClient.invalidateQueries(["customerchores"]);
+      },
+    },
+  );
+
+  const {
+    mutate: deleteCustomerChore,
+    error: deleteCustomerChoreError,
+    isLoading: deleteCustomerChoreIsLoading,
+  } = useMutation(
+    async () => await client.customerChore_DeleteCustomerChoreById(customerchore.id),
+
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["customerchores"]);
+        queryClient.invalidateQueries(["chorecomments"]);
+        queryClient.invalidateQueries(["choreStatuses"]);
+        queryClient.invalidateQueries(["customerChores", customerchore.customerId]);
+        queryClient.invalidateQueries(["choresStatus", customerchore.id]);
+        queryClient.invalidateQueries(["choreComment", customerchore.id]);
       },
     },
   );
@@ -61,7 +80,11 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
           {periodics
             .filter((y) => y.id !== customerchore.periodic?.id)
             .map((periodic) => (
-              <option key={periodic.id} value={periodic.id} onClick={() => setPeriodicsValue(periodic.id)}>
+              <option
+                key={periodic.id}
+                value={periodic.id}
+                onClick={() => setPeriodicsValue(periodic.id)}
+              >
                 {periodic.name}
               </option>
             ))}
@@ -82,7 +105,9 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
         ) : null}
         <Button
           disabled={
-            !disableRow && customerchore.frequency === frequencyValue && customerchore.periodic?.name === periodicsValue 
+            !disableRow &&
+            customerchore.frequency === frequencyValue &&
+            customerchore.periodic?.name === periodicsValue
               ? true
               : false
           }
@@ -90,6 +115,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
         >
           {disableRow ? "Redigera" : "Spara"}
         </Button>
+        <Button onClick={() => deleteCustomerChore()}>Delete</Button>
       </td>
     </tr>
   );

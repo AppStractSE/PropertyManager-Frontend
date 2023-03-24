@@ -14,22 +14,30 @@ const EditCustomerChoreTable = ({ customerchores, periodics, customer }: Props) 
       <Table hover>
         <thead>
           <tr>
-            <th style={{ textTransform: "uppercase", fontSize: 12 }} className="ps-3">Namn</th>
-            <th style={{ textTransform: "uppercase", fontSize: 12 }} className="ps-3">Frekvens</th>
-            <th style={{ textTransform: "uppercase", fontSize: 12 }} className="ps-3">Period</th>
+            <th style={{ textTransform: "uppercase", fontSize: 12 }} className='ps-3'>
+              Namn
+            </th>
+            <th style={{ textTransform: "uppercase", fontSize: 12 }} className='ps-3'>
+              Frekvens
+            </th>
+            <th style={{ textTransform: "uppercase", fontSize: 12 }} className='ps-3'>
+              Period
+            </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-      {customerchores
-        .filter((x) => x.customerId === customer.id)
+          {customerchores
+            .filter((x) => x.customerId === customer.id)
             .map((customerchore) => (
-          <EditCustomerChore key={customerchore.id} customerchore={customerchore} periodics={periodics} />
-        ))}
-
+              <EditCustomerChore
+                key={customerchore.id}
+                customerchore={customerchore}
+                periodics={periodics}
+              />
+            ))}
         </tbody>
       </Table>
-
     </div>
   );
 };
