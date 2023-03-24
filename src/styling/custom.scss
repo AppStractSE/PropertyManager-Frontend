@@ -4,6 +4,10 @@ body,
   height: 100%;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+}
 div {
   transition: 0.1s ease all;
 }
@@ -172,4 +176,36 @@ input::-webkit-inner-spin-button, select {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+.dark .aside-nav {
+  background: #191919 !important;
+}
+
+.aside-nav {
+  background: #eee !important;
+  
+  @media screen and (min-width: 992px) {
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    max-width: 350px;
+  }
+  
+  @media screen and (max-width: 991px) {
+    flex-direction: row !important;
+    padding: 12px !important;
+    height: auto !important;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    
+    .navbar-divider {
+      display: none;
+    }
+  }
+}
+
+.cflex-fill {
+  flex: 1 1 auto !important;
+
+  @media screen and (max-width: 991px) {
+    flex: 0 !important;
+  }
 }

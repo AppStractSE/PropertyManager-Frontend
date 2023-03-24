@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Container from "react-bootstrap/Container";
+import { Col } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
@@ -8,16 +8,15 @@ import ProfileModal from "./modals/ProfileModal";
 
 const AppBar = () => {
   const [showModal, setShowModal] = useState(false);
-  const { currentUser } = useUser();
   return (
-    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
-      <Container className='gap-4'>
+    <Navbar bg='dark' variant='dark'>
+      <Col className='d-flex align-items-center justify-content-between px-5'>
         <LinkContainer to='/'>
           <Navbar.Brand>Property Manager</Navbar.Brand>
         </LinkContainer>
-        <FaUserCircle size={24} onClick={() => setShowModal(true)} />
+        <FaUserCircle size={28} onClick={() => setShowModal(true)} />
         <ProfileModal show={showModal} onHide={() => setShowModal(false)} />
-      </Container>
+      </Col>
     </Navbar>
   );
 };

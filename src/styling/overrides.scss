@@ -240,6 +240,10 @@ form>div,
      .nav-pills .nav-link {
       border-radius: 0;
       border-left: 2px solid transparent;
+      @media screen and (max-width: 991px) {
+          border-left: 0;
+          border-bottom: 2px solid transparent;
+        }
      }
      .nav-pills .nav-link:disabled {
       color:var(--bs-nav-link-disabled-color);
@@ -251,15 +255,12 @@ form>div,
       color:var(--bs-nav-pills-link-active-color);
       background-color:var(--bs-nav-pills-link-active-bg);
       border-color: var(--bs-nav-link-color);
-      div {
-        margin-left: 4px;
-      }
     }
     .flex-row .nav-link {
       border-left: 0;
       border-bottom: 2px solid transparent;
     }
 
-tr {
-  vertical-align: middle;
-}
+// tr {
+//   vertical-align: middle;
+// }
