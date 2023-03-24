@@ -1,15 +1,25 @@
-export function CustomerChoreComments({ data }: any) {
+import { ChoreCommentResponseDto } from "../../../api/client";
+
+interface Props {
+  chorecomments: ChoreCommentResponseDto[];
+}
+
+const CustomerChoreComments = ({ chorecomments }: Props) => {
   return (
     <div className='chore-comments'>
-      {data.map((data: any) => (
-        <div key={data.id} className='chore-comment-container'>
+      {chorecomments.map((chorecomment) => (
+        <div key={chorecomment.id} className='chore-comment-container'>
           <div className='d-flex align-items-center gap-1'>
-            <div className='p fw-bold'>{data.displayName}</div>
-            <div className='p small text-muted'>{data.time.slice(0, 16).replace("T", " - ")}</div>
+            <div className='p fw-bold'>{chorecomment.displayName}</div>
+            <div className='p small text-muted'>
+              {chorecomment.time.toString().slice(0, 16).replace("T", " - ")}
+            </div>
           </div>
-          <div className='p'>{data.message}</div>
+          <div className='p'>{chorecomment.message}</div>
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default CustomerChoreComments;
