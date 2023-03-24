@@ -12,7 +12,9 @@ interface Props {
 }
 
 function ClientProvider({ children }: Props) {
-  return <ClientContext.Provider value={{ client: new Client() }}>{children}</ClientContext.Provider>;
+  return (
+    <ClientContext.Provider value={{ client: new Client() }}>{children}</ClientContext.Provider>
+  );
 }
 
 export const useClient = (): Client => {

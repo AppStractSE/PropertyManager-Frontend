@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import {
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+  UserInfoDto,
+} from "../../../api/client";
 import AddTeam from "./AddTeam";
 import TeamTable from "./TeamTable";
 
@@ -27,13 +32,17 @@ const Team = ({ teams, teammembers, users, customers }: Props) => {
           <div>Skapa nytt team</div>
         </Button>
       </div>
-        <TeamTable teams={teams} teammembers={teammembers} users={users} customers={customers} />
+      <TeamTable teams={teams} teammembers={teammembers} users={users} customers={customers} />
       <Modal show={showAddTeamModal} onHide={() => setShowAddTeamModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Skapa nytt team</Modal.Title>
         </Modal.Header>
         <Modal.Body className='m-3'>
-          <AddTeam users={users} teammembers={teammembers} close={() => setShowAddTeamModal(false)} />
+          <AddTeam
+            users={users}
+            teammembers={teammembers}
+            close={() => setShowAddTeamModal(false)}
+          />
         </Modal.Body>
       </Modal>
     </>

@@ -56,17 +56,19 @@ const App = () => {
     }
   }, [currentUser]);
 
-  console.log(currentUser.user?.role)
+  console.log(currentUser.user?.role);
   return (
     <AnimatePresence mode='wait'>
       <Routes>
         <Route path='/' element={<Layout />}>
           {currentUser === InitialUserState ? (
-            
             <Route index element={<Login />} />
           ) : (
             <>
-              <Route index element={currentUser.user?.role !== "Admin" ? <Home /> : <AdminDashboard />} />
+              <Route
+                index
+                element={currentUser.user?.role !== "Admin" ? <Home /> : <AdminDashboard />}
+              />
               <Route path='customer/:id' element={<Customer />} />
               {/* <Route path='admin' element={<AdminDashboard />} />
               <Route path='admin/overview' element={<AdminOverview />} />

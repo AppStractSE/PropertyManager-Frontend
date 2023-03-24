@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { CustomerChoreResponseDto, CustomerResponseDto, Periodic, TeamMemberResponseDto, TeamResponseDto } from "../../../api/client";
+import {
+  CustomerChoreResponseDto,
+  CustomerResponseDto,
+  Periodic,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+} from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import EditCustomerModal from "../modals/EditCustomerModal";
 
@@ -21,7 +27,9 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
       <td>{customer.name}</td>
       <td>{customer.address}</td>
       <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
-      <td>{customerchores.filter((customerchore) => customerchore.customerId === customer.id).length}</td>
+      <td>
+        {customerchores.filter((customerchore) => customerchore.customerId === customer.id).length}
+      </td>
       <td>
         <Button
           className='me-2'
@@ -32,13 +40,10 @@ const CustomerRow = ({ teams, customer, teammembers, customerchores, periodics }
           Visa mer
         </Button>
         <Link to={`/customer/${customer.id}`} className='router-link'>
-          <Button
-          variant='outline-primary'
-          size='sm'
-          >
+          <Button variant='outline-primary' size='sm'>
             Gå till
           </Button>
-            </Link>
+        </Link>
       </td>
       <EditCustomerModal
         show={showModal}

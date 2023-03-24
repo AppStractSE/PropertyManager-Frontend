@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Badge, Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
-    PutTeamMemberRequestDto,
-    TeamMemberResponseDto,
-    TeamResponseDto,
-    UserInfoDto
+  PutTeamMemberRequestDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+  UserInfoDto,
 } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 

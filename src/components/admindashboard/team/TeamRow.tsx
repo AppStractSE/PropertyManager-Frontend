@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Badge, Button } from "react-bootstrap";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import {
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+  UserInfoDto,
+} from "../../../api/client";
 import EditTeamModal from "../modals/EditTeamModal";
 
 interface Props {

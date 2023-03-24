@@ -23,24 +23,24 @@ const AddArea = () => {
   );
 
   return (
-        <Form>
-          <Form.Group className='mb-3' controlId='formAddArea'>
-            <Form.Label>Area</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter area name'
-              value={areaValue}
-              onChange={(e) => setAreaValue(e.target.value)}
-            />
-          </Form.Group>
-          <Button
-            className='w-100'
-            onClick={() => postArea()}
-            disabled={areaValue.length < 3 ? true : false}
-          >
-            Lägg till område
-          </Button>
-        </Form>
+    <Form>
+      <Form.Group className='mb-3' controlId='formAddArea'>
+        <Form.Label>Area</Form.Label>
+        <Form.Control
+          type='text'
+          placeholder='Enter area name'
+          value={areaValue}
+          onChange={(e) => setAreaValue(e.target.value)}
+        />
+      </Form.Group>
+      <Button
+        className='w-100'
+        onClick={() => postArea()}
+        disabled={areaValue.length < 3 ? true : false}
+      >
+        Lägg till område
+      </Button>
+    </Form>
   );
 };
 

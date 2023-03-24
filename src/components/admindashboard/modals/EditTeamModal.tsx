@@ -1,7 +1,12 @@
 import { Button, Modal, Nav, Tab } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import {
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+  UserInfoDto,
+} from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import EditTeam from "../team/EditTeam";
 
@@ -31,7 +36,6 @@ const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Pr
         console.log("success");
       },
     },
-
   );
 
   return (
@@ -56,28 +60,23 @@ const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Pr
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey='first'>
-              <div className="mb-2">
-                <div className="fs-5">Kunder</div>
+              <div className='mb-2'>
+                <div className='fs-5'>Kunder</div>
                 {customers.map((customer) => {
-                    return (
-                      <div key={customer.id}>
-                        {customer.name}
-                      </div>
-                    );
-                
-                })
-                }
+                  return <div key={customer.id}>{customer.name}</div>;
+                })}
               </div>
               <div>
-                <div className="fs-5">Teammedlemmar</div>
-                {teammembers.filter(x => x.teamId === team.id).map((teammember) => {
-                  return (
-                    <div key={teammember.userId}>
-                      {users?.find((user) => teammember.userId === user.userId)?.displayName}
+                <div className='fs-5'>Teammedlemmar</div>
+                {teammembers
+                  .filter((x) => x.teamId === team.id)
+                  .map((teammember) => {
+                    return (
+                      <div key={teammember.userId}>
+                        {users?.find((user) => teammember.userId === user.userId)?.displayName}
                       </div>
-                  );
-                })}
-
+                    );
+                  })}
               </div>
             </Tab.Pane>
             <Tab.Pane eventKey='second'>

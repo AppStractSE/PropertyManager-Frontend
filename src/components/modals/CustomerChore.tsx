@@ -43,8 +43,8 @@ const CustomerChore = (props: any) => {
     async () => {
       return await client.choreComment_PostChoreComment({
         message: commentValue,
-          customerChoreId: props.customerchore.id,
-          userId: currentUser.user!.userId,
+        customerChoreId: props.customerchore.id,
+        userId: currentUser.user!.userId,
       });
     },
     {

@@ -160,7 +160,6 @@ div {
     opacity: 0.15;
   }
 }
- 
 
 .border-transparent {
   border-color: transparent !important;
@@ -168,13 +167,14 @@ div {
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button, select {
+input::-webkit-inner-spin-button,
+select {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 .dark .aside-nav {
@@ -183,19 +183,19 @@ input[type=number] {
 
 .aside-nav {
   background: #eee !important;
-  
+
   @media screen and (min-width: 992px) {
     border-right: 1px solid rgba(255, 255, 255, 0.25);
     max-width: 350px;
   }
-  
+
   @media screen and (max-width: 991px) {
     flex-direction: row !important;
     padding: 12px !important;
     height: auto !important;
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    
+
     .navbar-divider {
       display: none;
     }

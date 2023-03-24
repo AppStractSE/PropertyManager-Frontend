@@ -1,5 +1,10 @@
 import { Table } from "react-bootstrap";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto, UserInfoDto } from "../../../api/client";
+import {
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+  UserInfoDto,
+} from "../../../api/client";
 import TeamRow from "./TeamRow";
 
 interface Props {
@@ -21,7 +26,13 @@ const TeamTable = ({ teams, teammembers, users, customers }: Props) => {
       </thead>
       <tbody>
         {teams?.map((team) => (
-          <TeamRow key={team.id} team={team} teammembers={teammembers} users={users} customers={customers} />
+          <TeamRow
+            key={team.id}
+            team={team}
+            teammembers={teammembers}
+            users={users}
+            customers={customers}
+          />
         ))}
       </tbody>
     </Table>

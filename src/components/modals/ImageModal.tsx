@@ -9,10 +9,7 @@ const ImageModal = (props: any) => {
         <HiDownload size={28} />
       </Modal.Header>
       <Modal.Body>
-        <img
-          className="uploaded-image"
-          src={props.image}
-        />
+        <img className='uploaded-image' src={props.image} />
       </Modal.Body>
     </Modal>
   );

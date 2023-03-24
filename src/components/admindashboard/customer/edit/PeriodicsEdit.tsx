@@ -10,10 +10,7 @@ interface Props {
 const PeriodicsEdit = ({ customerchore, periodics }: Props) => {
   const [periodicsValue, setPeriodicsValue] = useState(customerchore.periodic?.name);
   return (
-    <Form.Select
-      value={periodicsValue}
-      onChange={(e) => setPeriodicsValue(e.target.value)}
-    >
+    <Form.Select value={periodicsValue} onChange={(e) => setPeriodicsValue(e.target.value)}>
       <option className='pb-2' value={customerchore.periodic?.id}>
         {customerchore.periodic?.name}
       </option>

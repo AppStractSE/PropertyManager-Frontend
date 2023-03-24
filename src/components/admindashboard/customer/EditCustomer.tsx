@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import {
-    CustomerResponseDto, TeamMemberResponseDto,
-    TeamResponseDto
-} from "../../../api/client";
+import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 
 interface Props {
@@ -14,11 +11,7 @@ interface Props {
   onHide: () => void;
 }
 
-const EditCustomer = ({
-  customer,
-  teams,
-  onHide
-}: Props) => {
+const EditCustomer = ({ customer, teams, onHide }: Props) => {
   const [team, setTeam] = useState(customer.teamId);
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
@@ -59,7 +52,9 @@ const EditCustomer = ({
           <Form.Label>Team</Form.Label>
           <Form.Select value={team} className='rounded-0' onChange={(e) => setTeam(e.target.value)}>
             {teams?.map((team) => (
-              <option key={team.id} value={team.id}>{team.name}</option>
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
             ))}
           </Form.Select>
         </Form.Group>
@@ -75,7 +70,8 @@ const EditCustomer = ({
       </Form.Group>
 
       <div className='d-flex gap-4'>
-        <Button className="w-100"
+        <Button
+          className='w-100'
           onClick={() => updateCustomer()}
           disabled={
             updatingCustomer ||

@@ -150,7 +150,7 @@
 .form-select:focus {
   border-color: none;
   box-shadow: none;
-  }
+}
 
 #image-modal {
   .modal-header {
@@ -180,7 +180,7 @@
 .card,
 .btn,
 .modal-content,
-form>div,
+form > div,
 .progress,
 .dropdown-menu {
   border-radius: 2px !important;
@@ -215,51 +215,52 @@ form>div,
   }
 }
 
-.placeholder-wave .card, .placeholder {
+.placeholder-wave .card,
+.placeholder {
   cursor: default !important;
 }
 .btn:disabled {
-  --bs-btn-disabled-opacity: .25;
+  --bs-btn-disabled-opacity: 0.25;
 }
 
 .btn,
 .modal,
 .btn:disabled {
-  transition: .3s ease all;
+  transition: 0.3s ease all;
 }
-    .dark {
-      .nav-pills {
-        --bs-nav-pills-link-active-color:#fff;
-      }
-    }
-    .nav-pills {
-      --bs-nav-pills-border-radius:0.375rem;
-      --bs-nav-pills-link-active-color:#000;
-      --bs-nav-pills-link-active-bg: transparent;
-     }
-     .nav-pills .nav-link {
-      border-radius: 0;
-      border-left: 2px solid transparent;
-      @media screen and (max-width: 991px) {
-          border-left: 0;
-          border-bottom: 2px solid transparent;
-        }
-     }
-     .nav-pills .nav-link:disabled {
-      color:var(--bs-nav-link-disabled-color);
-      background-color:transparent;
-      border-color:transparent
-     }
-     .nav-pills .nav-link.active,
-     .nav-pills .show>.nav-link {
-      color:var(--bs-nav-pills-link-active-color);
-      background-color:var(--bs-nav-pills-link-active-bg);
-      border-color: var(--bs-nav-link-color);
-    }
-    .flex-row .nav-link {
-      border-left: 0;
-      border-bottom: 2px solid transparent;
-    }
+.dark {
+  .nav-pills {
+    --bs-nav-pills-link-active-color: #fff;
+  }
+}
+.nav-pills {
+  --bs-nav-pills-border-radius: 0.375rem;
+  --bs-nav-pills-link-active-color: #000;
+  --bs-nav-pills-link-active-bg: transparent;
+}
+.nav-pills .nav-link {
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  @media screen and (max-width: 991px) {
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+  }
+}
+.nav-pills .nav-link:disabled {
+  color: var(--bs-nav-link-disabled-color);
+  background-color: transparent;
+  border-color: transparent;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: var(--bs-nav-pills-link-active-color);
+  background-color: var(--bs-nav-pills-link-active-bg);
+  border-color: var(--bs-nav-link-color);
+}
+.flex-row .nav-link {
+  border-left: 0;
+  border-bottom: 2px solid transparent;
+}
 
 // tr {
 //   vertical-align: middle;

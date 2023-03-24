@@ -22,7 +22,7 @@ const CustomerCard = ({ customer, team }: Props) => {
           </Container>
           <div className='d-flex align-items-center justify-content-between'>
             {team.isTemporary === true && (
-              <Badge className="me-2" text='dark' pill bg='warning'>
+              <Badge className='me-2' text='dark' pill bg='warning'>
                 TEMP
               </Badge>
             )}
