@@ -8,32 +8,35 @@ import {
 import TeamRow from "./TeamRow";
 
 interface Props {
+  customers: CustomerResponseDto[];
+  search: string;
   teams: TeamResponseDto[];
   teammembers: TeamMemberResponseDto[];
   users: UserInfoDto[];
-  customers: CustomerResponseDto[];
 }
 
-const TeamTable = ({ teams, teammembers, users, customers }: Props) => {
+const TeamTable = ({ teams, teammembers, users, customers, search }: Props) => {
   return (
     <Table hover>
       <thead>
         <tr>
-          <th style={{ textTransform: "uppercase", fontSize: 12 }}>Teamnamn</th>
-          <th style={{ textTransform: "uppercase", fontSize: 12 }}>Medlemmar</th>
+          <th className='text-uppercase fs-7'>Teamnamn</th>
+          <th className='text-uppercase fs-7'>Medlemmar</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        {teams?.map((team) => (
-          <TeamRow
-            key={team.id}
-            team={team}
-            teammembers={teammembers}
-            users={users}
-            customers={customers}
-          />
-        ))}
+        {teams
+          ?.filter((x) => x.name?.toLowerCase().includes(search.toLowerCase()))
+          .map((team) => (
+            <TeamRow
+              key={team.id}
+              team={team}
+              teammembers={teammembers}
+              users={users}
+              customers={customers}
+            />
+          ))}
       </tbody>
     </Table>
   );

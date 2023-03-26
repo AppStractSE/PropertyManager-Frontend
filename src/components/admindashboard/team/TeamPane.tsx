@@ -7,6 +7,7 @@ import {
   TeamResponseDto,
   UserInfoDto,
 } from "../../../api/client";
+import Search from "../../Search";
 import AddTeamModal from "./add/AddTeamModal";
 import TeamTable from "./table/TeamTable";
 
@@ -19,23 +20,30 @@ interface Props {
 
 const TeamPane = ({ teams, teammembers, users, customers }: Props) => {
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
+  const [search, setSearch] = useState("");
   return (
     <>
-      <div className='d-flex'>
-        <div className='fs-4 mb-2 me-auto'>Teamöversikt</div>
+      <div className='fs-4 mb-2'>Teamöversikt</div>
+      <div className='d-flex align-items-center gap-4 mb-3'>
+        <Search value={search} onChange={(value) => setSearch(value)} placeholder='team' />
         <Button
-          size='sm'
-          className='d-flex align-items-center gap-2'
-          onClick={() => setShowAddTeamModal(true)}
+          className='d-flex align-items-center gap-2 align-self-stretch'
+          onClick={() => setShowAddTeamModal(!showAddTeamModal)}
         >
           <AiOutlinePlus size={18} />
           <div>Skapa nytt team</div>
         </Button>
       </div>
-      <TeamTable teams={teams} teammembers={teammembers} users={users} customers={customers} />
+      <TeamTable
+        search={search}
+        teams={teams}
+        teammembers={teammembers}
+        users={users}
+        customers={customers}
+      />
       <AddTeamModal
         show={showAddTeamModal}
-        onHide={() => setShowAddTeamModal(false)}
+        onHide={() => setShowAddTeamModal(!showAddTeamModal)}
         teammembers={teammembers}
         users={users}
       />

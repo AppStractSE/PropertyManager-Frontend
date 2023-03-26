@@ -16,7 +16,7 @@ interface Props {
 }
 
 const TeamRow = ({ team, teammembers, users, customers }: Props) => {
-  const [showModal, setShowModal] = useState(false);
+  const [teamModal, setShowTeamModal] = useState(false);
   return (
     <tr>
       <td>{team.name}</td>
@@ -40,20 +40,18 @@ const TeamRow = ({ team, teammembers, users, customers }: Props) => {
           ))}
       </td>
       <td>
-        <Button variant='outline-primary' size='sm' onClick={() => setShowModal(!showModal)}>
+        <Button variant='outline-primary' size='sm' onClick={() => setShowTeamModal(!teamModal)}>
           Visa mer
         </Button>
-        {teammembers && team && (
-          <EditTeamModal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            team={team}
-            customers={customers.filter((x) => x.teamId === team.id)}
-            teammembers={teammembers.filter((x) => x.teamId === team.id)}
-            users={users}
-          />
-        )}
       </td>
+      <EditTeamModal
+        customers={customers}
+        onHide={() => setShowTeamModal(!teamModal)}
+        show={teamModal}
+        team={team}
+        teammembers={teammembers.filter((x) => x.teamId === team.id)}
+        users={users}
+      />
     </tr>
   );
 };

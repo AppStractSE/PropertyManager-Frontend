@@ -59,10 +59,10 @@ const AddTeam = ({ users, teammembers, close }: Props) => {
   return (
     <Form>
       <Form.Group className='mb-3' controlId='formAddTeam'>
-        <Form.Label>Teamnamn</Form.Label>
+        <Form.Label>Namn</Form.Label>
         <Form.Control
           type='text'
-          placeholder='Fyll i teamnamn'
+          placeholder='Skriv in teamnamn'
           value={teamValue}
           onChange={(e) => setTeamValue(e.target.value)}
         />
