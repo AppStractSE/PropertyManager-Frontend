@@ -3,17 +3,16 @@ import { Col, Container, Nav, Tab } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
-import AddCustomerChore from "../components/admindashboard/AddCustomerChore";
-import AddChore from "../components/admindashboard/chore/AddChore";
-import AddCustomer from "../components/admindashboard/customer/AddCustomer";
-import CustomerTable from "../components/admindashboard/customer/CustomerTable";
-import AddTeam from "../components/admindashboard/team/AddTeam";
-import Team from "../components/admindashboard/team/Team";
-import AddUser from "../components/admindashboard/user/AddUser";
-import { useUser } from "../contexts/UserContext";
+import AddChore from "../components/admindashboard/chore/add/AddChore";
+import AddCustomer from "../components/admindashboard/customer/add/AddCustomer";
+import AddCustomerChore from "../components/admindashboard/customer/add/AddCustomerChore";
+import CustomerPane from "../components/admindashboard/customer/CustomerPane";
+import AddTeam from "../components/admindashboard/team/add/AddTeam";
+import TeamPane from "../components/admindashboard/team/TeamPane";
+import AddUser from "../components/admindashboard/user/add/AddUser";
 import { useQueries } from "../hooks/useQueries";
+
 const AdminDashboard = () => {
-  const { currentUser } = useUser();
   const { areas, chores, customers, customerChores, periodics, teamMembers, teams, users } =
     useQueries();
   if (
@@ -70,18 +69,19 @@ const AdminDashboard = () => {
         </Nav>
         <Tab.Content className='flex-fill ps-4 pe-3 py-5 col-xl-10 col-lg-9 col-sm-12'>
           <Tab.Pane eventKey='first'>
-            <div className='fs-4 mb-2'>Kundöversikt</div>
-            <CustomerTable
-              periodics={periodics}
-              customerchores={customerChores}
+            <CustomerPane
+              areas={areas}
+              chores={chores}
               customers={customers}
+              customerchores={customerChores}
+              periodics={periodics}
               teams={teams}
               teammembers={teamMembers}
-              chores={chores}
+              users={users}
             />
           </Tab.Pane>
           <Tab.Pane eventKey='second'>
-            <Team teams={teams} teammembers={teamMembers} users={users} customers={customers} />
+            <TeamPane teams={teams} teammembers={teamMembers} users={users} customers={customers} />
           </Tab.Pane>
           <Tab.Pane eventKey='third'>
             <Container></Container>
@@ -133,7 +133,6 @@ const AdminDashboard = () => {
             </div>
           </Tab.Pane>
         </Tab.Content>
-        {/* </Col> */}
       </Tab.Container>
     </motion.div>
   );

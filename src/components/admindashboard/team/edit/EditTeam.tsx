@@ -6,8 +6,8 @@ import {
   TeamMemberResponseDto,
   TeamResponseDto,
   UserInfoDto,
-} from "../../../api/client";
-import { useClient } from "../../../contexts/ClientContext";
+} from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   team: TeamResponseDto;

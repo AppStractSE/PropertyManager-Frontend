@@ -5,8 +5,8 @@ import {
   TeamMemberResponseDto,
   TeamResponseDto,
   UserInfoDto,
-} from "../../../api/client";
-import EditTeamModal from "../modals/EditTeamModal";
+} from "../../../../api/client";
+import EditTeamModal from "../edit/EditTeamModal";
 
 interface Props {
   team: TeamResponseDto;

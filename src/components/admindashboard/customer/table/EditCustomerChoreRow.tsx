@@ -20,13 +20,11 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
       return await client.customerChore_PutCustomerChore({
         id: customerchore.id,
         frequency: frequencyValue,
+        periodicId: periodics.find((x) => x.name === periodicsValue)?.id,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("customers");
-        queryClient.invalidateQueries(["teams"]);
-        queryClient.invalidateQueries(["teamMembers"]);
         queryClient.invalidateQueries(["customerchores"]);
       },
     },
@@ -91,31 +89,43 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
         </Form.Select>
       </td>
       <td>
-        {!disableRow ? (
+        <div>
+          {!disableRow ? (
+            <Button
+              className='me-2'
+              size='sm'
+              onClick={() => {
+                setDisableRow(!disableRow);
+                setFrequencyValue(customerchore.frequency);
+                setPeriodicsValue(customerchore.periodic?.name);
+              }}
+            >
+              Avbryt
+            </Button>
+          ) : undefined}
           <Button
+            size='sm'
             className='me-2'
+            disabled={
+              !disableRow &&
+              customerchore.frequency === frequencyValue &&
+              customerchore.periodic?.name === periodicsValue
+                ? true
+                : false
+            }
             onClick={() => {
               setDisableRow(!disableRow);
-              setFrequencyValue(customerchore.frequency);
-              setPeriodicsValue(customerchore.periodic?.name);
+              if (!disableRow) updateCustomerChore();
             }}
           >
-            Avbryt
+            {disableRow ? "Redigera" : "Spara"}
           </Button>
-        ) : null}
-        <Button
-          disabled={
-            !disableRow &&
-            customerchore.frequency === frequencyValue &&
-            customerchore.periodic?.name === periodicsValue
-              ? true
-              : false
-          }
-          onClick={() => setDisableRow(!disableRow)}
-        >
-          {disableRow ? "Redigera" : "Spara"}
-        </Button>
-        <Button onClick={() => deleteCustomerChore()}>Delete</Button>
+          {!disableRow ? (
+            <Button size='sm' variant='danger' onClick={() => deleteCustomerChore()}>
+              Radera
+            </Button>
+          ) : undefined}
+        </div>
       </td>
     </tr>
   );

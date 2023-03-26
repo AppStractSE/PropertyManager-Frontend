@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { AreaResponseDto, TeamResponseDto } from "../../../api/client";
-import { useClient } from "../../../contexts/ClientContext";
+import { AreaResponseDto, TeamResponseDto } from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   teams: TeamResponseDto[];
   areas: AreaResponseDto[];
+  close?: () => void;
 }
 
-const AddCustomer = ({ teams, areas }: Props) => {
+const AddCustomer = ({ teams, areas, close }: Props) => {
   const [teamValue, setTeamValue] = useState("");
   const [areaValue, setAreaValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
@@ -33,6 +34,7 @@ const AddCustomer = ({ teams, areas }: Props) => {
         setAddressValue("");
         queryClient.invalidateQueries("customers");
         console.log("Customer posted");
+        if (close) close();
       },
     },
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { useClient } from "../../../contexts/ClientContext";
+import { useClient } from "../../../../contexts/ClientContext";
 
 const AddChore = () => {
   const client = useClient();

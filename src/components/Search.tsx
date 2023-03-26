@@ -5,9 +5,10 @@ import { RxCross1 } from "react-icons/rx";
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  placeholder: string;
 }
 
-const Search = ({ value, onChange }: Props) => {
+const Search = ({ value, onChange, placeholder }: Props) => {
   return (
     <Form
       className='flex-fill align-items-center'
@@ -15,19 +16,19 @@ const Search = ({ value, onChange }: Props) => {
         e.preventDefault();
       }}
     >
-      <Form.Group
-        controlId='searchCustomer'
-        className='d-flex align-items-center form-control form-active'
-      >
+      <Form.Group controlId='search' className='d-flex align-items-center form-control form-active'>
         <Form.Control
           type='text'
-          name='searchCustomer'
           autoComplete='off'
-          placeholder='Sök kund...'
+          placeholder={`Sök ${placeholder}...`}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
-        {value ? <RxCross1 size={20} onClick={(e) => onChange("")} /> : <BsSearch size={20} />}
+        {value ? (
+          <RxCross1 size={22} onClick={() => onChange("")} className='me-2' />
+        ) : (
+          <BsSearch size={22} className='me-2' />
+        )}
       </Form.Group>
     </Form>
   );

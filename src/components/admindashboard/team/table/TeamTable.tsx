@@ -4,7 +4,7 @@ import {
   TeamMemberResponseDto,
   TeamResponseDto,
   UserInfoDto,
-} from "../../../api/client";
+} from "../../../../api/client";
 import TeamRow from "./TeamRow";
 
 interface Props {

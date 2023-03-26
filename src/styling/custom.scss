@@ -209,3 +209,26 @@ input[type="number"] {
     flex: 0 !important;
   }
 }
+
+.fs-7 {
+  font-size: 12px;
+}
+
+.pe-force {
+  cursor: pointer;
+}
+
+.nested-modal {
+  z-index: 6970;
+}
+
+.nested-modal-backdrop {
+  position: fixed;
+  z-index: 6969;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  opacity: 0.5;
+}

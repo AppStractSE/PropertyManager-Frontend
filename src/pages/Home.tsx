@@ -60,7 +60,11 @@ const Home = () => {
           <div className='h3 mb-0'>Mina kunder</div>
           <div className='h5'>{currentUser.user?.displayName}</div>
           <div className='d-flex align-items-center'>
-            <Search value={searchValue} onChange={(value) => setSearchValue(value)} />
+            <Search
+              value={searchValue}
+              onChange={(value) => setSearchValue(value)}
+              placeholder='kund'
+            />
           </div>
           <div className='p small'>
             {(filteredCustomers?.length || 0) > 0

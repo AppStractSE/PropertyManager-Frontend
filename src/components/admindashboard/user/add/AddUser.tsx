@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { TeamResponseDto, UserInfoDto } from "../../../api/client";
-import { useClient } from "../../../contexts/ClientContext";
+import { TeamResponseDto, UserInfoDto } from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   users: UserInfoDto[];

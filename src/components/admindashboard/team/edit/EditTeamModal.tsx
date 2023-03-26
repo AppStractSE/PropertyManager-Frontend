@@ -6,9 +6,9 @@ import {
   TeamMemberResponseDto,
   TeamResponseDto,
   UserInfoDto,
-} from "../../../api/client";
-import { useClient } from "../../../contexts/ClientContext";
-import EditTeam from "../team/EditTeam";
+} from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
+import EditTeam from "./EditTeam";
 
 interface Props {
   show: boolean;
@@ -39,9 +39,9 @@ const EditTeamModal = ({ team, teammembers, users, customers, show, onHide }: Pr
   );
 
   return (
-    <Modal show={show} id='editTeam' onEscapeKeyDown={() => onHide()}>
+    <Modal show={show} id='editTeam' onHide={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
-        <Modal.Title id='contained-modal-title-vcenter'>
+        <Modal.Title>
           {team.name}{" "}
           <Button onClick={() => deleteTeam()}>
             <BsFillTrashFill className='ms-4' size={24} color={"red"} />

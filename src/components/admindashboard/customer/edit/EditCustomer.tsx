@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { CustomerResponseDto, TeamMemberResponseDto, TeamResponseDto } from "../../../api/client";
-import { useClient } from "../../../contexts/ClientContext";
+import {
+  CustomerResponseDto,
+  TeamMemberResponseDto,
+  TeamResponseDto,
+} from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   customer: CustomerResponseDto;
@@ -23,7 +27,7 @@ const EditCustomer = ({ customer, teams, onHide }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("customers");
+        queryClient.invalidateQueries(["customers"]);
         queryClient.invalidateQueries(["teams"]);
       },
     },

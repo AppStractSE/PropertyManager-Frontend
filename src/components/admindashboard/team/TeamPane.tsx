@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import {
   CustomerResponseDto,
@@ -7,8 +7,8 @@ import {
   TeamResponseDto,
   UserInfoDto,
 } from "../../../api/client";
-import AddTeam from "./AddTeam";
-import TeamTable from "./TeamTable";
+import AddTeamModal from "./add/AddTeamModal";
+import TeamTable from "./table/TeamTable";
 
 interface Props {
   users: UserInfoDto[];
@@ -17,12 +17,12 @@ interface Props {
   customers: CustomerResponseDto[];
 }
 
-const Team = ({ teams, teammembers, users, customers }: Props) => {
+const TeamPane = ({ teams, teammembers, users, customers }: Props) => {
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   return (
     <>
       <div className='d-flex'>
-        <div className='fs-4 mb-2 me-auto'>Team</div>
+        <div className='fs-4 mb-2 me-auto'>Teamöversikt</div>
         <Button
           size='sm'
           className='d-flex align-items-center gap-2'
@@ -33,20 +33,14 @@ const Team = ({ teams, teammembers, users, customers }: Props) => {
         </Button>
       </div>
       <TeamTable teams={teams} teammembers={teammembers} users={users} customers={customers} />
-      <Modal show={showAddTeamModal} onHide={() => setShowAddTeamModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Skapa nytt team</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='m-3'>
-          <AddTeam
-            users={users}
-            teammembers={teammembers}
-            close={() => setShowAddTeamModal(false)}
-          />
-        </Modal.Body>
-      </Modal>
+      <AddTeamModal
+        show={showAddTeamModal}
+        onHide={() => setShowAddTeamModal(false)}
+        teammembers={teammembers}
+        users={users}
+      />
     </>
   );
 };
 
-export default Team;
+export default TeamPane;

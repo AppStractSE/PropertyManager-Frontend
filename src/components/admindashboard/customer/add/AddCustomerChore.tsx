@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { ChoreResponseDto, CustomerResponseDto, Periodic } from "../../api/client";
-import { useClient } from "../../contexts/ClientContext";
+import { ChoreResponseDto, CustomerResponseDto, Periodic } from "../../../../api/client";
+import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
   customers?: CustomerResponseDto[];
@@ -12,9 +12,9 @@ interface Props {
 }
 
 const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => {
-  const [choreValue, setChoreValue] = useState("");
+  const [choreValue, setChoreValue] = useState("Välj");
   const [customerValue, setCustomerValue] = useState("");
-  const [periodicValue, setPeriodicValue] = useState("");
+  const [periodicValue, setPeriodicValue] = useState("Välj");
   const [frequencyValue, setFrequencyValue] = useState(1);
   const queryClient = useQueryClient();
   const client = useClient();
@@ -30,16 +30,17 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
     {
       onSuccess: () => {
         setFrequencyValue(0);
+        setChoreValue("Välj");
+        setPeriodicValue("Välj");
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
         queryClient.invalidateQueries("customerchores");
-        console.log("success");
       },
     },
   );
   return (
-    <Form className='mb-3 d-flex flex-column gap-3'>
+    <Form className='d-flex flex-column gap-3'>
       <Form.Group>
         <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
         <Form.Control
@@ -47,6 +48,7 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
           value={frequencyValue.toString().replace(/^0+/, "Skriv in ett tal")}
           min={1}
           max={100}
+          placeholder='Skriv in ett tal'
           onKeyUp={() => {
             if (frequencyValue > 100) setFrequencyValue(100);
           }}
