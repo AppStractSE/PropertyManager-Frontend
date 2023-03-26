@@ -23,14 +23,14 @@ interface Props {
 }
 
 const CustomerTable = ({
+  areas,
+  chores,
   customers,
-  teams,
-  teammembers,
   customerchores,
   periodics,
-  chores,
-  areas,
   search,
+  teams,
+  teammembers,
 }: Props) => {
   return (
     <Table hover>

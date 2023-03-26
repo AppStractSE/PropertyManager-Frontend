@@ -262,6 +262,10 @@ form > div,
   border-bottom: 2px solid transparent;
 }
 
-// tr {
-//   vertical-align: middle;
-// }
+input:not([type='radio']):not([type='checkbox']) {
+  border-radius: 0 !important;
+}
+
+select:disabled {
+  opacity: .3
+}

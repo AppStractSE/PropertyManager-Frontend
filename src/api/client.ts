@@ -1967,7 +1967,7 @@ export interface PostChoreCommentRequestDto {
 
 export interface ChoreResponseDto {
     id: string;
-    categoryId: string;
+    subCategoryId: string;
     description: string | undefined;
     title: string | undefined;
 }
@@ -1980,14 +1980,14 @@ export interface Chore {
 }
 
 export interface PostChoreRequestDto {
-    categoryId: string | undefined;
+    subCategoryId: string | undefined;
     description: string | undefined;
     title: string | undefined;
 }
 
 export interface PutChoreRequestDto {
     id: string;
-    categoryId: string | undefined;
+    subCategoryId: string | undefined;
     description: string | undefined;
     title: string | undefined;
 }

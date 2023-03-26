@@ -15,14 +15,14 @@ const DeleteCustomer = ({ customer }: Props) => {
         variant='danger'
         size='sm'
         className='d-flex align-items-center gap-2 ms-2'
-        onClick={() => setDeleteCustomerModal(true)}
+        onClick={() => setDeleteCustomerModal(!deleteCustomerModal)}
       >
         <BsFillTrashFill size={18} />
         <div>Radera kund</div>
       </Button>
       <DeleteCustomerModal
         show={deleteCustomerModal}
-        onHide={() => setDeleteCustomerModal(false)}
+        onHide={() => setDeleteCustomerModal(!deleteCustomerModal)}
         customer={customer}
       />
     </>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { useClient } from "../../../contexts/ClientContext";
+import { useClient } from "../../../../contexts/ClientContext";
 
 const AddArea = () => {
   const [areaValue, setAreaValue] = useState("");

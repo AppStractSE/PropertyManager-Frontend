@@ -1,22 +1,28 @@
 import { motion } from "framer-motion";
-import { Col, Container, Nav, Tab } from "react-bootstrap";
+import { Container, Nav, Tab } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
-import AddChore from "../components/admindashboard/chore/add/AddChore";
-import AddCustomer from "../components/admindashboard/customer/add/AddCustomer";
-import AddCustomerChore from "../components/admindashboard/customer/add/AddCustomerChore";
+import CreatePane from "../components/admindashboard/CreatePane";
 import CustomerPane from "../components/admindashboard/customer/CustomerPane";
-import AddTeam from "../components/admindashboard/team/add/AddTeam";
 import TeamPane from "../components/admindashboard/team/TeamPane";
-import AddUser from "../components/admindashboard/user/add/AddUser";
 import { useQueries } from "../hooks/useQueries";
 
 const AdminDashboard = () => {
-  const { areas, chores, customers, customerChores, periodics, teamMembers, teams, users } =
-    useQueries();
+  const {
+    areas,
+    categories,
+    chores,
+    customers,
+    customerChores,
+    periodics,
+    teamMembers,
+    teams,
+    users,
+  } = useQueries();
   if (
     !areas ||
+    !categories ||
     !chores ||
     !customers ||
     !customerChores ||
@@ -87,50 +93,17 @@ const AdminDashboard = () => {
             <Container></Container>
           </Tab.Pane>
           <Tab.Pane eventKey='fourth'>
-            <div>
-              <Tab.Container defaultActiveKey='first'>
-                <Nav variant='pills' className='flex-row'>
-                  <Nav.Item>
-                    <Nav.Link eventKey='first'>Kund</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey='second'>Syssla</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey='third'>Team</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey='fourth'>Användare</Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Col>
-                  <Tab.Content>
-                    <Tab.Pane eventKey='first'>
-                      <div className='fs-4 mb-3 mt-3'>Skapa kund</div>
-                      <AddCustomer teams={teams} areas={areas} />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey='second'>
-                      <div className='fs-4 mb-3 mt-3'>Skapa syssla</div>
-                      <AddChore />
-                      <div className='fs-4 mb-3 mt-3'>Skapa kundsyssla</div>
-                      <AddCustomerChore
-                        customers={customers}
-                        periodics={periodics}
-                        chores={chores}
-                      />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey='third'>
-                      <div className='fs-4 mb-3 mt-3'>Skapa team</div>
-                      <AddTeam users={users} teammembers={teamMembers} />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey='fourth'>
-                      <div className='fs-4 mb-3 mt-3'>Skapa användare</div>
-                      <AddUser users={users} teams={teams} />
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Col>
-              </Tab.Container>
-            </div>
+            <CreatePane
+              areas={areas}
+              categories={categories}
+              chores={chores}
+              customers={customers}
+              customerchores={customerChores}
+              periodics={periodics}
+              teams={teams}
+              teammembers={teamMembers}
+              users={users}
+            />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

@@ -44,7 +44,7 @@ const CustomerPane = ({
         <Search value={search} onChange={(value) => setSearch(value)} placeholder='kund' />
         <Button
           className='d-flex align-items-center gap-2 align-self-stretch'
-          onClick={() => setShowAddCustomerModal(true)}
+          onClick={() => setShowAddCustomerModal(!showAddCustomerModal)}
         >
           <AiOutlinePlus size={18} />
           <div>Skapa ny kund</div>

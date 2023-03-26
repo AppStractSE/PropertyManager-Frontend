@@ -71,10 +71,10 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
       </Form.Group>
       <Form.Group className='row'>
         <Form.Group className='mb-3 col-6'>
-          <Form.Label>Address</Form.Label>
+          <Form.Label>Adress</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Skriv in kundaddress'
+            placeholder='Skriv in kundadress'
             value={addressValue}
             onChange={(e) => setAddressValue(e.target.value)}
           />
