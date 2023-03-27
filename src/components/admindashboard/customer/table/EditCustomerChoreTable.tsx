@@ -11,7 +11,7 @@ interface Props {
 
 const EditCustomerChoreTable = ({ customerchores, periodics, customer, search }: Props) => {
   return (
-    <Table hover className='mt-3'>
+    <Table hover striped className='mt-3'>
       <thead>
         <tr>
           <th className='text-uppercase fs-7'>Namn</th>

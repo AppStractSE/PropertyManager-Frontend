@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import {
   AreaResponseDto,
@@ -38,35 +38,37 @@ const CustomerPane = ({
   const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
   const [search, setSearch] = useState("");
   return (
-    <>
-      <div className='fs-4 mb-2'>Kundöversikt</div>
-      <div className='d-flex align-items-center gap-4 mb-3'>
-        <Search value={search} onChange={(value) => setSearch(value)} placeholder='kund' />
-        <Button
-          className='d-flex align-items-center gap-2 align-self-stretch'
-          onClick={() => setShowAddCustomerModal(!showAddCustomerModal)}
-        >
-          <AiOutlinePlus size={18} />
-          <div>Skapa ny kund</div>
-        </Button>
-      </div>
-      <CustomerTable
-        search={search}
-        areas={areas}
-        chores={chores}
-        customers={customers}
-        customerchores={customerchores}
-        teams={teams}
-        teammembers={teammembers}
-        periodics={periodics}
-      />
-      <AddCustomerModal
-        show={showAddCustomerModal}
-        onHide={() => setShowAddCustomerModal(!showAddCustomerModal)}
-        teams={teams}
-        areas={areas}
-      />
-    </>
+    <Card className='default-cursor'>
+      <Card.Header className='fs-4 mb-2'>Kundöversikt</Card.Header>
+      <Card.Body>
+        <div className='d-flex align-items-center gap-4 mb-3'>
+          <Search value={search} onChange={(value) => setSearch(value)} placeholder='kund' />
+          <Button
+            className='d-flex align-items-center gap-2 align-self-stretch'
+            onClick={() => setShowAddCustomerModal(!showAddCustomerModal)}
+          >
+            <AiOutlinePlus size={18} />
+            <div>Skapa ny kund</div>
+          </Button>
+        </div>
+        <CustomerTable
+          search={search}
+          areas={areas}
+          chores={chores}
+          customers={customers}
+          customerchores={customerchores}
+          teams={teams}
+          teammembers={teammembers}
+          periodics={periodics}
+        />
+        <AddCustomerModal
+          show={showAddCustomerModal}
+          onHide={() => setShowAddCustomerModal(!showAddCustomerModal)}
+          teams={teams}
+          areas={areas}
+        />
+      </Card.Body>
+    </Card>
   );
 };
 

@@ -40,16 +40,25 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
   );
   return (
     <Form>
+      <Form.Group className='mb-3'>
+        <Form.Label>Namn</Form.Label>
+        <Form.Control
+          type='text'
+          placeholder='Skriv in kundnamn'
+          value={customerValue}
+          onChange={(e) => setCustomerValue(e.target.value)}
+        />
+      </Form.Group>
+      <Form.Group className='mb-3'>
+        <Form.Label>Adress</Form.Label>
+        <Form.Control
+          type='text'
+          placeholder='Skriv in kundadress'
+          value={addressValue}
+          onChange={(e) => setAddressValue(e.target.value)}
+        />
+      </Form.Group>
       <Form.Group className='row'>
-        <Form.Group className='mb-3 col-6'>
-          <Form.Label>Namn</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Skriv in kundnamn'
-            value={customerValue}
-            onChange={(e) => setCustomerValue(e.target.value)}
-          />
-        </Form.Group>
         <Form.Group className='mb-3 col-6'>
           <Form.Label>Team</Form.Label>
           <Form.Select
@@ -67,17 +76,6 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
                 );
               })}
           </Form.Select>
-        </Form.Group>
-      </Form.Group>
-      <Form.Group className='row'>
-        <Form.Group className='mb-3 col-6'>
-          <Form.Label>Adress</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Skriv in kundadress'
-            value={addressValue}
-            onChange={(e) => setAddressValue(e.target.value)}
-          />
         </Form.Group>
         <Form.Group className='mb-3 col-6'>
           <Form.Label>Område</Form.Label>

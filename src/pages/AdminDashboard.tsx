@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { Container, Nav, Tab } from "react-bootstrap";
+import { Nav, Tab } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
-import CreatePane from "../components/admindashboard/CreatePane";
+import AreaPane from "../components/admindashboard/area/AreaPane";
+import ChorePane from "../components/admindashboard/chore/ChorePane";
+import CreatePane from "../components/admindashboard/create/CreatePane";
 import CustomerPane from "../components/admindashboard/customer/CustomerPane";
 import TeamPane from "../components/admindashboard/team/TeamPane";
 import { useQueries } from "../hooks/useQueries";
@@ -65,16 +67,22 @@ const AdminDashboard = () => {
               <div>Sysslor</div>
             </Nav.Link>
           </Nav.Item>
-          <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
           <Nav.Item>
             <Nav.Link eventKey='fourth' className='d-flex align-items-center gap-4'>
+              <AiOutlinePlus size={24} />
+              <div>Områden</div>
+            </Nav.Link>
+          </Nav.Item>
+          <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
+          <Nav.Item>
+            <Nav.Link eventKey='fifth' className='d-flex align-items-center gap-4'>
               <AiOutlinePlus size={24} />
               <div>Skapa</div>
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Tab.Content className='flex-fill ps-4 pe-3 py-5 col-xl-10 col-lg-9 col-sm-12'>
-          <Tab.Pane eventKey='first'>
+        <Tab.Content className='flex-fill col-xl-10 col-lg-9 col-sm-12'>
+          <Tab.Pane className='m-5' eventKey='first'>
             <CustomerPane
               areas={areas}
               chores={chores}
@@ -86,13 +94,21 @@ const AdminDashboard = () => {
               users={users}
             />
           </Tab.Pane>
-          <Tab.Pane eventKey='second'>
+          <Tab.Pane className='m-5' eventKey='second'>
             <TeamPane teams={teams} teammembers={teamMembers} users={users} customers={customers} />
           </Tab.Pane>
-          <Tab.Pane eventKey='third'>
-            <Container></Container>
+          <Tab.Pane className='m-5' eventKey='third'>
+            <ChorePane
+              customers={customers}
+              chores={chores}
+              periodics={periodics}
+              categories={categories}
+            />
           </Tab.Pane>
-          <Tab.Pane eventKey='fourth'>
+          <Tab.Pane className='m-5' eventKey='fourth'>
+            <AreaPane areas={areas} />
+          </Tab.Pane>
+          <Tab.Pane eventKey='fifth'>
             <CreatePane
               areas={areas}
               categories={categories}

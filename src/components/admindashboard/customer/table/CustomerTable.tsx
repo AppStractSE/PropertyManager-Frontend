@@ -33,7 +33,7 @@ const CustomerTable = ({
   teammembers,
 }: Props) => {
   return (
-    <Table hover>
+    <Table hover striped>
       <thead>
         <tr>
           <th className='text-uppercase fs-7'>Kundnamn</th>

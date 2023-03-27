@@ -3,7 +3,11 @@ import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { useClient } from "../../../../contexts/ClientContext";
 
-const AddArea = () => {
+interface Props {
+  close?: () => void;
+}
+
+const AddArea = ({ close }: Props) => {
   const [areaValue, setAreaValue] = useState("");
   const queryClient = useQueryClient();
   const client = useClient();
@@ -18,6 +22,7 @@ const AddArea = () => {
       onSuccess: () => {
         setAreaValue("");
         queryClient.invalidateQueries("areas");
+        if (close) close();
       },
     },
   );
@@ -25,10 +30,10 @@ const AddArea = () => {
   return (
     <Form>
       <Form.Group className='mb-3' controlId='formAddArea'>
-        <Form.Label>Area</Form.Label>
+        <Form.Label>Namn</Form.Label>
         <Form.Control
           type='text'
-          placeholder='Enter area name'
+          placeholder='Skriv in områdesnamn'
           value={areaValue}
           onChange={(e) => setAreaValue(e.target.value)}
         />
