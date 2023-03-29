@@ -1,4 +1,5 @@
-import { Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Fade, Nav, Tab } from "react-bootstrap";
 import {
   AreaResponseDto,
   CategoryResponseDto,
@@ -10,9 +11,10 @@ import {
   TeamResponseDto,
   UserInfoDto,
 } from "../../../api/client";
-import AddCustomer from "../customer/add/AddCustomer";
+import navMenu from "../data/navMenu";
 import CreateArea from "./CreateArea";
 import CreateChores from "./CreateChores";
+import CreateCustomer from "./CreateCustomer";
 import CreateTeam from "./CreateTeam";
 import CreateUser from "./CreateUser";
 
@@ -39,71 +41,41 @@ const CreatePane = ({
   teammembers,
   users,
 }: Props) => {
+  const [tab, setTab] = useState("Kund");
   return (
-    <Tab.Container defaultActiveKey='first'>
+    <Tab.Container defaultActiveKey='Kund' transition={Fade}>
       <Nav
         variant='pills'
         className='flex-row w-100 justify-content-center gap-5 py-2 card default-cursor'
       >
-        <Nav.Item>
-          <Nav.Link eventKey='first'>Kund</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey='second'>Syssla</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey='third'>Team</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey='fourth'>Användare</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey='fifth'>Område</Nav.Link>
-        </Nav.Item>
+        {navMenu.map((item) => (
+          <Nav.Item key={item.name}>
+            <Nav.Link eventKey={item.name} onClick={() => setTab(item.name)}>
+              {item.name}
+            </Nav.Link>
+          </Nav.Item>
+        ))}
       </Nav>
       <Container>
         <Tab.Content>
-          <Tab.Pane eventKey='first'>
-            <Row className='my-5'>
-              <Col md={12} lg={4}>
-                <Card className='default-cursor'>
-                  <Card.Header className='fs-5'>Nuvarande kunder</Card.Header>
-                  <Card.Body className='justify-content-center d-flex flex-column'>
-                    {customers
-                      .sort((a, b) => a.name!.localeCompare(b.name!))
-                      .map((customer) => (
-                        <Card.Text key={customer.id}>{customer.name}</Card.Text>
-                      ))}
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={12} lg={8}>
-                <Card className='default-cursor'>
-                  <Card.Header className='fs-5'>Skapa kund</Card.Header>
-                  <Card.Body className='justify-content-center d-flex flex-column'>
-                    <AddCustomer teams={teams} areas={areas} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Tab.Pane>
-          <Tab.Pane eventKey='second' className='mt-5'>
-            <CreateChores
-              categories={categories}
-              chores={chores}
-              customers={customers}
-              customerchores={customerchores}
-              periodics={periodics}
-            />
-          </Tab.Pane>
-          <Tab.Pane eventKey='third'>
-            <CreateTeam teams={teams} users={users} teammembers={teammembers} />
-          </Tab.Pane>
-          <Tab.Pane eventKey='fourth'>
-            <CreateUser users={users} teams={teams} />
-          </Tab.Pane>
-          <Tab.Pane eventKey='fifth'>
-            <CreateArea areas={areas} />
+          <Tab.Pane eventKey={tab} transition={Fade}>
+            {tab === "Kund" ? (
+              <CreateCustomer teams={teams} areas={areas} customers={customers} users={users} />
+            ) : tab === "Syssla" ? (
+              <CreateChores
+                categories={categories}
+                chores={chores}
+                customers={customers}
+                customerchores={customerchores}
+                periodics={periodics}
+              />
+            ) : tab === "Team" ? (
+              <CreateTeam teams={teams} users={users} teammembers={teammembers} />
+            ) : tab === "Användare" ? (
+              <CreateUser users={users} teams={teams} />
+            ) : tab === "Område" ? (
+              <CreateArea areas={areas} />
+            ) : undefined}
           </Tab.Pane>
         </Tab.Content>
       </Container>

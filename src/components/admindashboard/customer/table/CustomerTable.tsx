@@ -37,11 +37,11 @@ const CustomerTable = ({
       <thead>
         <tr>
           <th className='text-uppercase fs-7'>Kundnamn</th>
-          <th className='text-uppercase fs-7'>Adress</th>
-          <th className='text-uppercase fs-7'>Område</th>
-          <th className='text-uppercase fs-7'>Team</th>
-          <th className='text-uppercase fs-7'>Antal sysslor</th>
-          <th></th>
+          <th className='text-uppercase fs-7'>Klara sysslor</th>
+          <th className='text-uppercase fs-7'>Påbörjade sysslor</th>
+          <th className='text-uppercase fs-7'>Ej påbörjade sysslor</th>
+          <th className='text-uppercase fs-7'>Tilldelat team</th>
+          <th className='text-uppercase fs-7'>Alternativ</th>
         </tr>
       </thead>
       <tbody>

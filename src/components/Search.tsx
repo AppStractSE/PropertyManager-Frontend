@@ -11,7 +11,7 @@ interface Props {
 const Search = ({ value, onChange, placeholder }: Props) => {
   return (
     <Form
-      className='flex-fill align-items-center'
+      className='flex-fill align-items-center mb-3'
       onSubmit={(e) => {
         e.preventDefault();
       }}

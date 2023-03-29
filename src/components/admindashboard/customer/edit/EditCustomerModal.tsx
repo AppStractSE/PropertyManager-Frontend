@@ -43,10 +43,7 @@ const EditCustomerModal = ({
       </Modal.Header>
       <Modal.Body className='m-3'>
         <Tab.Container defaultActiveKey='first'>
-          <Nav
-            variant='pills'
-            className='gap-2 justify-content-between flex-row mb-4 align-items-center'
-          >
+          <Nav variant='pills' className='gap-5 flex-row mb-4 align-items-center'>
             <Nav.Item>
               <Nav.Link eventKey='first'>Kunduppgifter</Nav.Link>
             </Nav.Item>
@@ -56,9 +53,6 @@ const EditCustomerModal = ({
                 <Nav.Link eventKey='second'>Kundsysslor</Nav.Link>
               </Nav.Item>
             ) : undefined}
-            <Nav.Item>
-              <Nav.Link eventKey='third'>Skapa kundsyssla</Nav.Link>
-            </Nav.Item>
             <DeleteCustomer customer={customer} />
           </Nav>
           <Tab.Content>
@@ -86,9 +80,6 @@ const EditCustomerModal = ({
                 />
               </Tab.Pane>
             ) : undefined}
-            <Tab.Pane eventKey='third'>
-              <AddCustomerChore periodics={periodics} customer={customer} chores={chores} />
-            </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       </Modal.Body>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import {
   AreaResponseDto,
   ChoreResponseDto,
@@ -35,13 +34,23 @@ const CustomerRow = ({
   return (
     <tr>
       <td>{customer.name}</td>
-      <td>{customer.address}</td>
-      <td>{areas.filter((area) => area.id === customer.areaId).map((area) => area.name)}</td>
-      <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
       <td>
-        {customerchores.filter((customerchore) => customerchore.customerId === customer.id).length}{" "}
-        st
+        {customerchores.filter((x) => x.status === "Klar" && x.customerId === customer.id).length}
       </td>
+      <td>
+        {
+          customerchores.filter((x) => x.status === "Påbörjad" && x.customerId === customer.id)
+            .length
+        }
+      </td>
+      <td>
+        {
+          customerchores.filter((x) => x.status === "Ej påbörjad" && x.customerId === customer.id)
+            .length
+        }
+      </td>
+      <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
+
       <td>
         <Button
           className='me-2'
@@ -51,11 +60,6 @@ const CustomerRow = ({
         >
           Visa mer
         </Button>
-        <Link to={`/customer/${customer.id}`} className='router-link'>
-          <Button variant='outline-primary' size='sm'>
-            Gå till
-          </Button>
-        </Link>
       </td>
       <EditCustomerModal
         chores={chores}

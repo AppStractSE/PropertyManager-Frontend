@@ -1,6 +1,6 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { AreaResponseDto } from "../../../api/client";
-import AddArea from "../area/add/AddArea";
+import AddArea from "../area/AddArea";
 
 interface Props {
   areas: AreaResponseDto[];

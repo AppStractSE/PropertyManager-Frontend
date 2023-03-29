@@ -56,7 +56,7 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
         />
       </Form.Group>
       <Form.Group>
-      <Form.Label>Syssla</Form.Label>
+        <Form.Label>Syssla</Form.Label>
         <Form.Select
           aria-label='Chore'
           value={choreValue}
@@ -74,7 +74,7 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
         </Form.Select>
       </Form.Group>
       <Form.Group>
-      <Form.Label>Återkommande</Form.Label>
+        <Form.Label>Återkommande</Form.Label>
         <Form.Select
           aria-label='Tidsintervall'
           value={periodicValue}

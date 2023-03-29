@@ -8,9 +8,6 @@ body,
   display: flex;
   flex-direction: column;
 }
-div {
-  transition: 0.1s ease all;
-}
 
 :root {
   --pm-completed: rgb(5, 97, 5);
@@ -234,5 +231,5 @@ input[type="number"] {
 }
 
 .default-cursor {
-  cursor: default !important; 
+  cursor: default !important;
 }
