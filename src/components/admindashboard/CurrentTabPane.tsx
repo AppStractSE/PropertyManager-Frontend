@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Tab } from "react-bootstrap";
 import {
   AreaResponseDto,
   ChoreResponseDto,
@@ -8,7 +8,7 @@ import {
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto,
+  UserInfoDto
 } from "../../api/client";
 import Search from "../Search";
 import CustomerTable from "./customer/table/CustomerTable";
@@ -43,6 +43,7 @@ const CurrentTabPane = ({
   }, [tab]);
 
   return (
+    <Tab.Pane eventKey={tab}>
     <Card className='default-cursor'>
       <Card.Header className='fs-4 mb-2'>{tab}</Card.Header>
       <Card.Body>
@@ -50,29 +51,30 @@ const CurrentTabPane = ({
           value={search}
           onChange={(value) => setSearch(value)}
           placeholder={tab.toLowerCase()}
-        />
+          />
         {tab === "Kunder" ? (
           <CustomerTable
-            search={search}
-            areas={areas}
-            chores={chores}
-            customers={customers}
-            customerchores={customerchores}
-            teams={teams}
-            teammembers={teammembers}
-            periodics={periodics}
+          search={search}
+          areas={areas}
+          chores={chores}
+          customers={customers}
+          customerchores={customerchores}
+          teams={teams}
+          teammembers={teammembers}
+          periodics={periodics}
           />
-        ) : tab === "Teams" ? (
-          <TeamTable
+          ) : tab === "Teams" ? (
+            <TeamTable
             search={search}
             teams={teams}
             teammembers={teammembers}
             users={users}
             customers={customers}
-          />
-        ) : undefined}
+            />
+            ) : undefined}
       </Card.Body>
     </Card>
+      </Tab.Pane>
   );
 };
 
