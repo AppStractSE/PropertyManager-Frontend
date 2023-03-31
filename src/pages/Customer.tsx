@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { BsChevronLeft } from "react-icons/bs";
 import { useQuery } from "react-query";
@@ -7,10 +8,12 @@ import { container, item } from "../animation";
 import { CustomerChoreResponseDto, CustomerResponseDto } from "../api/client";
 import ChoreCard from "../components/ChoreCard";
 import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
+import Search from "../components/Search";
 import CustomerPageSkeleton from "../components/skeletons/CustomerPageSkeleton";
 import { useClient } from "../contexts/ClientContext";
 
 const Customer = () => {
+  const [searchValue, setSearchValue] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
   const client = useClient();
@@ -61,11 +64,18 @@ const Customer = () => {
               </Container>
             ) : (
               <>
-                {customerChores?.map((chore) => (
-                  <motion.div variants={item} key={chore.id}>
-                    <ChoreCard customerchore={chore} />
-                  </motion.div>
-                ))}
+                <Search
+                  value={searchValue}
+                  onChange={(value) => setSearchValue(value)}
+                  placeholder='uppgift'
+                />
+                {customerChores
+                  ?.filter((x) => x.chore?.title?.toLowerCase().includes(searchValue.toLowerCase()))
+                  .map((chore) => (
+                    <motion.div variants={item} key={chore.id}>
+                      <ChoreCard customerchore={chore} />
+                    </motion.div>
+                  ))}
               </>
             )}
           </motion.div>
