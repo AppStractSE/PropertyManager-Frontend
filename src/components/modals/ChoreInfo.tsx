@@ -69,7 +69,7 @@ const ChoreInfo = ({ show, onHide, customerchore }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["choreStatus", customerchore.id]);
+        queryClient.invalidateQueries(["customerChores", customerchore.customerId]);
         setShowToast(true);
       },
     },
