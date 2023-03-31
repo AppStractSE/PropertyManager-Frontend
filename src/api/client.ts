@@ -2136,6 +2136,7 @@ export interface PutTeamMemberRequestDto {
 }
 
 export interface PutTeamMembersRequestDto {
+    teamId: string | undefined;
     teamMembers: PutTeamMemberRequestDto[] | undefined;
 }
 

@@ -21,23 +21,27 @@ const TeamRow = ({ team, teammembers, users, customers }: Props) => {
     <tr>
       <td>{team.name}</td>
       <td>
-        {teammembers
-          ?.filter((x) => x.teamId === team.id)
-          .map((teammember) => (
-            <div className='d-flex gap-2 mb-1 align-items-center' key={teammember.userId}>
-              <div className='me-2'>
-                {users?.find((user) => teammember.userId === user.userId)?.displayName}
+        {teammembers.filter((x) => x.teamId === team.id).length === 0 ? (
+          <div className='fst-italic'>Det här teamet har inga medlemmar</div>
+        ) : (
+          teammembers
+            ?.filter((x) => x.teamId === team.id)
+            .map((teammember) => (
+              <div className='d-flex gap-2 mb-1 align-items-center' key={teammember.userId}>
+                <div className='me-2'>
+                  {users?.find((user) => teammember.userId === user.userId)?.displayName}
+                </div>
+                <Badge
+                  className='text-uppercase'
+                  style={{ fontSize: "0.6rem" }}
+                  text={teammember.isTemporary ? "dark" : undefined}
+                  bg={teammember.isTemporary ? "warning" : "primary"}
+                >
+                  {teammember.isTemporary ? "Tillfällig" : "Ordinarie"}
+                </Badge>
               </div>
-              <Badge
-                className='text-uppercase'
-                style={{ fontSize: "0.6rem" }}
-                text={teammember.isTemporary ? "dark" : undefined}
-                bg={teammember.isTemporary ? "warning" : "primary"}
-              >
-                {teammember.isTemporary ? "Tillfällig" : "Ordinarie"}
-              </Badge>
-            </div>
-          ))}
+            ))
+        )}
       </td>
       <td>
         <Button variant='outline-primary' size='sm' onClick={() => setShowTeamModal(!teamModal)}>

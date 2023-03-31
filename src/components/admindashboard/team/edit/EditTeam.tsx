@@ -5,7 +5,7 @@ import {
   PutTeamMemberRequestDto,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto,
+  UserInfoDto
 } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
 
@@ -35,6 +35,7 @@ const EditTeam = ({ team, teammembers, users }: Props) => {
   const { mutate: updateTeamMembers, isLoading: updatingTeamMembers } = useMutation(
     async () => {
       return await client.teamMember_PutTeamMembers({
+        teamId: team.id,
         teamMembers: teamMembers.map((tm) => {
           return { ...tm, teamId: team.id };
         }),
