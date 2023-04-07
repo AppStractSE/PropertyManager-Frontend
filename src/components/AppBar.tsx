@@ -9,8 +9,8 @@ import ProfileModal from "./modals/ProfileModal";
 const AppBar = () => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <Navbar bg='dark' variant='dark'>
-      <Col className='d-flex align-items-center justify-content-between px-5'>
+    <Navbar className="border-bottom">
+      <Col className='d-flex align-items-center px-3 justify-content-between'>
         <LinkContainer to='/'>
           <Navbar.Brand>Property Manager</Navbar.Brand>
         </LinkContainer>

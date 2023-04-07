@@ -18,6 +18,7 @@ const AdminDashboard = () => {
     teamMembers,
     teams,
     users,
+    userData
   } = useQueries();
   if (
     !areas ||
@@ -29,7 +30,8 @@ const AdminDashboard = () => {
     !teamMembers ||
     !teams ||
     !chores ||
-    !users
+    !users ||
+    !userData
   )
     return null;
 
@@ -73,7 +75,7 @@ const AdminDashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 50 }}
               transition={{ duration: 0.3 }}
-              className={tab === "Skapa" ? "" : "m-5"}
+              className={tab === "Skapa" ? "" : "mt-5 mx-3"}
             >
               {tab === "Skapa" ? (
                 <CreatePane

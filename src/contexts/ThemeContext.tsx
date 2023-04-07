@@ -20,10 +20,17 @@ const ThemeProvider = ({ children }: Props) => {
   const toggleDarkTheme = () => {
     setIsDarkTheme(!isDarkTheme);
   };
+
   useEffect(() => {
-    if (isDarkTheme) document.body.classList.add("dark");
-    else document.body.classList.remove("dark");
+    const metaThemeColor = document.querySelector("meta[name=theme-color]") as HTMLMetaElement;
+    metaThemeColor.content = isDarkTheme ? "#111" : "#ffffff";
+    if (isDarkTheme) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   }, [isDarkTheme]);
+
   return (
     <ThemeContext.Provider value={{ isDarkTheme, toggleDarkTheme }}>
       {children}

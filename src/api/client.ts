@@ -627,7 +627,7 @@ export class Client extends BaseClient {
         return Promise.resolve<ChoreCommentResponseDto[]>(null as any);
     }
 
-    choreComment_DeleteTeamById(id: string | undefined): Promise<FileResponse> {
+    choreComment_DeleteChoreCommentById(id: string | undefined): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/v1/ChoreComment/DeleteChoreCommentById?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -645,11 +645,11 @@ export class Client extends BaseClient {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processChoreComment_DeleteTeamById(_response);
+            return this.processChoreComment_DeleteChoreCommentById(_response);
         });
     }
 
-    protected processChoreComment_DeleteTeamById(response: Response): Promise<FileResponse> {
+    protected processChoreComment_DeleteChoreCommentById(response: Response): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -1949,6 +1949,7 @@ export interface ChoreComment {
     message: string | undefined;
     customerChoreId: string | undefined;
     displayName: string | undefined;
+    userId: string | undefined;
     time: Date;
 }
 
@@ -1957,6 +1958,7 @@ export interface ChoreCommentResponseDto {
     message: string | undefined;
     time: Date;
     displayName: string | undefined;
+    userId: string | undefined;
 }
 
 export interface PostChoreCommentRequestDto {
@@ -2022,6 +2024,7 @@ export interface CustomerChore {
     frequency: number;
     progress: number;
     status: string | undefined;
+    reset: string | undefined;
     periodicId: string | undefined;
     periodic: Periodic | undefined;
 }
@@ -2032,6 +2035,7 @@ export interface Customer {
     areaId: string | undefined;
     teamId: string | undefined;
     address: string | undefined;
+    slug: string | undefined;
 }
 
 export interface Periodic {
@@ -2071,6 +2075,7 @@ export interface CustomerResponseDto {
     areaId: string | undefined;
     teamId: string | undefined;
     address: string | undefined;
+    slug: string | undefined;
 }
 
 export interface PostCustomerRequestDto {
@@ -2154,6 +2159,7 @@ export interface UserTeamData {
 export interface UserCustomerData {
     customerId: string | undefined;
     customerName: string | undefined;
+    customerSlug: string | undefined;
     areaId: string | undefined;
     customerAddress: string | undefined;
     customerChores: UserCustomerChoreData[] | undefined;
@@ -2163,6 +2169,9 @@ export interface UserCustomerChoreData {
     customerChoreId: string | undefined;
     chore: Chore | undefined;
     frequency: number;
+    status: string | undefined;
+    progress: number;
+    subCategoryName: string | undefined;
     periodic: Periodic | undefined;
 }
 
