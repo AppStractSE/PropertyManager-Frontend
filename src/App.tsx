@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { Route, Routes } from "react-router-dom";
 import { AuthUser, TokenInfo } from "./api/client";
+import AppBar from "./components/AppBar";
+import CustomerChoreInfo from "./components/CustomerChoreInfo";
+import CompleteCustomerChore from "./components/modals/CustomerChore/CompleteCustomerChore";
 import { useClient } from "./contexts/ClientContext";
 import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import Layout from "./Layout";
 import AdminDashboard from "./pages/AdminDashboard";
 import Customer from "./pages/Customer";
 import Home from "./pages/Home";
@@ -38,7 +40,6 @@ const App = () => {
       onError: (error) => {
         console.log(error);
       },
-      refetchOnWindowFocus: false,
     },
   );
 
@@ -56,24 +57,22 @@ const App = () => {
     }
   }, [currentUser]);
 
-  console.log(currentUser.user?.role);
   return (
     <AnimatePresence mode='wait'>
       <Routes>
-        <Route path='/' element={<Layout />}>
-          {currentUser === InitialUserState ? (
-            <Route index element={<Login />} />
-          ) : (
-            <>
-              <Route
-                index
-                element={currentUser.user?.role !== "Admin" ? <Home /> : <AdminDashboard />}
-              />
-              <Route path='customer/:id' element={<Customer />} />
-            </>
-          )}
-          <Route path='*' element={<NotFound />} />
-        </Route>
+        {currentUser === InitialUserState ? (
+          <Route index element={<Login />} />
+        ) : (
+          <>
+            <Route
+              index
+              element={currentUser.user?.role === "Admin" ? <><AppBar /><AdminDashboard /></> : <Home />}
+            />
+            <Route path='customer/:id' element={<Customer />} />
+            <Route path='customer/:id/chore/:customerChoreId' element={<CustomerChoreInfo />} />
+          </>
+        )}
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );

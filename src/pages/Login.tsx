@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useMutation } from "react-query";
-import { AuthUser } from "../api/client";
+import { AuthUser, Client } from "../api/client";
 import { useUser } from "../contexts/UserContext";
-import axiosClient from "../utils/axiosClient";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { setCurrentUser } = useUser();
+  const client = new Client();
 
-  const { mutateAsync: postLogin } = useMutation(
+  const { mutateAsync: postLogin, isLoading: postingLogin } = useMutation(
     async () => {
-      return await axiosClient.post("/Authenticate/Login", {
+      return await client.authenticate_Login({
         username: userName,
         password: password,
       });
@@ -21,7 +21,7 @@ const Login = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          let authUser: AuthUser = data.data;
+          let authUser: AuthUser = data;
           setCurrentUser(authUser);
         }
       },
@@ -33,8 +33,15 @@ const Login = () => {
     postLogin();
   };
 
+  if (postingLogin)
+    return (
+      <div className='flex-fill justify-content-center align-items-center d-flex'>
+        <Spinner as='span' animation='border' />
+      </div>
+    );
+
   return (
-    <div className='background-image'>
+    <div className='background-image safe-area'>
       <Container className='login-container'>
         <Form className='w-100 d-flex flex-column mb-4' onSubmit={submit}>
           <Form.Group controlId='login.username'>

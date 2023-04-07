@@ -1,50 +1,52 @@
-import { useState } from "react";
-import { Button, Card, Container } from "react-bootstrap";
-import { CustomerChoreResponseDto } from "../api/client";
-import { useClient } from "../contexts/ClientContext";
-import ChoreInfo from "./modals/ChoreInfo";
+import { Card, Container } from "react-bootstrap";
+import { BiCheck } from "react-icons/bi";
+import { GoX } from "react-icons/go";
+import { IoMdSync } from "react-icons/io";
+import { VscPieChart } from "react-icons/vsc";
+import { Link, useParams } from "react-router-dom";
+import { UserCustomerChoreData } from "../api/client";
 
 interface Props {
-  customerchore: CustomerChoreResponseDto;
+  customerchore: UserCustomerChoreData;
 }
 
 const ChoreCard = ({ customerchore }: Props) => {
-  const [modalShow, setModalShow] = useState(false);
-  const client = useClient();
-
+  const { id } = useParams();
   return (
-    <>
-      <Card onClick={() => setModalShow(true)}>
-        <Card.Header className='d-flex align-items-center'>
+    <Link to={`/customer/${id}/chore/${customerchore.customerChoreId}`}>
+      <Card className='rounded'>
+        <Card.Body className='d-flex align-items-center'>
           <Container>
             <Card.Title>{customerchore.chore!.title}</Card.Title>
-            <Card.Title className='small text-muted'>Planteringsytor</Card.Title>
+            <Card.Title className='small text-muted'>{customerchore?.subCategoryName}</Card.Title>
+            <div className='d-flex align-items-center gap-2'>
+              <div
+                className={`w-fit-content rounded-pill border border-dark px-3 py-1 d-flex gap-1 align-items-center ${
+                  customerchore.status === "Klar"
+                    ? "bg-success"
+                    : customerchore.status === "Påbörjad"
+                    ? "bg-primary"
+                    : "bg-danger"
+                }`}
+              >
+                {customerchore.status === "Klar" ? (
+                  <BiCheck size={20} />
+                ) : customerchore.status === "Påbörjad" ? (
+                  <VscPieChart size={20} />
+                ) : (
+                  <GoX size={20} />
+                )}
+                <div className='fs-7 text-center'>{customerchore?.status}</div>
+              </div>
+              <div className='d-flex align-items-center gap-2 rounded-pill border border-dark px-3 py-1'>
+                <IoMdSync size={20} />
+                <div className='fs-7 text-center'>3 dagar</div>
+              </div>
+            </div>
           </Container>
-        </Card.Header>
-        <Card.Body className='d-flex align-items-end'>
-          <div className='me-auto'>
-            <Card.Title className='small text-muted'>Status</Card.Title>
-            <Card.Text
-              className={`small p-2 status ${
-                customerchore.status === "Klar"
-                  ? "completed"
-                  : customerchore.status === "Påbörjad"
-                  ? "initiated"
-                  : "not-initiated"
-              }`}
-            >
-              {customerchore.status}
-            </Card.Text>
-          </div>
-          <Button>Läs mer</Button>
         </Card.Body>
       </Card>
-      <ChoreInfo
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        customerchore={customerchore}
-      />
-    </>
+    </Link>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Badge, Card, Container } from "react-bootstrap";
-import { BsChevronRight } from "react-icons/bs";
-import { MdLocationOn } from "react-icons/md";
+import { BiCheck } from "react-icons/bi";
+import { GoX } from "react-icons/go";
+import { VscPieChart } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { UserCustomerData, UserTeamData } from "../api/client";
 
@@ -10,30 +11,16 @@ interface Props {
 }
 const CustomerCard = ({ customer, team }: Props) => {
   return (
-    <Link to={`/customer/${customer.customerId}`} className='router-link'>
+    <Link to={`/customer/${customer.customerSlug}`}>
       <Card>
-        <Card.Header className='d-flex align-items-center'>
-          <Container>
-            <Card.Title>{customer.customerName}</Card.Title>
-            <Container className='d-flex align-items-center'>
-              <MdLocationOn size={22} />
-              <Card.Text className='ms-1'>{customer.customerAddress}</Card.Text>
-            </Container>
-          </Container>
-          <div className='d-flex align-items-center justify-content-between'>
+        <Card.Body>
+          <Container className='d-flex align-items-center'>
+            <Card.Title className='me-auto'>{customer.customerName}</Card.Title>
             {team.isTemporary === true && (
-              <Badge className='me-2' text='dark' pill bg='warning'>
+              <Badge text='dark' pill bg='warning'>
                 TEMP
               </Badge>
             )}
-            <BsChevronRight size={24} />
-          </div>
-        </Card.Header>
-        <Card.Body>
-          <Container>
-            {/* Temp */}
-            <Card.Text>Uppgifter: {customer.customerChores?.length}st</Card.Text>
-            {/* Temp */}
           </Container>
         </Card.Body>
       </Card>

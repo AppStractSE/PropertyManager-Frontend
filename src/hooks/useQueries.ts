@@ -10,74 +10,89 @@ import {
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
+  UserDataResponseDto,
   UserInfoDto,
 } from "../api/client";
 import { useClient } from "../contexts/ClientContext";
+import { useUser } from "../contexts/UserContext";
 
 export function useQueries() {
   const client = useClient();
+  const { currentUser } = useUser();
 
-  const { data: areas } = useQuery<AreaResponseDto[]>(
-    ["areas"],
-    async () => await client.area_GetAllAreas(),
+  const { data: userData } = useQuery<UserDataResponseDto>(
+    ["userData", currentUser?.user?.userId],
+    async () => client.userData_GetUserDataById(currentUser?.user?.userId || ""),
   );
 
-  const { data: categories } = useQuery<CategoryResponseDto[]>(["categories"], async () =>
-    client.category_GetAllCategories(),
-  );
+  if (currentUser.user?.role === "Admin") {
+    const { data: areas } = useQuery<AreaResponseDto[]>(
+      ["areas"],
+      async () => await client.area_GetAllAreas(),
+    );
 
-  const { data: choreComments } = useQuery<ChoreCommentResponseDto[]>(["chorecomments"], async () =>
-    client.choreComment_GetAllChoreComments(),
-  );
+    const { data: categories } = useQuery<CategoryResponseDto[]>(["categories"], async () =>
+      client.category_GetAllCategories(),
+    );
 
-  const { data: choreStatuses } = useQuery<ChoreStatusResponseDto[]>("choreStatuses", async () =>
-    client.choreStatus_GetAllChoreStatuses(),
-  );
+    const { data: choreComments } = useQuery<ChoreCommentResponseDto[]>(
+      ["chorecomments"],
+      async () => client.choreComment_GetAllChoreComments(),
+    );
 
-  const { data: chores } = useQuery<ChoreResponseDto[]>(
-    "chores",
-    async () => await client.chore_GetAllChores(),
-  );
+    const { data: choreStatuses } = useQuery<ChoreStatusResponseDto[]>("choreStatuses", async () =>
+      client.choreStatus_GetAllChoreStatuses(),
+    );
 
-  const { data: customers } = useQuery<CustomerResponseDto[]>(
-    "customers",
-    async () => await client.customer_GetAllCustomers(),
-  );
+    const { data: chores } = useQuery<ChoreResponseDto[]>(
+      "chores",
+      async () => await client.chore_GetAllChores(),
+    );
 
-  const { data: customerChores } = useQuery<CustomerChoreResponseDto[]>(
-    "customerchores",
-    async () => client.customerChore_GetAllChores(),
-  );
+    const { data: customers } = useQuery<CustomerResponseDto[]>(
+      "customers",
+      async () => await client.customer_GetAllCustomers(),
+    );
 
-  const { data: periodics } = useQuery<Periodic[]>(
-    "periodics",
-    async () => await client.periodic_GetAllPeriodics(),
-  );
+    const { data: customerChores } = useQuery<CustomerChoreResponseDto[]>(
+      "customerchores",
+      async () => client.customerChore_GetAllChores(),
+    );
 
-  const { data: teamMembers } = useQuery<TeamMemberResponseDto[]>("teamMembers", async () =>
-    client.teamMember_GetAllTeamMembers(),
-  );
+    const { data: periodics } = useQuery<Periodic[]>(
+      "periodics",
+      async () => await client.periodic_GetAllPeriodics(),
+    );
 
-  const { data: teams } = useQuery<TeamResponseDto[]>(
-    "teams",
-    async () => await client.team_GetAllTeams(),
-  );
+    const { data: teamMembers } = useQuery<TeamMemberResponseDto[]>("teamMembers", async () =>
+      client.teamMember_GetAllTeamMembers(),
+    );
 
-  const { data: users } = useQuery<UserInfoDto[]>("users", async () =>
-    client.authenticate_GetAllUsers(),
-  );
+    const { data: teams } = useQuery<TeamResponseDto[]>(
+      "teams",
+      async () => await client.team_GetAllTeams(),
+    );
+
+    const { data: users } = useQuery<UserInfoDto[]>("users", async () =>
+      client.authenticate_GetAllUsers(),
+    );
+    return {
+      areas,
+      categories,
+      choreComments,
+      choreStatuses,
+      chores,
+      customers,
+      customerChores,
+      periodics,
+      teamMembers,
+      teams,
+      users,
+      userData
+    };
+  }
 
   return {
-    areas,
-    categories,
-    choreComments,
-    choreStatuses,
-    chores,
-    customers,
-    customerChores,
-    periodics,
-    teamMembers,
-    teams,
-    users,
+    userData,
   };
 }

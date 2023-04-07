@@ -1,4 +1,5 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { useQueryClient } from "react-query";
 import { AuthUser, TokenInfo } from "../api/client";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -40,10 +41,12 @@ export const InitialUserState: AuthUser = {
 function UserProvider({ children }: Props) {
   const [currentUser, setCurrentUser] = useState<AuthUser>(InitialUserState);
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
+  const queryClient = useQueryClient();
 
   const logout = () => {
     setCurrentUser(InitialUserState);
     window.localStorage.removeItem("token");
+    queryClient.removeQueries();
   };
 
   return (
