@@ -90,7 +90,7 @@ const CustomerChoreInfo = () => {
           <div className='h3 mb-0'>{customerchore?.chore?.title}</div>
         </Container>
       </Container>
-      <div className='h-100 py-3 overflow-y-scroll'>
+      <div className='h-100 py-3 overflow-y-scroll container px-0'>
         <Container>
           <div className='fs-5 fw-bold mb-2'>Information</div>
           <div className='d-flex gap-2 align-items-center my-2'>
@@ -187,11 +187,7 @@ const CustomerChoreInfo = () => {
               className='keen-slider__slide bg-dark rounded'
               onClick={() => setShowMediaModal(!showMediaModal)}
             >
-              <img
-                src=''
-                height='auto'
-                width='100%'
-              />
+              <img src='' height='auto' width='100%' />
             </div>
           </div>
         </Container>
