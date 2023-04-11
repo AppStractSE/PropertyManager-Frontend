@@ -7,16 +7,18 @@ import { item } from "../animation";
 import ChoreCard from "../components/ChoreCard";
 import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import Search from "../components/Search";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useQueries } from "../hooks/useQueries";
 
 const Customer = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [active, setActive] = useLocalStorage<string>("filterMode", "All");
   const { id } = useParams();
   const { userData } = useQueries();
+
+  const [searchValue, setSearchValue] = useLocalStorage<string>("choreSearch", "");
   const customer = userData?.userTeamsData
     ?.find((team) => team.userCustomersData?.find((customer) => customer.customerSlug === id))
     ?.userCustomersData?.find((customer) => customer.customerSlug === id);
-  const [active, setActive] = useState("All");
 
   if (!customer) return null;
 
