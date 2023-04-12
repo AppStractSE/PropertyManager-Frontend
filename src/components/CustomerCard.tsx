@@ -11,7 +11,7 @@ const CustomerCard = ({ customer, team }: Props) => {
     <Link to={`/customer/${customer.customerSlug}`}>
       <Card>
         <Card.Body>
-          <div className='fs-7 opacity-50'>{customer.customerAddress}</div>
+          <div className='fs-7 opacity-50 mb-1'>{customer.customerAddress}</div>
           <Container className='d-flex align-items-center'>
             <Card.Title className='me-auto mb-0'>{customer.customerName}</Card.Title>
             {team.isTemporary ? (
