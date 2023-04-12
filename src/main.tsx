@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ClientProvider>
       <QueryClientProvider client={queryClient}>
-        {/* <ReactQueryDevtools position='top-left' /> */}
+        <ReactQueryDevtools position='top-left' />
         <UserProvider>
           <BrowserRouter>
             <ThemeProvider>

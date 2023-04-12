@@ -1,7 +1,4 @@
 import { Badge, Card, Container } from "react-bootstrap";
-import { BiCheck } from "react-icons/bi";
-import { GoX } from "react-icons/go";
-import { VscPieChart } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { UserCustomerData, UserTeamData } from "../api/client";
 
@@ -14,13 +11,14 @@ const CustomerCard = ({ customer, team }: Props) => {
     <Link to={`/customer/${customer.customerSlug}`}>
       <Card>
         <Card.Body>
+          <div className='fs-7 opacity-50'>{customer.customerAddress}</div>
           <Container className='d-flex align-items-center'>
-            <Card.Title className='me-auto'>{customer.customerName}</Card.Title>
-            {team.isTemporary === true && (
+            <Card.Title className='me-auto mb-0'>{customer.customerName}</Card.Title>
+            {team.isTemporary ? (
               <Badge text='dark' pill bg='warning'>
                 TEMP
               </Badge>
-            )}
+            ) : undefined}
           </Container>
         </Card.Body>
       </Card>

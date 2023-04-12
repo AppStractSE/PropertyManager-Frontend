@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { ChoreCommentResponseDto, UserCustomerChoreData } from "../api/client";
 import { useClient } from "../contexts/ClientContext";
+import toasts from "../data/toasts";
 
 interface Props {
   chorecomment: ChoreCommentResponseDto;
@@ -18,8 +20,12 @@ const DeleteComment = ({ chorecomment, customerchore }: Props) => {
     },
     {
       onSuccess: () => {
+        toast.error(toasts.comments.onDelete.message);
         queryClient.invalidateQueries(["choreComment", customerchore.customerChoreId]);
       },
+      onError: () => {
+        toast.warning(toasts.generic.onError.message);
+      }
     },
   );
 

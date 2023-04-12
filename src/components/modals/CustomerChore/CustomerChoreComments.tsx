@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Container, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ChoreCommentResponseDto, UserCustomerChoreData } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import { useUser } from "../../../contexts/UserContext";
+import toasts from "../../../data/toasts";
 import ChoreComment from "./ChoreComment";
 
 interface Props {
@@ -36,8 +39,12 @@ const CustomerChoreComments = ({
     },
     {
       onSuccess: () => {
+        toast.success(toasts.comments.onMutate.message);
         setCommentValue("");
         queryClient.invalidateQueries(["choreComment", customerChoreId]);
+      },
+      onError: () => {
+        toast.warning(toasts.generic.onError.message);
       },
     },
   );
@@ -95,8 +102,8 @@ const CustomerChoreComments = ({
           {customerchore?.chore?.title}
           {customerchore?.chore?.description}
           <div className='chore-comments mt-2 px-2'>
-            {chorecomments.map((chorecomment) => (
-              <ChoreComment customerchore={customerchore} chorecomment={chorecomment} />
+            {chorecomments.map((chorecomment, index) => (
+              <ChoreComment key={index} customerchore={customerchore} chorecomment={chorecomment} />
             ))}
           </div>
         </Modal.Body>

@@ -1,5 +1,7 @@
 // Bootstrap overrides
-
+.navbar-brand {
+  color: inherit;
+}
 .navbar-toggler {
   border: none;
 

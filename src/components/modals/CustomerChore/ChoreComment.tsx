@@ -23,13 +23,6 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
       setShowDeleteButton(false);
       setActiveDeleteButton(null);
     }
-  
-    // Set a timeout to hide the delete button after 5 seconds of inactivity
-    setTimeout(() => {
-      setShowDeleteButton(false);
-      setActiveDeleteButton(null);
-    }, 5000);
-
   };
   
   useEffect(() => {

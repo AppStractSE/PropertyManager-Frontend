@@ -4,9 +4,11 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { DayPicker } from "react-day-picker";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { UserCustomerChoreData, UserCustomerData } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import { useUser } from "../../../contexts/UserContext";
+import toasts from "../../../data/toasts";
 
 interface Props {
   customerchore: UserCustomerChoreData;
@@ -31,11 +33,15 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
     },
     {
       onSuccess: () => {
+        toast.success(toasts.choreStatuses.onMutate.message);
         queryClient.invalidateQueries(["choreStatus", customerchore?.customerChoreId]);
         queryClient.invalidateQueries(["customerChores", customerchore?.customerChoreId]);
         queryClient.invalidateQueries(["userData", currentUser.user!.userId]);
         onHide();
       },
+      onError: () => {
+        toast.warning(toasts.generic.onError.message);
+      }
     },
   );
 
