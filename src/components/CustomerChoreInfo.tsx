@@ -1,7 +1,7 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { useState } from "react";
-import { Container, Spinner } from "react-bootstrap";
+import { Container, ProgressBar, Spinner } from "react-bootstrap";
 import "react-day-picker/dist/style.css";
 import { AiOutlineFileDone, AiOutlineUser } from "react-icons/ai";
 import { BiCheck, BiTask, BiTimeFive } from "react-icons/bi";
@@ -113,10 +113,10 @@ const CustomerChoreInfo = () => {
                     <div className='fs-7' key={latestStatus.id}>
                       Gjordes senast{" "}
                       {new Date(latestStatus.completedDate).getDate() === new Date().getDate()
-                        ? `Idag - ${latestStatus.completedDate.toString().slice(11, 16)}`
+                        ? `idag - ${latestStatus.completedDate.toString().slice(11, 16)}`
                         : new Date(latestStatus.completedDate).getDate() ===
                           new Date().getDate() - 1
-                        ? `Igår - ${latestStatus.completedDate.toString().slice(11, 16)}`
+                        ? `igår - ${latestStatus.completedDate.toString().slice(11, 16)}`
                         : latestStatus.completedDate
                             .toString()
                             .slice(0, 10)
@@ -141,7 +141,12 @@ const CustomerChoreInfo = () => {
           </div>
           <div className='d-flex gap-2 align-items-center my-2'>
             <IoMdSync size={24} />
-            <div className='fs-7'>Återställs om 7 dagar</div>
+            <div className='fs-7'>
+              Återställs
+              {customerchore.daysUntilReset === 1
+                ? " i morgon"
+                : ` om  ${customerchore.daysUntilReset} dagar`}
+            </div>
           </div>
         </Container>
         <div className='divider' />
@@ -153,7 +158,7 @@ const CustomerChoreInfo = () => {
         <Container>
           <div className='fs-5 fw-bold mb-2'>Status</div>
           <div
-            className={`w-fit-content rounded-pill px-3 py-1 d-flex gap-1 align-items-center ${
+            className={`w-fit-content rounded-pill px-3 py-1 d-flex gap-1 align-items-center border border-dark ${
               customerchore.status === "Klar"
                 ? "bg-success"
                 : customerchore.status === "Påbörjad"
@@ -168,8 +173,19 @@ const CustomerChoreInfo = () => {
             ) : (
               <GoX size={20} />
             )}
-
             <div className='fs-7 text-center'>{customerchore?.status}</div>
+          </div>
+          <div className='position-relative'>
+            <ProgressBar className='rounded-pill mt-3 border border-dark' style={{ height: 24 }}>
+              {Array.from({ length: customerchore?.progress }, (_, i) => i + 1).map((x, idx) => (
+                <ProgressBar variant={"success"} now={100 / customerchore.frequency} key={idx} />
+              ))}
+            </ProgressBar>
+            <div className='position-absolute top-0 bottom-0 start-0 end-0 d-flex align-items-center justify-content-center'>
+              <div className='fs-7'>
+                {customerchore?.progress} / {customerchore.frequency}
+              </div>
+            </div>
           </div>
         </Container>
         <div className='divider' />

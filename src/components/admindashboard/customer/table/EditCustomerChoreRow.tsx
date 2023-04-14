@@ -51,7 +51,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   return (
     <tr>
       <td>
-        <div className='form-control border-transparent ps-0'>{customerchore.chore?.title}</div>
+        <div className='form-control bg-transparent border-transparent ps-0'>{customerchore.chore?.title}</div>
       </td>
       <td>
         <Form.Control

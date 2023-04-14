@@ -1,5 +1,5 @@
 import { sv } from "date-fns/locale";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { DayPicker } from "react-day-picker";
 import { AiOutlineFileDone } from "react-icons/ai";
@@ -27,6 +27,7 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
   const { mutate: postChoreStatus, isLoading: postingChoreStatus } = useMutation(
     async () => {
       return await client.choreStatus_PostChoreStatus({
+        completedDate: dateValue === "Idag" ? undefined : selected,
         customerChoreId: customerchore?.customerChoreId,
         doneBy: currentUser.user!.userId,
       });
@@ -41,7 +42,7 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
       },
       onError: () => {
         toast.warning(toasts.generic.onError.message);
-      }
+      },
     },
   );
 
@@ -119,7 +120,11 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
             footer={
               <div className='d-flex my-1'>
                 <div className={`my-2 py-1 fs-7 fade ${!selected ? "show" : ""}`}>Välj en dag</div>
-                <Button size='sm' className={`ms-auto fade ${selected ? "show" : ""}`}>
+                <Button
+                  size='sm'
+                  className={`ms-auto fade ${selected ? "show" : ""}`}
+                  onClick={() => setShowDateModal(!showDateModal)}
+                >
                   Klar
                 </Button>
               </div>

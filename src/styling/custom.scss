@@ -98,7 +98,8 @@ body,
 
   .form-control,
   .form-control:active,
-  .form-control:focus {
+        .form-control:focus,
+        .progress {
     background: #242424;
     color: #fff;
   }
@@ -274,4 +275,7 @@ input[type="number"] {
 
 .w-fit-content {
   width: fit-content;
+}
+tr {
+  vertical-align: middle;
 }

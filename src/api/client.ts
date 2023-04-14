@@ -897,11 +897,9 @@ export class Client extends BaseClient {
         return Promise.resolve<ChoreStatus>(null as any);
     }
 
-    choreStatus_GetChoreStatusById(id: string | undefined): Promise<ChoreStatusResponseDto[]> {
+    choreStatus_GetChoreStatusById(id: string | null | undefined): Promise<ChoreStatusResponseDto[]> {
         let url_ = this.baseUrl + "/api/v1/ChoreStatus/GetChoreStatusById?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
+        if (id !== undefined && id !== null)
             url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2005,13 +2003,13 @@ export interface ChoreStatusResponseDto {
 export interface ChoreStatus {
     id: string;
     customerChoreId: string | undefined;
-    startDate: Date;
     completedDate: Date;
     doneBy: string | undefined;
 }
 
 export interface PostChoreStatusRequestDto {
     customerChoreId: string | undefined;
+    completedDate: Date | undefined;
     doneBy: string | undefined;
 }
 
@@ -2024,7 +2022,7 @@ export interface CustomerChore {
     frequency: number;
     progress: number;
     status: string | undefined;
-    reset: string | undefined;
+    daysUntilReset: number;
     periodicId: string | undefined;
     periodic: Periodic | undefined;
 }
@@ -2049,6 +2047,7 @@ export interface CustomerChoreResponseDto {
     choreId: string | undefined;
     frequency: number;
     periodicId: string | undefined;
+    daysUntilReset: number;
     progress: number;
     status: string | undefined;
     periodic: Periodic | undefined;
@@ -2173,6 +2172,7 @@ export interface UserCustomerChoreData {
     progress: number;
     subCategoryName: string | undefined;
     periodic: Periodic | undefined;
+    daysUntilReset: number;
 }
 
 export interface FileResponse {
