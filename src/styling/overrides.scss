@@ -345,3 +345,6 @@ select:disabled {
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
   background-color: var(--bs-gray-700) !important;
 }
+.popover-arrow {
+  display: none !important;
+}

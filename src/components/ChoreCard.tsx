@@ -1,4 +1,4 @@
-import { Card, Container } from "react-bootstrap";
+import { Card, Container, OverlayTrigger, Popover } from "react-bootstrap";
 import { BiCheck } from "react-icons/bi";
 import { GoX } from "react-icons/go";
 import { IoMdSync } from "react-icons/io";
@@ -38,14 +38,31 @@ const ChoreCard = ({ customerchore }: Props) => {
                 )}
                 <div className='fs-7 text-center'>{customerchore?.status}</div>
               </div>
-              <div className='d-flex align-items-center gap-2 rounded-pill border border-dark px-3 py-1'>
-                <IoMdSync size={20} />
-                <div className='fs-7 text-center'>
-                  {customerchore.daysUntilReset === 1
-                    ? "I morgon"
-                    : `${customerchore?.daysUntilReset} dagar`}
+              <OverlayTrigger
+                trigger='click'
+                placement='top'
+                overlay={
+                  <Popover>
+                    <Popover.Body>
+                      Denna uppgift återställs om
+                      <strong> {customerchore.daysUntilReset} </strong>
+                      dagar.
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <div
+                  className='d-flex align-items-center gap-2 rounded-pill border border-dark px-3 py-1'
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <IoMdSync size={20} />
+                  <div className='fs-7 text-center'>
+                    {customerchore.daysUntilReset === 1
+                      ? "I morgon"
+                      : `${customerchore?.daysUntilReset} dagar`}
+                  </div>
                 </div>
-              </div>
+              </OverlayTrigger>
             </div>
           </Container>
         </Card.Body>
