@@ -1,7 +1,7 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-import { useState } from "react";
-import { Container, ProgressBar, Spinner } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Container, Modal, ProgressBar, Spinner } from "react-bootstrap";
 import "react-day-picker/dist/style.css";
 import { AiOutlineFileDone, AiOutlineUser } from "react-icons/ai";
 import { BiCheck, BiTask, BiTimeFive } from "react-icons/bi";
@@ -9,15 +9,27 @@ import { BsChat, BsChevronLeft } from "react-icons/bs";
 import { GoFileMedia, GoX } from "react-icons/go";
 import { IoMdSync } from "react-icons/io";
 import { VscPieChart } from "react-icons/vsc";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../api/client";
 import { useClient } from "../contexts/ClientContext";
+import toasts from "../data/toasts";
 import { useQueries } from "../hooks/useQueries";
 import CompleteCustomerChore from "./modals/CustomerChore/CompleteCustomerChore";
 import CustomerChoreComments from "./modals/CustomerChore/CustomerChoreComments";
 const CustomerChoreInfo = () => {
-  const [ref] = useKeenSlider<HTMLDivElement>({
+  const { id, customerChoreId } = useParams();
+  const { data: choreImages = [] } = useQuery<any>(["choreImages", customerChoreId], async () => {
+    try {
+      return await client.blob_ListBlobs(customerChoreId!);
+    } catch (error) {
+      // console.error(error);
+      return [];
+    }
+  });
+
+  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     loop: true,
     mode: "snap",
     slides: {
@@ -33,13 +45,19 @@ const CustomerChoreInfo = () => {
       },
     },
   });
-  const { id, customerChoreId } = useParams();
+
+  useEffect(() => {
+    slider && slider.current?.update();
+  }, [choreImages.length]);
+
   const { userData } = useQueries();
   const client = useClient();
 
   const [showComments, setShowComments] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
 
   const {
     data: chorecomments,
@@ -67,6 +85,45 @@ const CustomerChoreInfo = () => {
     ?.find((x) => x.userCustomersData?.find((y) => y.customerSlug === id))
     ?.userCustomersData?.find((x) => x.customerSlug === id);
 
+  const queryClient = useQueryClient();
+  const [file, setFile] = useState<File>();
+
+  const { mutate: postImage, isLoading: postingImage } = useMutation(
+    async () => {
+      if (!file) {
+        throw new Error("File is missing");
+      }
+      await client.blob_UploadBlob(customerChoreId, file?.name.split(".").pop(), {
+        data: file,
+        fileName: file!.name,
+      });
+    },
+    {
+      onSuccess: () => {
+        console.log("Image uploaded successfully");
+        queryClient.invalidateQueries(["choreImages", customerChoreId]);
+        toast.success(toasts.comments.onMutate.message);
+      },
+      onError: () => {
+        console.log("Image upload failed");
+        toast.warning(toasts.generic.onError.message);
+      },
+    },
+  );
+
+  const handlePhotoCapture = (
+    target: HTMLInputElement & EventTarget & { files: FileList | null },
+  ) => {
+    if (target.files) {
+      if (target.files.length !== 0) {
+        const file = target.files[0];
+        const newFile = new File([file], file.name, { type: "image/jpeg" });
+        setFile(newFile);
+      }
+    }
+  };
+
+  console.log(selectedImage);
   if (
     !chorecomments ||
     !customerchore ||
@@ -198,14 +255,21 @@ const CustomerChoreInfo = () => {
         <div className='divider' />
         <Container>
           <div className='fs-5 fw-bold mb-2'>Media</div>
-          <div ref={ref} className='keen-slider'>
-            <div
-              className='keen-slider__slide bg-dark rounded'
-              onClick={() => setShowMediaModal(!showMediaModal)}
-            >
-              <img src='' height='auto' width='100%' />
+          {choreImages.length > 0 ? (
+            <div ref={sliderRef} className='keen-slider'>
+              {choreImages.map((image: string) => (
+                <div
+                  key={image}
+                  className='keen-slider__slide bg-dark rounded'
+                  onClick={() => setSelectedImage(image)}
+                >
+                  <img src={image} height='auto' width='100%' />
+                </div>
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className='fs-7'>Inga bilder hittades</div>
+          )}
         </Container>
       </div>
       <div className='d-flex gap-2 px-1 border-top bottom-buttons modal-footer safe-area'>
@@ -239,6 +303,47 @@ const CustomerChoreInfo = () => {
         show={showDoneModal}
         onHide={() => setShowDoneModal(!showDoneModal)}
       />
+      <Modal fullscreen scrollable show={showMediaModal} onHide={() => setShowMediaModal(!showMediaModal)} size='lg'>
+        <Modal.Header closeButton>
+          <Modal.Title>Media</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className='d-flex flex-wrap flex-row'>
+            {choreImages.map((image: string) => (
+              <div
+                key={image}
+                className='col-4 p-2'
+                onClick={() => setSelectedImage(image)}
+              >
+                <img className='rounded' src={image} height='auto' width='100%' />
+                <div className='fs-7'>Laddades upp</div>
+                <div className='fs-7'>Av</div>
+              </div>
+            ))}
+          </div>
+          {/* TODO: START */}
+          <Button onClick={() => postImage()}>ladda upp</Button>
+          <input
+            accept='*/*'
+            id='icon-button-file'
+            type='file'
+            onChange={(e) => handlePhotoCapture(e.target)}
+          />
+
+          {/* TODO: END */}
+        </Modal.Body>
+      </Modal>
+      <Modal backdropClassName="nested-modal-backdrop"
+        className='nested-modal'
+        contentClassName='border-0'
+        centered
+        show={selectedImage ? true : false}
+        onHide={() => setSelectedImage(undefined)}
+      >
+        <Modal.Body>
+          <img draggable={false} src={selectedImage} className='rounded border-0' width='100%' />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
