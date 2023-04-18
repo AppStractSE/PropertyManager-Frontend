@@ -1,7 +1,7 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
-import { Button, Container, Modal, ProgressBar, Spinner } from "react-bootstrap";
+import { Button, Container, Modal, Placeholder, ProgressBar, Spinner } from "react-bootstrap";
 import "react-day-picker/dist/style.css";
 import { AiOutlineFileDone, AiOutlineUser } from "react-icons/ai";
 import { BiCheck, BiTask, BiTimeFive } from "react-icons/bi";
@@ -20,14 +20,16 @@ import CompleteCustomerChore from "./modals/CustomerChore/CompleteCustomerChore"
 import CustomerChoreComments from "./modals/CustomerChore/CustomerChoreComments";
 const CustomerChoreInfo = () => {
   const { id, customerChoreId } = useParams();
-  const { data: choreImages = [] } = useQuery<any>(["choreImages", customerChoreId], async () => {
-    try {
-      return await client.blob_ListBlobs(customerChoreId!);
-    } catch (error) {
-      // console.error(error);
-      return [];
-    }
-  });
+  const { data: choreImages = [], isLoading: choreImagesIsLoading } = useQuery<any>(
+    ["choreImages", customerChoreId],
+    async () => {
+      try {
+        return await client.blob_ListBlobs(customerChoreId!);
+      } catch (error) {
+        return [];
+      }
+    },
+  );
 
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     loop: true,
@@ -100,12 +102,10 @@ const CustomerChoreInfo = () => {
     },
     {
       onSuccess: () => {
-        console.log("Image uploaded successfully");
         queryClient.invalidateQueries(["choreImages", customerChoreId]);
-        toast.success(toasts.comments.onMutate.message);
+        toast.success(toasts.images.onMutate.message);
       },
       onError: () => {
-        console.log("Image upload failed");
         toast.warning(toasts.generic.onError.message);
       },
     },
@@ -255,17 +255,31 @@ const CustomerChoreInfo = () => {
         <div className='divider' />
         <Container>
           <div className='fs-5 fw-bold mb-2'>Media</div>
-          {choreImages.length > 0 ? (
+          {choreImages.length > 0 || choreImagesIsLoading ? (
             <div ref={sliderRef} className='keen-slider'>
-              {choreImages.map((image: string) => (
-                <div
-                  key={image}
-                  className='keen-slider__slide bg-dark rounded'
-                  onClick={() => setSelectedImage(image)}
-                >
-                  <img src={image} height='auto' width='100%' />
-                </div>
-              ))}
+              {choreImagesIsLoading ? (
+                <Placeholder animation='wave' className='d-flex'>
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((x, idx) => (
+                    <Placeholder
+                      className='keen-slider__slide rounded'
+                      style={{ aspectRatio: "4/4", minHeight: 120 }}
+                    />
+                  ))}
+                </Placeholder>
+              ) : (
+                <>
+                  {choreImages.map((image: string) => (
+                    <div
+                      key={image}
+                      style={{ aspectRatio: "4/4", minHeight: 120 }}
+                      className='keen-slider__slide bg-dark rounded d-flex align-items-center justify-content-center'
+                      onClick={() => setSelectedImage(image)}
+                    >
+                      <img src={image} height='auto' width='100%' />
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           ) : (
             <div className='fs-7'>Inga bilder hittades</div>
@@ -303,18 +317,20 @@ const CustomerChoreInfo = () => {
         show={showDoneModal}
         onHide={() => setShowDoneModal(!showDoneModal)}
       />
-      <Modal fullscreen scrollable show={showMediaModal} onHide={() => setShowMediaModal(!showMediaModal)} size='lg'>
+      <Modal
+        fullscreen
+        scrollable
+        show={showMediaModal}
+        onHide={() => setShowMediaModal(!showMediaModal)}
+        size='lg'
+      >
         <Modal.Header closeButton>
           <Modal.Title>Media</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='d-flex flex-wrap flex-row'>
             {choreImages.map((image: string) => (
-              <div
-                key={image}
-                className='col-4 p-2'
-                onClick={() => setSelectedImage(image)}
-              >
+              <div key={image} className='col-3 p-2' onClick={() => setSelectedImage(image)}>
                 <img className='rounded' src={image} height='auto' width='100%' />
                 <div className='fs-7'>Laddades upp</div>
                 <div className='fs-7'>Av</div>
@@ -333,7 +349,8 @@ const CustomerChoreInfo = () => {
           {/* TODO: END */}
         </Modal.Body>
       </Modal>
-      <Modal backdropClassName="nested-modal-backdrop"
+      <Modal
+        backdropClassName='nested-modal-backdrop'
         className='nested-modal'
         contentClassName='border-0'
         centered

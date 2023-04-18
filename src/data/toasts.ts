@@ -6,10 +6,18 @@ const toasts = {
   },
   comments: {
     onMutate: {
-      message: "Din kommentar har lagts till.",
+      message: "Din kommentar har laddats upp",
     },
     onDelete: {
-      message: "Din kommentar har tagits bort.",
+      message: "Din kommentar har raderats.",
+    },
+  },
+  images: {
+    onMutate: {
+      message: "Din bild har laddats upp.",
+    },
+    onDelete: {
+      message: "Din bild har raderats.",
     },
   },
   choreStatuses: {
