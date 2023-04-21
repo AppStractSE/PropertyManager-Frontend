@@ -1,8 +1,9 @@
 import { InitialUserState } from "../contexts/UserContext";
 
 export class BaseClient {
+  baseUrl = import.meta.env.REACT_APP_API_URL;
   getBaseUrl = (_: string, __: string | undefined) =>
-    import.meta.env.DEV ? "https://localhost:7178" : process.env.REACT_APP_API_URL ?? "";
+    import.meta.env.DEV ? "https://localhost:7178" : this.baseUrl;
 
   protected transformOptions = async (options: RequestInit): Promise<RequestInit> => {
     let tokenInfo = InitialUserState.tokenInfo;
