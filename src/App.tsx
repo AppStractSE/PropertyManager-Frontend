@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
+
 const App = () => {
   const client = useClient();
   const { currentUser, setCurrentUser } = useUser();
