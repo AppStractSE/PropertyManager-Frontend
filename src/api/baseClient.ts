@@ -1,7 +1,7 @@
 import { InitialUserState } from "../contexts/UserContext";
 
 export class BaseClient {
-  envUrl = import.meta.env.REACT_APP_API_URL;
+  envUrl: string = import.meta.env.REACT_APP_API_URL;
   getBaseUrl = (_: string, __: string | undefined) =>
     import.meta.env.DEV ? "https://localhost:7178" : this.envUrl;
 
