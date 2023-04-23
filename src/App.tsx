@@ -62,7 +62,7 @@ const App = () => {
   return (
     <>
       <Routes>
-        {currentUser === InitialUserState || currentUser === undefined ? (
+        {currentUser === InitialUserState ? (
           <Route index element={<Login />} />
         ) : (
           <>
