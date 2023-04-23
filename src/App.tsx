@@ -28,7 +28,7 @@ const App = () => {
   const { data: fetchedUser } = useQuery<AuthUser>(
     ["user", currentUser?.user?.userId],
     async () => {
-      return token && token.token !== InitialUserState.tokenInfo?.token
+      return token.token !== InitialUserState.tokenInfo?.token
         ? await client.authenticate_GetValidation()
         : InitialUserState;
     },
