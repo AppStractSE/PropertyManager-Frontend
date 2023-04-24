@@ -40,7 +40,7 @@ const App = () => {
         }
       },
       onError: (error) => {
-        console.log(error);
+        setCurrentUser(InitialUserState);
       },
     },
   );
