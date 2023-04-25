@@ -39,8 +39,17 @@ const App = () => {
           setCurrentUser(user);
         }
       },
-      onError: (error) => {
-        setCurrentUser(InitialUserState);
+      onError: (error: any) => {
+        if (error.response?.status === 401) {
+          setCurrentUser(InitialUserState);
+        }
+        if (error.response?.status === 404) {
+          setCurrentUser(InitialUserState);
+        }
+        if (error.response?.status === 500) {
+          if (currentUser !== InitialUserState && currentUser.user) setCurrentUser(currentUser);
+        }
+        // console.log(error);
       },
     },
   );
