@@ -279,3 +279,22 @@ input[type="number"] {
 tr {
   vertical-align: middle;
 }
+.avatar {
+  .nav-link.active {
+    color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+  }
+  
+  .nav-link {
+    border-color: var(--bs-body-color) !important;
+    color: var(--bs-body-color) !important;
+    padding-inline: 14px;
+  }
+}
+
+.grid-avatar-creator {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  width: 100% !important;
+  gap: 0px !important;
+}

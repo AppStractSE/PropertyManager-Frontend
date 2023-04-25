@@ -2,6 +2,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useUser } from "../../contexts/UserContext";
+import CreateAvatar from "../CreateAvatar";
 
 const ProfileModal = (props: any) => {
   const { logout } = useUser();
@@ -33,6 +34,7 @@ const ProfileModal = (props: any) => {
             </Form.Group>
           </Form>
         </div>
+        <CreateAvatar />
       </Modal.Body>
       <Modal.Footer>
         <Button

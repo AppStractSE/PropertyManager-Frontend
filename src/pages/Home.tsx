@@ -68,7 +68,11 @@ const Home = () => {
           </div>
           {(filteredCustomers?.length || 0 > 0) &&
             filterSearch?.map((team: UserTeamData) => (
-              <motion.div variants={item} key={team.teamId} className='d-flex flex-column gap-3 mt-2'>
+              <motion.div
+                variants={item}
+                key={team.teamId}
+                className='d-flex flex-column gap-3 mt-2'
+              >
                 {team?.userCustomersData
                   ?.filter((x) => x.customerName?.toLowerCase().includes(searchValue.toLowerCase()))
                   .map((customer: UserCustomerData) => (
