@@ -286,15 +286,33 @@ input[type="number"] {
 }
 
 .overflow-y-auto {
-  overflow-y: auto;
   scrollbar-color: #E0E0E0 #F5F5F5;
   scrollbar-width: thin;
+  overflow-y: auto;
 }
 
+.overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: #E0E0E0;
+}
 .dark .overflow-y-auto {
   scrollbar-color: #242424 #191919;
 }
 
+.dark .overflow-y-auto::-webkit-scrollbar-track {
+  background: #191919;
+}
+
+.dark .overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: #242424;
+}
 .w-fit-content {
   width: fit-content;
 }
