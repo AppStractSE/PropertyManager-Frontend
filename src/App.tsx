@@ -21,7 +21,7 @@ import "./styling/overrides.scss";
 
 const App = () => {
   const client = useClient();
-  const { currentUser, setCurrentUser, logout } = useUser();
+  const { currentUser, setCurrentUser } = useUser();
   const { isDarkTheme } = useTheme();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
 
@@ -36,6 +36,8 @@ const App = () => {
       enabled: currentUser !== InitialUserState,
       retry(failureCount, error: any) {
         if (error.status === 401) {
+          setToken(InitialUserState.tokenInfo!);
+          setCurrentUser(InitialUserState);
           return false;
         }
         return failureCount < 1;
@@ -46,19 +48,7 @@ const App = () => {
           setCurrentUser(user);
         }
       },
-      onError: (error: any) => {
-        console.log("Token  expired, logging out");
-        // if (currentUser !== InitialUserState && currentUser.user && currentUser.tokenInfo) {
-        //   console.log("HAVE USEER");
-        //   if (currentUser.tokenInfo.expiration > new Date()) {
-        //     console.log("Token NOT Expired");
-        //     setCurrentUser(currentUser);
-        //     return;
-        //   }
-        // }
-        setToken(InitialUserState.tokenInfo!);
-        setCurrentUser(InitialUserState);
-      },
+      onError: (error: any) => {},
     },
   );
 
