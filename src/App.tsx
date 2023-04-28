@@ -8,7 +8,7 @@ import AppBar from "./components/AppBar";
 import CustomerChoreInfo from "./components/CustomerChoreInfo";
 import { useClient } from "./contexts/ClientContext";
 import { useTheme } from "./contexts/ThemeContext";
-import { InitialUserState, useUser } from "./contexts/UserContext";
+import UserProvider, { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import AdminDashboard from "./pages/AdminDashboard";
 import Customer from "./pages/Customer";
@@ -21,7 +21,7 @@ import "./styling/overrides.scss";
 
 const App = () => {
   const client = useClient();
-  const { currentUser, setCurrentUser } = useUser();
+  const { currentUser, setCurrentUser, logout } = useUser();
   const { isDarkTheme } = useTheme();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
 
@@ -33,6 +33,13 @@ const App = () => {
         : InitialUserState;
     },
     {
+      enabled: currentUser !== InitialUserState,
+      retry(failureCount, error: any) {
+        if (error.status === 401) {
+          return false;
+        }
+        return failureCount < 1;
+      },
       onSuccess: (data) => {
         if (data) {
           const user: AuthUser = data;
@@ -40,16 +47,17 @@ const App = () => {
         }
       },
       onError: (error: any) => {
-        if (error.response?.status === 401) {
-          setCurrentUser(InitialUserState);
-        }
-        if (error.response?.status === 404) {
-          setCurrentUser(InitialUserState);
-        }
-        if (error.response?.status === 500) {
-          if (currentUser !== InitialUserState && currentUser.user) setCurrentUser(currentUser);
-        }
-        // console.log(error);
+        console.log("Token  expired, logging out");
+        // if (currentUser !== InitialUserState && currentUser.user && currentUser.tokenInfo) {
+        //   console.log("HAVE USEER");
+        //   if (currentUser.tokenInfo.expiration > new Date()) {
+        //     console.log("Token NOT Expired");
+        //     setCurrentUser(currentUser);
+        //     return;
+        //   }
+        // }
+        setToken(InitialUserState.tokenInfo!);
+        setCurrentUser(InitialUserState);
       },
     },
   );

@@ -123,7 +123,6 @@ const CustomerChoreInfo = () => {
     }
   };
 
-  console.log(selectedImage);
   if (
     !chorecomments ||
     !customerchore ||
