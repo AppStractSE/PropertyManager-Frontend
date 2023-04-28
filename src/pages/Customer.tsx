@@ -1,14 +1,18 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { lazy } from "react";
 import { Container } from "react-bootstrap";
-import { BiCheck, BsChevronLeft, GoX, VscPieChart } from "react-icons/all";
+import { BiCheck } from "react-icons/bi";
+import { BsChevronLeft } from "react-icons/bs";
+import { GoX } from "react-icons/go";
+import { VscPieChart } from "react-icons/vsc";
 import { Link, useParams } from "react-router-dom";
 import { item } from "../animation";
-import ChoreCard from "../components/ChoreCard";
-import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import Search from "../components/Search";
+import CustomerEllipsis from "../components/dropdowns/CustomerEllipsis";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useQueries } from "../hooks/useQueries";
+
+const ChoreCard = lazy(() => import("../components/ChoreCard"));
 
 const Customer = () => {
   const [active, setActive] = useLocalStorage<string>("filterMode", "All");
@@ -40,17 +44,12 @@ const Customer = () => {
         </Container>
         <CustomerEllipsis address={customer.customerAddress} />
       </Container>
-      <Container className='h-100 py-3 overflow-y-scroll'>
+      <Container className='h-100 py-3 overflow-y-auto'>
         <Search
           value={searchValue}
           onChange={(value) => setSearchValue(value)}
-          placeholder='uppgift'
+          placeholder='uppgift hos kund'
         />
-        <div className='fs-7 mb-3'>
-          {(filteredChores?.length || 0) > 0
-            ? `Visar ${filteredChores?.length}st uppgifter`
-            : "Inga uppgifter hittades"}
-        </div>
         <div className='d-flex flex-column gap-3'>
           {filteredChores?.map((chore) => (
             <motion.div key={chore.customerChoreId} variants={item}>

@@ -48,37 +48,50 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
     <motion.div
       key={chorecomment.id}
       ref={containerRef}
-      className='chore-comment-container d-flex align-items-center position-relative'
+      className='chore-comment-container position-relative py-2'
       onPan={handlePan}
     >
       <motion.div
+        className='d-flex'
         transition={{ duration: 0.25 }}
         animate={{
           x:
             showDeleteButton && chorecomment.displayName === currentUser.user?.displayName
-              ? "-25%"
+              ? "-85px"
               : 0,
         }}
       >
-        <div className='d-flex align-items-center gap-3'>
-          <div className='p fw-bold'>{chorecomment.displayName}</div>
-          <div className='p fs-7 text-muted'>
-            {new Date(chorecomment.time).getDate() === new Date().getDate()
-              ? `Idag - ${chorecomment.time.toString().slice(11, 16)}`
-              : new Date(chorecomment.time).getDate() === new Date().getDate() - 1
-              ? `Igår - ${chorecomment.time.toString().slice(11, 16)}`
-              : chorecomment.time
-                  .toString()
-                  .slice(0, 10)
-                  .split("-")
-                  .reverse()
-                  .join("/")
-                  .slice(0, 5) +
-                " - " +
-                chorecomment.time.toString().slice(11, 16)}
+        <div className='me-1 align-self-start avatar'>
+          <div
+            className='rounded-circle'
+            style={{
+              ["--avatar-image" as any]: `url('https://propertyfilesystem.blob.core.windows.net/fddff525-58e3-423b-ab63-8cfae2bdd997/profile.png')`,
+            }}
+          />
+        </div>
+        <div className='flex-fill'>
+          <div className='rounded py-2 px-2 bg-thirdondary'>
+            <div className='d-flex gap-2 align-items-center'>
+              <div className='fw-bold'>{chorecomment.displayName}</div>
+              <div className='fs-7 text-muted'>
+                {new Date(chorecomment.time).getDate() === new Date().getDate()
+                  ? `Idag - ${chorecomment.time.toString().slice(11, 16)}`
+                  : new Date(chorecomment.time).getDate() === new Date().getDate() - 1
+                  ? `Igår - ${chorecomment.time.toString().slice(11, 16)}`
+                  : chorecomment.time
+                      .toString()
+                      .slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("/")
+                      .slice(0, 5) +
+                    " - " +
+                    chorecomment.time.toString().slice(11, 16)}
+              </div>
+            </div>
+            <div className='text-wrap text-break fs-6'>{chorecomment.message}</div>
           </div>
         </div>
-        <div className='p text-wrap text-break px-1 my-2'>{chorecomment.message}</div>
       </motion.div>
       <AnimatePresence>
         {showDeleteButton &&

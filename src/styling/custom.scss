@@ -48,12 +48,19 @@ body,
   background: var(--bs-body-bg);
 }
 
+.bg-thirdondary {
+  --bg-thirdondary: #eee;
+  background: var(--bg-thirdondary);
+}
 .dark {
   --bs-primary: #0142a3;
   --bs-body-bg: #131313;
   --bs-body-color: #f9f9f9;
   --bs-border-color: #3f3f3f77;
 
+  .bg-thirdondary {
+      --bg-thirdondary: #242424;
+    }
   .btn-primary {
     --bs-btn-bg: #0142a3;
     --bs-btn-border-color: #0142a3;
@@ -84,6 +91,7 @@ body,
     --bs-card-bg: #191919;
     --bs-card-border-color: #242424;
   }
+
   .form-control {
     border-color: #242424;
   }
@@ -136,6 +144,7 @@ input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
 .dark .aside-nav {
   background: #191919 !important;
 }
@@ -195,6 +204,7 @@ input[type="number"] {
 .default-cursor {
   cursor: default !important;
 }
+
 .bottom-buttons {
   background: var(--bs-body-bg);
 }
@@ -232,23 +242,29 @@ input[type="number"] {
 
 .chore-comment-container {
   overflow: hidden;
-  padding: 12px 0px;
   user-select: none;
 
-  &:last-child {
-    padding-bottom: 0px;
-  }
+.avatar {
+  width: 50px;
+  height: 50px;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--bs-border-color);
+  div {
+    width: inherit;
+    height: inherit;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: var(--avatar-image);
   }
+}
 }
 
 .comment-delete-container {
   position: absolute;
   height: 100%;
   right: 0;
-  opacity: 0;
+  top: 0;
+  bottom: 0;
   transition: opacity 0.2s ease-in-out;
 }
 
@@ -269,22 +285,30 @@ input[type="number"] {
   background-color: var(--bs-body-bg);
 }
 
-.overflow-y-scroll {
-  overflow-y: scroll;
+.overflow-y-auto {
+  overflow-y: auto;
+  scrollbar-color: #E0E0E0 #F5F5F5;
+  scrollbar-width: thin;
+}
+
+.dark .overflow-y-auto {
+  scrollbar-color: #242424 #191919;
 }
 
 .w-fit-content {
   width: fit-content;
 }
+
 tr {
   vertical-align: middle;
 }
+
 .avatar {
   .nav-link.active {
     color: var(--bs-primary) !important;
     border-color: var(--bs-primary) !important;
   }
-  
+
   .nav-link {
     border-color: var(--bs-body-color) !important;
     color: var(--bs-body-color) !important;

@@ -18,8 +18,12 @@ const CreateAvatar = () => {
   const [glasses, setGlasses] = useState("none");
   const [hair, setHair] = useState("long19");
   const [hairColor, setHairColor] = useState("ac6511");
+
+  const [file, setFile] = useState<File | null>(null);
   const avatar = createAvatar(style, {
     flip: true,
+    backgroundType: ["solid"],
+    backgroundColor: ["C6CAED"],
     size: 168,
     eyes: [eyes as any],
     skinColor: [skinColor as any],
@@ -32,9 +36,11 @@ const CreateAvatar = () => {
     hairColor: [hairColor as any],
   }).toString();
 
-  const avatarToSave = createAvatar(style, {
+  const avatarToSavePromise = createAvatar(style, {
     flip: true,
     size: 168,
+    backgroundType: ["solid"],
+    backgroundColor: ["C6CAED"],
     eyes: [eyes as any],
     skinColor: [skinColor as any],
     mouth: [mouth as any],
@@ -44,11 +50,25 @@ const CreateAvatar = () => {
     glassesProbability: glasses === "none" ? 0 : 100,
     hair: [hair as any],
     hairColor: [hairColor as any],
-  }).toString();
+  })
+    .png()
+    .toDataUri();
 
-  const blob = new Blob([avatarToSave], { type: "image/svg+xml" });
-  const file = new File([blob], "avatar.svg", { type: "image/svg+xml" });
-  console.log(avatarToSave);
+  avatarToSavePromise
+    .then((avatarToSave) => {
+      fetch(avatarToSave)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const newFile = new File([blob], "profile.png", { type: "image/png" });
+          setFile(newFile);
+        })
+        .catch((error) => {
+          console.error("Error fetching blob:", error);
+        });
+    })
+    .catch((error) => {
+      console.error("Error generating avatar:", error);
+    });
 
   const [currentAvatar, setCurrentAvatar] = useState(avatar);
   const client = useClient();
@@ -71,6 +91,7 @@ const CreateAvatar = () => {
           data: file,
           fileName: "profile",
         },
+        "profile",
       );
     },
     {
@@ -90,6 +111,7 @@ const CreateAvatar = () => {
         src={`https://propertyfilesystem.blob.core.windows.net/fddff525-58e3-423b-ab63-8cfae2bdd997/profile.svg`}
         height='80'
         width='80'
+        className='rounded'
       />
       <Tab.Container defaultActiveKey='eyebrows'>
         <div className='d-flex align-items-center my-3'>
@@ -374,7 +396,10 @@ c13 -56 15 -83 8 -90 -8 -8 -45 6 -127 44 -143 68 -146 78 -43 125 l72 32 105
               </Nav.Link>
             </Nav.Item>
           </Nav>
-          <img src={`data:image/svg+xml;utf8,${encodeURIComponent(currentAvatar)}`} />
+          <img
+            src={`data:image/svg+xml;utf8,${encodeURIComponent(currentAvatar)}`}
+            className='rounded-circle'
+          />
         </div>
         <Tab.Content>
           <Tab.Pane eventKey='haircolor'>
