@@ -28,16 +28,14 @@ const App = () => {
   const { data: fetchedUser } = useQuery<AuthUser>(
     ["user", currentUser?.user?.userId],
     async () => {
-      return token.token !== InitialUserState.tokenInfo?.token
-        ? await client.authenticate_GetValidation()
-        : InitialUserState;
+      return await client.authenticate_GetValidation();
+      // token.token !== InitialUserState.tokenInfo?.token
+      // true : InitialUserState;
     },
     {
       enabled: currentUser !== InitialUserState,
       retry(failureCount, error: any) {
         if (error.status === 401) {
-          setToken(InitialUserState.tokenInfo!);
-          setCurrentUser(InitialUserState);
           return false;
         }
         return failureCount < 1;
@@ -48,7 +46,10 @@ const App = () => {
           setCurrentUser(user);
         }
       },
-      onError: (error: any) => {},
+      onError: (error: any) => {
+        setToken(InitialUserState.tokenInfo!);
+        setCurrentUser(InitialUserState);
+      },
     },
   );
 
