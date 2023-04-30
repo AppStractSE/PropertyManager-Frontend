@@ -28,9 +28,9 @@ const App = () => {
   const { data: fetchedUser } = useQuery<AuthUser>(
     ["user", currentUser?.user?.userId],
     async () => {
-      return await client.authenticate_GetValidation();
-      // token.token !== InitialUserState.tokenInfo?.token
-      // true : InitialUserState;
+      return token.token !== InitialUserState.tokenInfo?.token
+        ? await client.authenticate_GetValidation()
+        : InitialUserState;
     },
     {
       enabled: currentUser !== InitialUserState,
@@ -38,7 +38,7 @@ const App = () => {
         if (error.status === 401) {
           return false;
         }
-        return failureCount < 1;
+        return failureCount < 2;
       },
       onSuccess: (data) => {
         if (data) {
