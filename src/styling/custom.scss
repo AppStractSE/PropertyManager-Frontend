@@ -104,10 +104,7 @@ body,
     background-color: #242424;
   }
 
-  .form-control,
-  .form-control:active,
-        .form-control:focus,
-        .progress {
+    .form-control {
     background: #242424;
     color: #fff;
   }
@@ -285,32 +282,32 @@ input[type="number"] {
   background-color: var(--bs-body-bg);
 }
 
-.overflow-y-auto {
+.scrollable {
   scrollbar-color: #E0E0E0 #F5F5F5;
   scrollbar-width: thin;
   overflow-y: auto;
 }
 
-.overflow-y-auto::-webkit-scrollbar {
+.scrollable::-webkit-scrollbar {
   width: 8px;
 }
 
-.overflow-y-auto::-webkit-scrollbar-track {
+.scrollable::-webkit-scrollbar-track {
   background: #F5F5F5;
 }
 
-.overflow-y-auto::-webkit-scrollbar-thumb {
+.scrollable::-webkit-scrollbar-thumb {
   background-color: #E0E0E0;
 }
-.dark .overflow-y-auto {
+.dark .scrollable {
   scrollbar-color: #242424 #191919;
 }
 
-.dark .overflow-y-auto::-webkit-scrollbar-track {
+.dark .scrollable::-webkit-scrollbar-track {
   background: #191919;
 }
 
-.dark .overflow-y-auto::-webkit-scrollbar-thumb {
+.dark .scrollable::-webkit-scrollbar-thumb {
   background-color: #242424;
 }
 .w-fit-content {

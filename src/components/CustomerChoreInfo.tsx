@@ -58,7 +58,6 @@ const CustomerChoreInfo = () => {
   const [showComments, setShowComments] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
-
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
 
   const {
@@ -128,7 +127,6 @@ const CustomerChoreInfo = () => {
     }
   };
 
-  console.log(selectedImage);
   if (
     !chorecomments ||
     !customerchore ||
@@ -152,7 +150,7 @@ const CustomerChoreInfo = () => {
           <div className='h3 mb-0'>{customerchore?.chore?.title}</div>
         </Container>
       </Container>
-      <div className='h-100 py-3 overflow-y-auto container px-0'>
+      <div className='h-100 py-3 scrollable container px-0'>
         <Container>
           <div className='fs-5 fw-bold mb-2'>Information</div>
           <div className='d-flex gap-2 align-items-center my-2'>
@@ -239,7 +237,7 @@ const CustomerChoreInfo = () => {
           </div>
           <div className='position-relative'>
             <ProgressBar className='rounded-pill mt-3 border border-dark' style={{ height: 24 }}>
-              {Array.from({ length: customerchore?.progress }, (_, i) => i + 1).map((x, idx) => (
+              {Array.from({ length: customerchore?.progress }, (_, i) => i + 1).map((_, idx) => (
                 <ProgressBar variant={"success"} now={100 / customerchore.frequency} key={idx} />
               ))}
             </ProgressBar>
@@ -264,8 +262,9 @@ const CustomerChoreInfo = () => {
             <div ref={sliderRef} className='keen-slider'>
               {choreImagesIsLoading ? (
                 <Placeholder animation='wave' className='d-flex'>
-                  {Array.from({ length: 10 }, (_, i) => i + 1).map((x, idx) => (
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((_, idx) => (
                     <Placeholder
+                      key={idx}
                       className='keen-slider__slide rounded'
                       style={{ aspectRatio: "4/4", minHeight: 120 }}
                     />
