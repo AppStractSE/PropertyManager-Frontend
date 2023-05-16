@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
@@ -47,7 +48,7 @@ const Customer = () => {
           placeholder='uppgift'
         />
         <div className='fs-7 mb-3'>
-          {(filteredChores?.length || 0) > 0
+          {filteredChores?.length || 0 > 0
             ? `Visar ${filteredChores?.length}st uppgifter`
             : "Inga uppgifter hittades"}
         </div>

@@ -2,13 +2,15 @@ const CACHE_NAME = "my-pwa-cache-v1";
 const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/images/logo.png"];
 
 self.addEventListener("install", (event) => {
+  if (!event.request.headers.get("user-agent").includes("Mobile")) {
+  } else {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("Opened cache");
       return cache.addAll(urlsToCache);
     }),
   );
+  }
 });
 
 self.addEventListener("fetch", (event) => {

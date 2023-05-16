@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     teamMembers,
     teams,
     users,
-    userData
+    userData,
   } = useQueries();
   if (
     !areas ||
@@ -29,7 +29,6 @@ const AdminDashboard = () => {
     !periodics ||
     !teamMembers ||
     !teams ||
-    !chores ||
     !users ||
     !userData
   )
@@ -38,37 +37,37 @@ const AdminDashboard = () => {
   return (
     <Tab.Content className='d-flex flex-wrap cflex-fill'>
       <Tab.Container defaultActiveKey='Kunder'>
-      <Nav
-  variant='pills'
-  className='d-flex flex-column py-5 px-3 col-12 col-xl-2 col-lg-3 col-sm-12 aside-nav'
->
-  {dashboardData.map((item, i) => (
-    <motion.div
-      key={item.eventKey}
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2, delay: i * 0.2 }}
-    >
-      <Nav.Item>
-        <Nav.Link
-          eventKey={item.eventKey}
-          onClick={() => setTab(item.eventKey)}
-          className='d-flex align-items-center gap-4'
+        <Nav
+          variant='pills'
+          className='d-flex flex-column py-5 px-3 col-12 col-xl-2 col-lg-3 col-sm-12 aside-nav'
         >
-          {<item.icon size={24} />}
-          <div>{item.name}</div>
-        </Nav.Link>
-      </Nav.Item>
-      {i === dashboardData.length - 2 ? (
-        <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
-      ) : undefined}
-    </motion.div>
-  ))}
-</Nav>
+          {dashboardData.map((item, i) => (
+            <motion.div
+              key={item.eventKey}
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, delay: i * 0.2 }}
+            >
+              <Nav.Item>
+                <Nav.Link
+                  eventKey={item.eventKey}
+                  onClick={() => setTab(item.eventKey)}
+                  className='d-flex align-items-center gap-4'
+                >
+                  {<item.icon size={24} />}
+                  <div>{item.name}</div>
+                </Nav.Link>
+              </Nav.Item>
+              {i === dashboardData.length - 2 ? (
+                <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
+              ) : undefined}
+            </motion.div>
+          ))}
+        </Nav>
 
         <Tab.Content className='flex-fill col-xl-10 col-lg-9 col-sm-12'>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode='wait'>
             <motion.div
               key={tab}
               initial={{ opacity: 0, y: -50 }}

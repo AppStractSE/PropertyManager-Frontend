@@ -12,7 +12,7 @@ interface UserContext {
 }
 
 const UserContext = createContext<UserContext>({
-  currentUser: {} as AuthUser,
+  currentUser: ({} as AuthUser) || undefined,
   setCurrentUser: () => console.warn("No user provider"),
   token: {} as TokenInfo,
   setToken: () => console.warn("No user provider"),

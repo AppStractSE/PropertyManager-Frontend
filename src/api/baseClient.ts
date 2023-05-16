@@ -1,19 +1,22 @@
-import { InitialUserState } from "../contexts/UserContext";
-
 export class BaseClient {
   getBaseUrl = (_: string, __: string | undefined) =>
-    import.meta.env.DEV ? "https://localhost:7178" : "https://propertymanger.azurewebsites.net";
+    import.meta.env.PROD ? "https://localhost:7178" : "https://propertymanger.azurewebsites.net";
 
   protected transformOptions = async (options: RequestInit): Promise<RequestInit> => {
-    let tokenInfo = InitialUserState.tokenInfo;
-    const jsonValue = window.localStorage.getItem("token");
-    if (jsonValue != null) {
-      tokenInfo = JSON.parse(jsonValue);
-    }
+    const token = this.getTokenFromLocalStorage();
     options.headers = {
       ...options.headers,
-      Authorization: "Bearer " + tokenInfo?.token ?? "",
+      Authorization: `Bearer ${token}`,
     };
-    return Promise.resolve(options);
+    return options;
   };
+
+  private getTokenFromLocalStorage(): string | undefined {
+    const jsonValue = window.localStorage.getItem("token");
+    if (jsonValue != null) {
+      const tokenInfo = JSON.parse(jsonValue);
+      return tokenInfo.token as string;
+    }
+    throw new Error("Token not found");
+  }
 }

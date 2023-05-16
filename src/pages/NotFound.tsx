@@ -13,6 +13,15 @@ const NotFound = () => {
         <li>En tillfällig driftstörning.</li>
         <li>Du kan även ha skrivit in fel adress.</li>
       </ul>
+      <div className='p fw-bold'>Vad kan du göra?</div>
+      <ul className='p-3'>
+        <li>Gå tillbaka till föregående sida och försök igen, eller gå till startsidan.</li>
+        <li>Om du skrev in adressen själv, kontrollera att stavningen är korrekt.</li>
+        <li>
+          Om du klickade på en länk, kontrollera att länken är korrekt och kontakta oss om problemet
+          kvarstår.
+        </li>
+      </ul>
     </Container>
   );
 };
