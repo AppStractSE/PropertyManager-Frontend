@@ -16,6 +16,7 @@ const AddChore = ({ categories }: Props) => {
   const [choreDescriptionValue, setChoreDescription] = useState("");
   const [mainCategoryValue, setMainCategoryValue] = useState("");
   const [subCategoryValue, setSubCategoryValue] = useState("");
+  const [show, setShow] = useState(false);
   const { mutate: postChore, isLoading: postingChore } = useMutation(
     async () => {
       return await client.chore_PostChore({
