@@ -12,6 +12,14 @@ const toasts = {
       message: "Din kommentar har raderats.",
     },
   },
+  category: {
+    onMutate: {
+      message: "Kategorin har lagts till",
+    },
+    onDelete: {
+      message: "Kategorin har raderats.",
+    },
+  },
   images: {
     onMutate: {
       message: "Din bild har laddats upp.",
