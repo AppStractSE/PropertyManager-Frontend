@@ -1,6 +1,6 @@
 export class BaseClient {
   getBaseUrl = (_: string, __: string | undefined) =>
-    import.meta.env.PROD ? "https://localhost:7178" : "https://propertymanger.azurewebsites.net";
+    import.meta.env.DEV ? "https://localhost:7178" : "https://propertymanger.azurewebsites.net";
 
   protected transformOptions = async (options: RequestInit): Promise<RequestInit> => {
     const token = this.getTokenFromLocalStorage();

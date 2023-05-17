@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { AiOutlinePlus } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
 import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
@@ -57,40 +58,57 @@ const AddChore = ({ categories }: Props) => {
       </Form.Group>
       <Form.Group className='mb-3' controlId='category'>
         <Form.Label>Huvudkategori</Form.Label>
-        <Form.Select
-          className='form-active'
-          value={mainCategoryValue}
-          onChange={(e) => {
-            setMainCategoryValue(e.target.value);
-            setSubCategoryValue("");
-          }}
-        >
-          <option value=''>Välj huvudkategori</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.title} - {category.description}
-            </option>
-          ))}
-        </Form.Select>
+        <div className='d-flex gap-2'>
+          <Form.Select
+            className='form-active flex-fill w-auto'
+            value={mainCategoryValue}
+            onChange={(e) => {
+              setMainCategoryValue(e.target.value);
+              setSubCategoryValue("");
+            }}
+          >
+            <option value=''>Välj huvudkategori</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.title} - {category.description}
+              </option>
+            ))}
+          </Form.Select>
+          <div>
+            <Button>
+              Ny
+              <AiOutlinePlus size={18} />
+            </Button>
+          </div>
+        </div>
       </Form.Group>
       <Form.Group className='mb-3' controlId='category'>
         <Form.Label>Underkategori</Form.Label>
-        <Form.Select
-          disabled={!mainCategoryValue}
-          value={subCategoryValue}
-          onChange={(e) => setSubCategoryValue(e.target.value)}
-        >
-          <option value=''>Välj underkategori</option>
-          {categories
-            .filter((category) => category.id === mainCategoryValue)
-            .map((filteredCategories) => {
-              return filteredCategories.subCategories?.map((subCategory) => (
-                <option key={subCategory.id} value={subCategory.id}>
-                  {subCategory.reference} - {subCategory.title}
-                </option>
-              ));
-            })}
-        </Form.Select>
+        <div className='d-flex gap-2'>
+          <Form.Select
+            className='flex-fill w-auto'
+            disabled={!mainCategoryValue}
+            value={subCategoryValue}
+            onChange={(e) => setSubCategoryValue(e.target.value)}
+          >
+            <option value=''>Välj underkategori</option>
+            {categories
+              .filter((category) => category.id === mainCategoryValue)
+              .map((filteredCategories) => {
+                return filteredCategories.subCategories?.map((subCategory) => (
+                  <option key={subCategory.id} value={subCategory.id}>
+                    {subCategory.reference} - {subCategory.title}
+                  </option>
+                ));
+              })}
+          </Form.Select>
+          <div>
+            <Button disabled={!mainCategoryValue}>
+              Ny
+              <AiOutlinePlus size={18} />
+            </Button>
+          </div>
+        </div>
       </Form.Group>
       <Button
         className='w-100'

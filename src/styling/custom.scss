@@ -10,7 +10,6 @@ body,
   flex-direction: column;
 }
 
-
 .login-container {
   max-width: 350px;
   align-items: flex-end;
@@ -98,8 +97,8 @@ body,
 
   .form-control,
   .form-control:active,
-        .form-control:focus,
-        .progress {
+  .form-control:focus,
+  .progress {
     background: #242424;
     color: #fff;
   }
@@ -200,7 +199,6 @@ input[type="number"] {
 }
 
 .safe-area {
-
   /* CSS specific to iOS devices */
   @supports (-webkit-touch-callout: none) {
     padding-bottom: calc(env(safe-area-inset-bottom)) !important;
