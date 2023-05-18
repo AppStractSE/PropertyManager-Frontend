@@ -39,125 +39,118 @@ const CreateChores = ({categories, chores, customers, customerchores, periodics}
     </div>
   ));
   return (
-    <Row className="my-5">
-      <Col md={12} lg={4}>
-        <Card className="default-cursor">
-        <Card.Header className="fs-5">
-  <AnimatePresence mode="wait">
-    {choreType ? (
-      <motion.div
-      key="customerchore--left--header"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        >
-        Nuvarande kundsysslor
-      </motion.div> ) :
-      <motion.div
-key="chore--left--header"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        >
-        Nuvarande sysslor
-      </motion.div>
-    }
-  </AnimatePresence>
-</Card.Header>
+    <Row className='my-5'>
+      <Col md={12} lg={4} className='mb-3'>
+        <Card className='default-cursor'>
+          <Card.Header className='fs-5'>
+            <AnimatePresence mode='wait'>
+              {choreType ? (
+                <motion.div
+                  key='customerchore--left--header'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Nuvarande kundsysslor
+                </motion.div>
+              ) : (
+                <motion.div
+                  key='chore--left--header'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Nuvarande sysslor
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Card.Header>
 
           <Card.Body>
-          <AnimatePresence mode="wait">
-            {choreType ? (
-              <motion.div
-                key="customer-chore--left--content"
-                initial={{ opacity: 0}}
-                animate={{ opacity: 1}}
-                exit={{ opacity: 0}}
+            <AnimatePresence mode='wait'>
+              {choreType ? (
+                <motion.div
+                  key='customer-chore--left--content'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                Välj kund för att visa kundsysslor
-              </motion.div>
-            ) : (
-              <motion.div
-              key="chore--left--content"
-              initial={{ opacity: 0}}
-              animate={{ opacity: 1}}
-              exit={{ opacity: 0}}
+                  Välj kund för att visa kundsysslor
+                </motion.div>
+              ) : (
+                <motion.div
+                  key='chore--left--content'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                {currentChores}
-              </motion.div>
-            )}
-          </AnimatePresence>
-            </Card.Body>
+                  {currentChores}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Card.Body>
         </Card>
       </Col>
       <Col md={12} lg={8}>
-        <Card className="default-cursor">
-          <Card.Header className="fs-5 d-flex">
-          <AnimatePresence mode="wait">
-    {choreType ? (
-      <motion.div
-      key="customerchore--right--header"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        >
-        Skapa kundsyssla
-      </motion.div> ) :
-      <motion.div
-key="chore--right--header"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        >
-        Skapa syssla
-      </motion.div>
-    }
-  </AnimatePresence>
-            <Form.Group className="ms-auto d-flex gap-2 align-items-center">
-              <Form.Label
-                className={`fs-6 ${choreType ? "opacity-25" : ""} mb-0`}
-              >
+        <Card className='default-cursor'>
+          <Card.Header className='fs-5 d-flex'>
+            <AnimatePresence mode='wait'>
+              {choreType ? (
+                <motion.div
+                  key='customerchore--right--header'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Skapa kundsyssla
+                </motion.div>
+              ) : (
+                <motion.div
+                  key='chore--right--header'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Skapa syssla
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Form.Group className='ms-auto d-flex gap-2 align-items-center'>
+              <Form.Label className={`fs-6 ${choreType ? "opacity-25" : ""} mb-0`}>
                 Syssla
               </Form.Label>
               <Form.Check
-                type="switch"
+                type='switch'
                 checked={choreType}
                 onChange={() => setChoreType(!choreType)}
               />
-              <Form.Label
-                className={`fs-6 ${!choreType ? "opacity-25" : ""} mb-0`}
-              >
+              <Form.Label className={`fs-6 ${!choreType ? "opacity-25" : ""} mb-0`}>
                 Kundsyssla
               </Form.Label>
             </Form.Group>
           </Card.Header>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode='wait'>
             <Card.Body
               key={choreType ? "add-customer-chore" : "add-chore"}
-              className="justify-content-center d-flex flex-column"
+              className='justify-content-center d-flex flex-column'
             >
               {choreType ? (
                 <motion.div
-                key="customer-chore--right--content"
-                initial={{ opacity: 0}}
-                animate={{ opacity: 1}}
-                exit={{ opacity: 0}}
+                  key='customer-chore--right--content'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                  <AddCustomerChore 
-                  customers={customers}
-                  periodics={periodics}
-                  chores={chores}
-                  />
+                  <AddCustomerChore customerchores={customerchores} customers={customers} periodics={periodics} chores={chores} />
                 </motion.div>
               ) : (
                 <motion.div
-                key="chore--right--content"
-                initial={{ opacity: 0}}
-                animate={{ opacity: 1}}
-                exit={{ opacity: 0}}
+                  key='chore--right--content'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                  <AddChore categories={categories}
-                   />
+                  <AddChore categories={categories} />
                 </motion.div>
               )}
             </Card.Body>

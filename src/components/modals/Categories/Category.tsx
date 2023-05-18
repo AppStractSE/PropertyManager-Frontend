@@ -46,27 +46,20 @@ const Category = ({ show, onHide }: Props) => {
       <Modal.Body className='px-3 py-2 mb-2'>
         <Form className='d-flex flex-column gap-4'>
           <Form.Group className='flex-grow-1'>
-            <Form.Label>Titel</Form.Label>
-            <Form.Text as='div' className='mb-2 mt-0'>
-              ABFF referens, t ex "T5"
-            </Form.Text>
+            <Form.Label>Kategorikod</Form.Label>
             <Form.Control
               autoFocus={true}
               type='text'
-              placeholder='Fyll i titel...'
+              placeholder='Skriv in kategorikod'
               onChange={(e) => setTitleValue(e.target.value)}
               value={titleValue}
             />
           </Form.Group>
           <Form.Group className='flex-grow-1'>
-            <Form.Label>Beskrivning</Form.Label>
-            <Form.Text as='div' className='mb-2 mt-0'>
-              T ex "Byggnad invändigt"
-            </Form.Text>
+            <Form.Label>Kodbeskrivning</Form.Label>
             <Form.Control
-              autoFocus={true}
               type='text'
-              placeholder='Fyll i beskrivning...'
+              placeholder='Skriv in kodbeskrivning'
               onChange={(e) => setDescValue(e.target.value)}
               value={descValue}
             />

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import Category from "../../modals/Categories/Category";
+import SubCategory from "../../modals/Categories/SubCategory";
 
 interface Props {
   categories: CategoryResponseDto[];
@@ -18,6 +19,7 @@ const AddChore = ({ categories }: Props) => {
   const [mainCategoryValue, setMainCategoryValue] = useState("");
   const [subCategoryValue, setSubCategoryValue] = useState("");
   const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
   const { mutate: postChore, isLoading: postingChore } = useMutation(
     async () => {
       return await client.chore_PostChore({
@@ -38,6 +40,7 @@ const AddChore = ({ categories }: Props) => {
     },
   );
 
+  if (!categories) return null;
   return (
     <>
       <Form>
@@ -78,9 +81,12 @@ const AddChore = ({ categories }: Props) => {
               ))}
             </Form.Select>
             <div>
-              <Button className='d-flex gap-1 align-items-center' onClick={() => setShowCategoryModal(!showCategoryModal)}>
+              <Button
+                className='d-flex gap-1 align-items-center'
+                onClick={() => setShowCategoryModal(!showCategoryModal)}
+              >
                 <AiOutlinePlus size={18} />
-                <div>Ny</div>
+                <div className='fs-6'>Ny</div>
               </Button>
             </div>
           </div>
@@ -106,9 +112,13 @@ const AddChore = ({ categories }: Props) => {
                 })}
             </Form.Select>
             <div>
-              <Button disabled={!mainCategoryValue}>
-                Ny
+              <Button
+                disabled={!mainCategoryValue}
+                className='d-flex gap-1 align-items-center'
+                onClick={() => setShowSubCategoryModal(!showSubCategoryModal)}
+              >
                 <AiOutlinePlus size={18} />
+                <div className='fs-6'>Ny</div>
               </Button>
             </div>
           </div>
@@ -128,6 +138,11 @@ const AddChore = ({ categories }: Props) => {
         </Button>
       </Form>
       <Category show={showCategoryModal} onHide={() => setShowCategoryModal(!showCategoryModal)} />
+      <SubCategory
+        category={categories.find((x) => x.id === mainCategoryValue) as CategoryResponseDto}
+        show={showSubCategoryModal}
+        onHide={() => setShowSubCategoryModal(!showSubCategoryModal)}
+      />
     </>
   );
 };

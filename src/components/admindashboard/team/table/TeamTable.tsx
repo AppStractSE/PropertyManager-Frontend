@@ -17,13 +17,13 @@ interface Props {
 
 const TeamTable = ({ teams, teammembers, users, customers, search }: Props) => {
   return (
-    <>
-      <Table hover striped>
+    <div className='overflow-auto'>
+      <Table hover striped className='table-mobile'>
         <thead>
           <tr>
             <th className='text-uppercase fs-7'>Teamnamn</th>
             <th className='text-uppercase fs-7'>Medlemmar</th>
-            <th></th>
+            <th className='text-uppercase fs-7'>Alternativ</th>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@ const TeamTable = ({ teams, teammembers, users, customers, search }: Props) => {
             ))}
         </tbody>
       </Table>
-    </>
+    </div>
   );
 };
 

@@ -605,6 +605,45 @@ export class Client extends BaseClient {
         return Promise.resolve<Category>(null as any);
     }
 
+    category_PostSubCategory(request: PostSubCategoryRequestDto): Promise<SubCategory> {
+        let url_ = this.baseUrl + "/api/v1/Category/PostSubCategory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCategory_PostSubCategory(_response);
+        });
+    }
+
+    protected processCategory_PostSubCategory(response: Response): Promise<SubCategory> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SubCategory;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SubCategory>(null as any);
+    }
+
     choreComment_GetAllChoreComments(): Promise<ChoreComment[]> {
         let url_ = this.baseUrl + "/api/v1/ChoreComment";
         url_ = url_.replace(/[?&]$/, "");
@@ -1058,6 +1097,80 @@ export class Client extends BaseClient {
             });
         }
         return Promise.resolve<ChoreStatusResponseDto[]>(null as any);
+    }
+
+    city_GetAllCities(): Promise<CityResponseDto[]> {
+        let url_ = this.baseUrl + "/api/v1/City";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCity_GetAllCities(_response);
+        });
+    }
+
+    protected processCity_GetAllCities(response: Response): Promise<CityResponseDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CityResponseDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CityResponseDto[]>(null as any);
+    }
+
+    city_PostCity(request: PostCityRequestDto): Promise<City> {
+        let url_ = this.baseUrl + "/api/v1/City";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCity_PostCity(_response);
+        });
+    }
+
+    protected processCity_PostCity(response: Response): Promise<City> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as City;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<City>(null as any);
     }
 
     customerChore_GetAllChores(): Promise<CustomerChore[]> {
@@ -1526,45 +1639,6 @@ export class Client extends BaseClient {
         return Promise.resolve<Periodic[]>(null as any);
     }
 
-    subCategory_PostSubCategory(request: PostSubCategoryRequestDto): Promise<SubCategory> {
-        let url_ = this.baseUrl + "/api/v1/SubCategory";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processSubCategory_PostSubCategory(_response);
-        });
-    }
-
-    protected processSubCategory_PostSubCategory(response: Response): Promise<SubCategory> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SubCategory;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<SubCategory>(null as any);
-    }
-
     team_GetAllTeams(): Promise<Team[]> {
         let url_ = this.baseUrl + "/api/v1/Team";
         url_ = url_.replace(/[?&]$/, "");
@@ -2031,16 +2105,19 @@ export class Client extends BaseClient {
 
 export interface Area {
     id: string;
+    cityId: string | undefined;
     name: string | undefined;
 }
 
 export interface AreaResponseDto {
     id: string;
+    cityId: string | undefined;
     name: string | undefined;
 }
 
 export interface PostAreaRequestDto {
     name: string | undefined;
+    cityId: string | undefined;
 }
 
 export interface PutAreaRequestDto {
@@ -2126,6 +2203,12 @@ export interface PostCategoryRequestDto {
     description: string | undefined;
 }
 
+export interface PostSubCategoryRequestDto {
+    categoryId: string;
+    title: string | undefined;
+    reference: string | undefined;
+}
+
 export interface ChoreComment {
     id: string;
     message: string | undefined;
@@ -2195,6 +2278,22 @@ export interface PostChoreStatusRequestDto {
     customerChoreId: string | undefined;
     completedDate: Date | undefined;
     doneBy: string | undefined;
+}
+
+export interface CityResponseDto {
+    id: string;
+    name: string | undefined;
+    areas: AreaResponseDto[] | undefined;
+}
+
+export interface City {
+    id: string;
+    name: string | undefined;
+    areas: Area[] | undefined;
+}
+
+export interface PostCityRequestDto {
+    name: string | undefined;
 }
 
 export interface CustomerChore {
@@ -2274,12 +2373,6 @@ export interface PutCustomerRequestDto {
     areaId: string | undefined;
     teamId: string | undefined;
     address: string | undefined;
-}
-
-export interface PostSubCategoryRequestDto {
-    categoryId: string;
-    title: string | undefined;
-    reference: string | undefined;
 }
 
 export interface Team {
