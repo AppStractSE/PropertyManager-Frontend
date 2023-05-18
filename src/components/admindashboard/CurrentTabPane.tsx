@@ -8,7 +8,7 @@ import {
   Periodic,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto
+  UserInfoDto,
 } from "../../api/client";
 import Search from "../Search";
 import CustomerTable from "./customer/table/CustomerTable";
@@ -43,38 +43,62 @@ const CurrentTabPane = ({
   }, [tab]);
 
   return (
-    <Tab.Pane eventKey={tab}>
-    <Card className='default-cursor'>
-      <Card.Header className='fs-4 mb-2'>{tab}</Card.Header>
-      <Card.Body>
-        <Search
-          value={search}
-          onChange={(value) => setSearch(value)}
-          placeholder={tab.toLowerCase()}
+    <Tab.Pane eventKey={tab} className='p-2'>
+      {/* <Row className='mb-4'>
+        <Col sm={12} md={6}>
+          <Card>
+            <Card.Header className='fs-4 mb-2'>Skapa {tab.toLowerCase()}</Card.Header>
+            <Card.Body>aasd</Card.Body>
+          </Card>
+        </Col>
+        <div className='col-6'>
+          <Card>
+            <Card.Header className='fs-4 mb-2'>Skapa {tab.toLowerCase()}</Card.Header>
+            <Card.Body>aasd</Card.Body>
+          </Card>
+        </div>
+      </Row> */}
+      <Card className='default-cursor'>
+        <Card.Header className='fs-4 mb-2'>{tab}</Card.Header>
+        <Card.Body>
+          <Search
+            value={search}
+            onChange={(value) => setSearch(value)}
+            placeholder={tab.toLowerCase()}
           />
-        {tab === "Kunder" ? (
-          <CustomerTable
-          search={search}
-          areas={areas}
-          chores={chores}
-          customers={customers}
-          customerchores={customerchores}
-          teams={teams}
-          teammembers={teammembers}
-          periodics={periodics}
-          />
-          ) : tab === "Teams" ? (
-            <TeamTable
-            search={search}
-            teams={teams}
-            teammembers={teammembers}
-            users={users}
-            customers={customers}
-            />
-            ) : undefined}
-      </Card.Body>
-    </Card>
-      </Tab.Pane>
+          <div className='flex-fill overflow-hidden'>
+            {tab === "Kunder" ? (
+              <CustomerTable
+                search={search}
+                areas={areas}
+                chores={chores}
+                customers={customers}
+                customerchores={customerchores}
+                teams={teams}
+                teammembers={teammembers}
+                periodics={periodics}
+              />
+            ) : tab === "Teams" ? (
+              <TeamTable
+                search={search}
+                teams={teams}
+                teammembers={teammembers}
+                users={users}
+                customers={customers}
+              />
+            ) : tab === "Sysslor" ? (
+              <TeamTable
+                search={search}
+                teams={teams}
+                teammembers={teammembers}
+                users={users}
+                customers={customers}
+              />
+            ) : null}
+          </div>
+        </Card.Body>
+      </Card>
+    </Tab.Pane>
   );
 };
 

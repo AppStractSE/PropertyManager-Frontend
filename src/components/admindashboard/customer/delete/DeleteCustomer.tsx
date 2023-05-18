@@ -14,7 +14,7 @@ const DeleteCustomer = ({ customer }: Props) => {
       <Button
         variant='danger'
         size='sm'
-        className='d-flex align-items-center gap-2 ms-2'
+        className='d-flex align-items-center gap-2 ms-auto'
         onClick={() => setDeleteCustomerModal(!deleteCustomerModal)}
       >
         <BsFillTrashFill size={18} />

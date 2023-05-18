@@ -43,7 +43,7 @@ const EditCustomerModal = ({
       </Modal.Header>
       <Modal.Body className='m-3'>
         <Tab.Container defaultActiveKey='first'>
-          <Nav variant='pills' className='gap-5 flex-row mb-4 align-items-center'>
+          <Nav variant='pills' className='gap-2 flex-row mb-4 align-items-center'>
             <Nav.Item>
               <Nav.Link eventKey='first'>Kunduppgifter</Nav.Link>
             </Nav.Item>

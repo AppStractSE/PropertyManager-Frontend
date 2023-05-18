@@ -68,7 +68,7 @@ const CreatePane = ({
     <Tab.Container defaultActiveKey='Kund'>
       <Nav
         variant='pills'
-        className='flex-row w-100 justify-content-center gap-5 py-2 card default-cursor'
+        className='flex-row w-100 justify-content-center gap-5 py-2 default-cursor border-bottom'
       >
         {navMenu.map((item) => (
           <Nav.Item key={item.name}>

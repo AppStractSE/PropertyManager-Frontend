@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Nav, Tab } from "react-bootstrap";
-import CreatePane from "../components/admindashboard/create/CreatePane";
 import CurrentTabPane from "../components/admindashboard/CurrentTabPane";
+import CreatePane from "../components/admindashboard/create/CreatePane";
 import dashboardData from "../components/admindashboard/data/dashboardData";
 import { useQueries } from "../hooks/useQueries";
 
@@ -39,13 +39,14 @@ const AdminDashboard = () => {
       <Tab.Container defaultActiveKey='Kunder'>
         <Nav
           variant='pills'
-          className='d-flex flex-column py-5 px-3 col-12 col-xl-2 col-lg-3 col-sm-12 aside-nav'
+          className='d-flex flex-column py-5 px-3 col-12 col-xl-2 col-lg-3 col-sm-12 aside-nav overflow-auto'
         >
           {dashboardData.map((item, i) => (
             <motion.div
+              className=''
               key={item.eventKey}
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, delay: i * 0.2 }}
             >
@@ -61,20 +62,23 @@ const AdminDashboard = () => {
               </Nav.Item>
               {i === dashboardData.length - 2 ? (
                 <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
-              ) : undefined}
+              ) : null}
             </motion.div>
           ))}
         </Nav>
-
-        <Tab.Content className='flex-fill col-xl-10 col-lg-9 col-sm-12'>
+        <Tab.Content
+          className='flex-fill col-xl-10 col-lg-9 col-sm-12'
+          style={{ maxWidth: "100%" }}
+        >
           <AnimatePresence mode='wait'>
             <motion.div
               key={tab}
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className={tab === "Skapa" ? "" : "mt-5 mx-3"}
+              className={tab === "Skapa" ? "" : "my-5"}
+              style={{ overflow: "hidden" }}
             >
               {tab === "Skapa" ? (
                 <CreatePane

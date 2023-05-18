@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { AiOutlinePlus } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
 import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
+import Category from "../../modals/Categories/Category";
+import SubCategory from "../../modals/Categories/SubCategory";
 
 interface Props {
   categories: CategoryResponseDto[];
@@ -15,6 +18,8 @@ const AddChore = ({ categories }: Props) => {
   const [choreDescriptionValue, setChoreDescription] = useState("");
   const [mainCategoryValue, setMainCategoryValue] = useState("");
   const [subCategoryValue, setSubCategoryValue] = useState("");
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
   const { mutate: postChore, isLoading: postingChore } = useMutation(
     async () => {
       return await client.chore_PostChore({
@@ -35,77 +40,110 @@ const AddChore = ({ categories }: Props) => {
     },
   );
 
+  if (!categories) return null;
   return (
-    <Form>
-      <Form.Group className='mb-3' controlId='name'>
-        <Form.Label>Namn</Form.Label>
-        <Form.Control
-          type='text'
-          placeholder='Namn på syssla'
-          value={titleValue}
-          onChange={(e) => setChoreTitle(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className='mb-3' controlId='description'>
-        <Form.Label>Beskrivning</Form.Label>
-        <Form.Control
-          type='text'
-          placeholder='Beskrivning på syssla'
-          value={choreDescriptionValue}
-          onChange={(e) => setChoreDescription(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className='mb-3' controlId='category'>
-        <Form.Label>Huvudkategori</Form.Label>
-        <Form.Select
-          className='form-active'
-          value={mainCategoryValue}
-          onChange={(e) => {
-            setMainCategoryValue(e.target.value);
-            setSubCategoryValue("");
-          }}
-        >
-          <option value=''>Välj huvudkategori</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.title} - {category.description}
-            </option>
-          ))}
-        </Form.Select>
-      </Form.Group>
-      <Form.Group className='mb-3' controlId='category'>
-        <Form.Label>Underkategori</Form.Label>
-        <Form.Select
-          disabled={!mainCategoryValue}
-          value={subCategoryValue}
-          onChange={(e) => setSubCategoryValue(e.target.value)}
-        >
-          <option value=''>Välj underkategori</option>
-          {categories
-            .filter((category) => category.id === mainCategoryValue)
-            .map((filteredCategories) => {
-              return filteredCategories.subCategories?.map((subCategory) => (
-                <option key={subCategory.id} value={subCategory.id}>
-                  {subCategory.reference} - {subCategory.title}
+    <>
+      <Form>
+        <Form.Group className='mb-3' controlId='name'>
+          <Form.Label>Namn</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Namn på syssla'
+            value={titleValue}
+            onChange={(e) => setChoreTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className='mb-3' controlId='description'>
+          <Form.Label>Beskrivning</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Beskrivning på syssla'
+            value={choreDescriptionValue}
+            onChange={(e) => setChoreDescription(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className='mb-3' controlId='category'>
+          <Form.Label>Huvudkategori</Form.Label>
+          <div className='d-flex gap-2'>
+            <Form.Select
+              className='form-active flex-fill w-auto'
+              value={mainCategoryValue}
+              onChange={(e) => {
+                setMainCategoryValue(e.target.value);
+                setSubCategoryValue("");
+              }}
+            >
+              <option value=''>Välj huvudkategori</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.title} - {category.description}
                 </option>
-              ));
-            })}
-        </Form.Select>
-      </Form.Group>
-      <Button
-        className='w-100'
-        onClick={() => postChore()}
-        disabled={
-          postingChore ||
-          !titleValue ||
-          !choreDescriptionValue ||
-          !mainCategoryValue ||
-          !subCategoryValue
-        }
-      >
-        Lägg till syssla
-      </Button>
-    </Form>
+              ))}
+            </Form.Select>
+            <div>
+              <Button
+                className='d-flex gap-1 align-items-center'
+                onClick={() => setShowCategoryModal(!showCategoryModal)}
+              >
+                <AiOutlinePlus size={18} />
+                <div className='fs-6'>Ny</div>
+              </Button>
+            </div>
+          </div>
+        </Form.Group>
+        <Form.Group className='mb-3' controlId='category'>
+          <Form.Label>Underkategori</Form.Label>
+          <div className='d-flex gap-2'>
+            <Form.Select
+              className='flex-fill w-auto'
+              disabled={!mainCategoryValue}
+              value={subCategoryValue}
+              onChange={(e) => setSubCategoryValue(e.target.value)}
+            >
+              <option value=''>Välj underkategori</option>
+              {categories
+                .filter((category) => category.id === mainCategoryValue)
+                .map((filteredCategories) => {
+                  return filteredCategories.subCategories?.map((subCategory) => (
+                    <option key={subCategory.id} value={subCategory.id}>
+                      {subCategory.reference} - {subCategory.title}
+                    </option>
+                  ));
+                })}
+            </Form.Select>
+            <div>
+              <Button
+                disabled={!mainCategoryValue}
+                className='d-flex gap-1 align-items-center'
+                onClick={() => setShowSubCategoryModal(!showSubCategoryModal)}
+              >
+                <AiOutlinePlus size={18} />
+                <div className='fs-6'>Ny</div>
+              </Button>
+            </div>
+          </div>
+        </Form.Group>
+        <Button
+          className='w-100'
+          onClick={() => postChore()}
+          disabled={
+            postingChore ||
+            !titleValue ||
+            !choreDescriptionValue ||
+            !mainCategoryValue ||
+            !subCategoryValue
+          }
+        >
+          Lägg till syssla
+        </Button>
+      </Form>
+      <Category show={showCategoryModal} onHide={() => setShowCategoryModal(!showCategoryModal)} />
+      <SubCategory
+        category={categories.find((x) => x.id === mainCategoryValue) as CategoryResponseDto}
+        show={showSubCategoryModal}
+        onHide={() => setShowSubCategoryModal(!showSubCategoryModal)}
+      />
+    </>
   );
 };
 
