@@ -10,7 +10,6 @@ body,
   flex-direction: column;
 }
 
-
 .login-container {
   max-width: 350px;
   align-items: flex-end;
@@ -104,7 +103,10 @@ body,
     background-color: #242424;
   }
 
-    .form-control {
+  .form-control,
+  .form-control:active,
+  .form-control:focus,
+  .progress {
     background: #242424;
     color: #fff;
   }
@@ -207,7 +209,6 @@ input[type="number"] {
 }
 
 .safe-area {
-
   /* CSS specific to iOS devices */
   @supports (-webkit-touch-callout: none) {
     padding-bottom: calc(env(safe-area-inset-bottom)) !important;
@@ -336,4 +337,8 @@ tr {
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
   width: 100% !important;
   gap: 0px !important;
+}
+
+.table-mobile {
+  min-width: 730px;
 }

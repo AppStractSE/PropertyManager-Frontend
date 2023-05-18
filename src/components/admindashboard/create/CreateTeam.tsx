@@ -11,7 +11,7 @@ interface Props {
 const CreateTeam = ({ teams, users, teammembers }: Props) => {
   return (
     <Row className='my-5'>
-      <Col md={12} lg={4}>
+      <Col md={12} lg={4} className='mb-3'>
         <Card className='default-cursor'>
           <Card.Header className='fs-5'>Nuvarande teams</Card.Header>
           <Card.Body className='justify-content-center d-flex flex-column'>

@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { ChoreResponseDto, CustomerResponseDto, Periodic } from "../../../../api/client";
+import {
+  ChoreResponseDto,
+  CustomerChoreResponseDto,
+  CustomerResponseDto,
+  Periodic,
+} from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
 
 interface Props {
@@ -9,12 +14,13 @@ interface Props {
   customer?: CustomerResponseDto;
   periodics: Periodic[];
   chores: ChoreResponseDto[];
+  customerchores: CustomerChoreResponseDto[];
 }
 
-const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => {
-  const [choreValue, setChoreValue] = useState("Välj");
+const AddCustomerChore = ({ customers, customer, customerchores, periodics, chores }: Props) => {
+  const [choreValue, setChoreValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
-  const [periodicValue, setPeriodicValue] = useState("Välj");
+  const [periodicValue, setPeriodicValue] = useState("");
   const [frequencyValue, setFrequencyValue] = useState(1);
   const queryClient = useQueryClient();
   const client = useClient();
@@ -30,8 +36,9 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
     {
       onSuccess: () => {
         setFrequencyValue(0);
-        setChoreValue("Välj");
-        setPeriodicValue("Välj");
+        setChoreValue("");
+        setChoreValue("");
+        setPeriodicValue("");
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
@@ -41,6 +48,29 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
   );
   return (
     <Form className='d-flex flex-column gap-3'>
+      {customers ? (
+        <Form.Group>
+          <Form.Label>Kund</Form.Label>
+          <Form.Select
+            aria-label='Välj kund dropdown'
+            value={customerValue}
+            onChange={(e) => {
+              setCustomerValue(e.target.value);
+              setChoreValue("");
+            }}
+            className='form-active'
+          >
+            <option value=''>Välj kund</option>
+            {customers?.map((customer) => {
+              return (
+                <option key={customer.id} value={customer.id}>
+                  {customer.name}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Form.Group>
+      ) : null}
       <Form.Group>
         <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
         <Form.Control
@@ -58,15 +88,26 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
       <Form.Group>
         <Form.Label>Syssla</Form.Label>
         <Form.Select
+          disabled={customerValue === "" ? true : false}
           aria-label='Chore'
           value={choreValue}
           onChange={(e) => setChoreValue(e.target.value)}
           className='form-active'
         >
-          <option>Välj syssla</option>
+          <option value=''>Välj syssla</option>
           {chores.map((chore) => {
             return (
-              <option key={chore.id} value={chore.id}>
+              <option
+                key={chore.id}
+                value={chore.id}
+                disabled={
+                  customerchores
+                    ?.filter((x) => x.customerId === customerValue)
+                    .find((x) => x.chore?.id === chore.id)
+                    ? true
+                    : false
+                }
+              >
                 {chore.title}
               </option>
             );
@@ -81,7 +122,7 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
           onChange={(e) => setPeriodicValue(e.target.value)}
           className='form-active'
         >
-          <option>Välj tidsintervall</option>
+          <option value=''>Välj tidsintervall</option>
           {periodics.map((periodic) => {
             return (
               <option key={periodic.id} value={periodic.id}>
@@ -91,37 +132,18 @@ const AddCustomerChore = ({ customers, customer, periodics, chores }: Props) => 
           })}
         </Form.Select>
       </Form.Group>
-      {customers ? (
-        <Form.Group>
-          <Form.Label>Kund</Form.Label>
-          <Form.Select
-            aria-label='Välj kund dropdown'
-            value={customerValue}
-            onChange={(e) => setCustomerValue(e.target.value)}
-            className='form-active'
-          >
-            <option>Välj kund</option>
-            {customers?.map((customer) => {
-              return (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Form.Group>
-      ) : undefined}
+
       <Button
         className='w-100'
         onClick={() => postCustomerChore()}
         disabled={
-          choreValue.includes("Välj")
+          !choreValue
             ? true
-            : false || periodicValue.includes("Välj")
+            : false || !periodicValue
             ? true
-            : false || customerValue.includes("Välj")
+            : false || !customerValue
             ? true
-            : false || frequencyValue == 0
+            : false || frequencyValue === 0
         }
       >
         Lägg till syssla på kund
