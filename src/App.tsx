@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy } from "react";
+import { Spinner } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AuthUser, TokenInfo } from "./api/client";
 import { useClient } from "./contexts/ClientContext";
 import { useTheme } from "./contexts/ThemeContext";
 import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { Spinner } from "react-bootstrap";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
@@ -26,40 +26,61 @@ const App = () => {
   const { currentUser, setCurrentUser } = useUser();
   const { isDarkTheme } = useTheme();
   const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
+  const navigate = useNavigate();
 
-  const { data: fetchedUser } = useQuery<AuthUser>(
+  const fetchUser = async () => {
+    if (token.token !== InitialUserState.tokenInfo?.token) {
+      return await client.authenticate_GetValidation();
+    } else {
+      return InitialUserState;
+    }
+  };
+
+  const { data: fetchedUser, refetch } = useQuery<AuthUser>(
     ["user", currentUser?.user?.userId],
-    async () => {
-      return token.token !== InitialUserState.tokenInfo?.token
-        ? await client.authenticate_GetValidation()
-        : InitialUserState;
-    },
+    fetchUser,
     {
+      enabled: token.token !== "",
+      // enabled: token.token !== "",
+      retry(failureCount, error: any) {
+        if (error.status === 500) {
+          return false;
+        }
+        return failureCount < 1;
+      },
       onSuccess: (data) => {
         if (data) {
           const user: AuthUser = data;
           setCurrentUser(user);
+          navigate("/"); // Redirect to the authenticated section after successful login
         }
       },
-      onError: (error) => {
-        console.log(error);
+      retryOnMount: true,
+      onError: (error: any) => {
+        setToken(InitialUserState.tokenInfo!);
+        setCurrentUser(InitialUserState);
       },
     },
   );
 
-  useEffect(() => {
-    if (token !== InitialUserState.tokenInfo) {
-      setCurrentUser({ ...currentUser, tokenInfo: token });
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token !== InitialUserState.tokenInfo || currentUser !== InitialUserState) {
+  //     console.log("Setting user from token");
+  //     setCurrentUser((prevUser) => ({
+  //       ...prevUser,
+  //       tokenInfo: token,
+  //     }));
+  //   }
+  // }, [token, setCurrentUser]);
 
-  useEffect(() => {
-    if (currentUser !== InitialUserState) {
-      if (currentUser.tokenInfo?.token !== "") {
-        setToken(currentUser.tokenInfo!);
-      }
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser !== InitialUserState || token.token === InitialUserState.tokenInfo?.token) {
+  //     if (currentUser.tokenInfo) {
+  //       console.log("Setting token from currentUser");
+  //       setToken(currentUser.tokenInfo);
+  //     }
+  //   }
+  // }, [currentUser, token]);
 
   return (
     <>

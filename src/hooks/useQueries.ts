@@ -88,7 +88,7 @@ export function useQueries() {
       teamMembers,
       teams,
       users,
-      userData
+      userData,
     };
   }
 

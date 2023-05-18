@@ -1,15 +1,18 @@
-import { useState } from "react";
-import { Button, Container, Spinner } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+import { useEffect, useState } from "react";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { useMutation } from "react-query";
-import { AuthUser, Client } from "../api/client";
+import { Client, AuthUser } from "../api/client";
 import { useUser } from "../contexts/UserContext";
+import { useQueries } from "../hooks/useQueries";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const { setToken } = useUser();
   const { setCurrentUser } = useUser();
   const client = new Client();
+  const navigate = useNavigate();
 
   const { mutateAsync: postLogin, isLoading: postingLogin } = useMutation(
     async () => {
@@ -20,17 +23,26 @@ const Login = () => {
     },
     {
       onSuccess: (data) => {
+        console.log("Vi tittar på data:");
         if (data) {
           let authUser: AuthUser = data;
+          setToken(authUser?.tokenInfo!); // Update token
           setCurrentUser(authUser);
         }
+      },
+      retry(failureCount, error: any) {
+        if (error.status === 500) {
+          return false;
+        }
+        return failureCount < 1;
       },
     },
   );
 
   const submit = (e: React.FormEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     postLogin();
+    navigate("/"); // Redirect to the authenticated section after successful login
   };
 
   if (postingLogin)
@@ -62,7 +74,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Button type='submit' disabled={userName && password ? false : true} className='mt-3'>
+          <Button type='submit' disabled={!userName || !password} className='mt-3'>
             Login
           </Button>
         </Form>

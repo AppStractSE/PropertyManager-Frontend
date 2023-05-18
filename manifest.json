@@ -2,11 +2,11 @@
   "theme_color": "#111",
   "background_color": "#111",
   "display": "standalone",
-  "scope": "/",
+  "scope": "http://localhost:5173/",
   "start_url": "http://localhost:5173/",
-  "description": "Property Manager",
+  "description": "Manage properties with ease",
   "short_name": "PM",
-  "name": "PM TEST",
+  "name": "PropertEase",
   "icons": [
     {
       "src": "icons/icon-192x192.png",

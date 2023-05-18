@@ -20,6 +20,7 @@
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.0",
+    "cypress": "^12.10.0",
     "date-fns": "^2.29.3",
     "framer-motion": "^8.2.4",
     "keen-slider": "^6.8.5",
