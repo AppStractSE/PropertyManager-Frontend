@@ -32,13 +32,13 @@ const DeleteComment = ({ chorecomment, customerchore }: Props) => {
   return (
     <motion.div
       key='delete-comment'
-      className='comment-delete-container'
+      className='comment-delete-container py-2 rounded'
       initial={{ opacity: 1, width: 0 }}
       animate={{ opacity: 1, width: 75 }}
       exit={{ opacity: 1, width: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className='bg-danger comment-delete px-2' onClick={() => deleteComment()}>
+      <div className='bg-danger comment-delete rounded' onClick={() => deleteComment()}>
         <BsFillTrashFill className='color-white' size={20} />
       </div>
     </motion.div>

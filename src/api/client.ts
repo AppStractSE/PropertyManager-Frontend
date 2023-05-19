@@ -444,7 +444,7 @@ export class Client extends BaseClient {
         return Promise.resolve<void>(null as any);
     }
 
-    blob_UploadBlob(customerChoreId: string | null | undefined, fileExtension: string | null | undefined, formFile: FileParameter | null | undefined): Promise<FileResponse> {
+    blob_UploadBlob(customerChoreId: string | null | undefined, fileExtension: string | null | undefined, formFile: FileParameter | null | undefined, fileName: string | null | undefined): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/v1/Blob";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -455,6 +455,8 @@ export class Client extends BaseClient {
             content_.append("FileExtension", fileExtension.toString());
         if (formFile !== null && formFile !== undefined)
             content_.append("FormFile", formFile.data, formFile.fileName ? formFile.fileName : "FormFile");
+        if (fileName !== null && fileName !== undefined)
+            content_.append("FileName", fileName.toString());
 
         let options_: RequestInit = {
             body: content_,

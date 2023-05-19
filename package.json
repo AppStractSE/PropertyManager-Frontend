@@ -14,6 +14,8 @@
     "prettier": "npm run format -- --write"
   },
   "dependencies": {
+    "@dicebear/adventurer": "^6.0.2",
+    "@dicebear/core": "^6.0.2",
     "@types/react-bootstrap": "^0.32.32",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",

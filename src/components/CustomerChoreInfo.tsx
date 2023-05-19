@@ -58,7 +58,6 @@ const CustomerChoreInfo = () => {
   const [showComments, setShowComments] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
   const [showMediaModal, setShowMediaModal] = useState(false);
-
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
 
   const {
@@ -95,10 +94,15 @@ const CustomerChoreInfo = () => {
       if (!file) {
         throw new Error("File is missing");
       }
-      await client.blob_UploadBlob(customerChoreId, file?.name.split(".").pop(), {
-        data: file,
-        fileName: file!.name,
-      });
+      await client.blob_UploadBlob(
+        customerChoreId,
+        file?.name.split(".").pop(),
+        {
+          data: file,
+          fileName: file!.name,
+        },
+        "",
+      );
     },
     {
       onSuccess: () => {
@@ -146,7 +150,7 @@ const CustomerChoreInfo = () => {
           <div className='h3 mb-0'>{customerchore?.chore?.title}</div>
         </Container>
       </Container>
-      <div className='h-100 py-3 overflow-y-scroll container px-0'>
+      <div className='h-100 py-3 scrollable container px-0'>
         <Container>
           <div className='fs-5 fw-bold mb-2'>Information</div>
           <div className='d-flex gap-2 align-items-center my-2'>
@@ -233,7 +237,7 @@ const CustomerChoreInfo = () => {
           </div>
           <div className='position-relative'>
             <ProgressBar className='rounded-pill mt-3 border border-dark' style={{ height: 24 }}>
-              {Array.from({ length: customerchore?.progress }, (_, i) => i + 1).map((x, idx) => (
+              {Array.from({ length: customerchore?.progress }, (_, i) => i + 1).map((_, idx) => (
                 <ProgressBar variant={"success"} now={100 / customerchore.frequency} key={idx} />
               ))}
             </ProgressBar>
@@ -258,8 +262,9 @@ const CustomerChoreInfo = () => {
             <div ref={sliderRef} className='keen-slider'>
               {choreImagesIsLoading ? (
                 <Placeholder animation='wave' className='d-flex'>
-                  {Array.from({ length: 10 }, (_, i) => i + 1).map((x, idx) => (
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((_, idx) => (
                     <Placeholder
+                      key={idx}
                       className='keen-slider__slide rounded'
                       style={{ aspectRatio: "4/4", minHeight: 120 }}
                     />
@@ -281,7 +286,7 @@ const CustomerChoreInfo = () => {
               )}
             </div>
           ) : (
-            <div className='fs-7'>Inga bilder hittades</div>
+            <div className='fs-7'>Ingen media hittades</div>
           )}
         </Container>
       </div>
@@ -327,15 +332,26 @@ const CustomerChoreInfo = () => {
           <Modal.Title>Media</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className='d-flex flex-wrap flex-row'>
-            {choreImages.map((image: string) => (
-              <div key={image} className='col-3 p-2' onClick={() => setSelectedImage(image)}>
-                <img className='rounded' src={image} height='auto' width='100%' />
-                <div className='fs-7'>Laddades upp</div>
-                <div className='fs-7'>Av</div>
+          {choreImages.length > 0 ? (
+            <div className='d-flex flex-wrap flex-row'>
+              {choreImages.map((image: string) => (
+                <div key={image} className='col-3 p-2' onClick={() => setSelectedImage(image)}>
+                  <img className='rounded' src={image} height='auto' width='100%' />
+                  <div className='fs-7'>Laddades upp</div>
+                  <div className='fs-7'>Av</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className='d-flex flex-column align-items-center justify-content-center h-100'>
+              <GoFileMedia size={62} />
+              <div className='fs-5 my-2'>Ingen media</div>
+              <div className='text-muted fs-7'>
+                Den här uppgiften har ingen media uppladdad ännu
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+
           {/* TODO: START */}
           <Button onClick={() => postImage()}>ladda upp</Button>
           <input

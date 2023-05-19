@@ -1,24 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useLayoutEffect } from "react";
+import { Suspense, lazy } from "react";
+import { Spinner } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AuthUser, TokenInfo } from "./api/client";
-import AppBar from "./components/AppBar";
-import CustomerChoreInfo from "./components/CustomerChoreInfo";
 import { useClient } from "./contexts/ClientContext";
 import { useTheme } from "./contexts/ThemeContext";
-import UserProvider, { InitialUserState, useUser } from "./contexts/UserContext";
+import { InitialUserState, useUser } from "./contexts/UserContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import AdminDashboard from "./pages/AdminDashboard";
-import Customer from "./pages/Customer";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
-import { set } from "date-fns";
+
+const Home = lazy(() => import("./pages/Home"));
+const Customer = lazy(() => import("./pages/Customer"));
+const Login = lazy(() => import("./pages/Login"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AppBar = lazy(() => import("./components/AppBar"));
+const CustomerChoreInfo = lazy(() => import("./components/CustomerChoreInfo"));
 
 const App = () => {
   const client = useClient();
@@ -85,27 +86,93 @@ const App = () => {
     <>
       <Routes>
         {currentUser === InitialUserState ? (
-          <Route index element={<Login />} />
+          <Route
+            index
+            element={
+              <Suspense
+                fallback={
+                  <div className='flex-fill justify-content-center align-items-center d-flex'>
+                    <Spinner as='span' animation='border' />
+                  </div>
+                }
+              >
+                <Login />
+              </Suspense>
+            }
+          />
         ) : (
           <>
             <Route
               index
               element={
                 currentUser.user?.role === "Admin" ? (
-                  <>
+                  <Suspense
+                    fallback={
+                      <div className='flex-fill justify-content-center align-items-center d-flex'>
+                        <Spinner as='span' animation='border' />
+                      </div>
+                    }
+                  >
                     <AppBar />
                     <AdminDashboard />
-                  </>
+                  </Suspense>
                 ) : (
-                  <Home />
+                  <Suspense
+                    fallback={
+                      <div className='flex-fill justify-content-center align-items-center d-flex'>
+                        <Spinner as='span' animation='border' />
+                      </div>
+                    }
+                  >
+                    <Home />
+                  </Suspense>
                 )
               }
             />
-            <Route path='customer/:id' element={<Customer />} />
-            <Route path='customer/:id/chore/:customerChoreId' element={<CustomerChoreInfo />} />
+            <Route
+              path='customer/:id'
+              element={
+                <Suspense
+                  fallback={
+                    <div className='flex-fill justify-content-center align-items-center d-flex'>
+                      <Spinner as='span' animation='border' />
+                    </div>
+                  }
+                >
+                  <Customer />
+                </Suspense>
+              }
+            />
+            <Route
+              path='customer/:id/chore/:customerChoreId'
+              element={
+                <Suspense
+                  fallback={
+                    <div className='flex-fill justify-content-center align-items-center d-flex'>
+                      <Spinner as='span' animation='border' />
+                    </div>
+                  }
+                >
+                  <CustomerChoreInfo />
+                </Suspense>
+              }
+            />
           </>
         )}
-        <Route path='*' element={<NotFound />} />
+        <Route
+          path='*'
+          element={
+            <Suspense
+              fallback={
+                <div className='flex-fill justify-content-center align-items-center d-flex'>
+                  <Spinner as='span' animation='border' />
+                </div>
+              }
+            >
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Routes>
       {/* Default toast */}
       <ToastContainer
