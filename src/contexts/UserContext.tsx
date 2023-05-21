@@ -45,7 +45,7 @@ function UserProvider({ children }: Props) {
 
   const logout = () => {
     setCurrentUser(InitialUserState);
-    window.localStorage.removeItem("token");
+    window.localStorage.setItem("token", JSON.stringify(InitialUserState.tokenInfo!));
     queryClient.removeQueries();
   };
 
