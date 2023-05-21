@@ -107,12 +107,12 @@ const CreateAvatar = () => {
   return (
     <>
       <Button onClick={() => postImage()}>Spara avatar</Button>
-      <img
+      {/* <img
         src={`https://propertyfilesystem.blob.core.windows.net/fddff525-58e3-423b-ab63-8cfae2bdd997/profile.svg`}
         height='80'
         width='80'
         className='rounded'
-      />
+      /> */}
       <Tab.Container defaultActiveKey='eyebrows'>
         <div className='d-flex align-items-center my-3'>
           <Nav variant='pills' className='d-flex flex-row flex-wrap gap-1 color-primary avatar'>

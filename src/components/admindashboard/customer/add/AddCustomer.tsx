@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
-import { AreaResponseDto, TeamResponseDto } from "../../../../api/client";
+import { toast } from "react-toastify";
+import { AreaResponseDto, CityResponseDto, TeamResponseDto } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
+import toasts from "../../../../data/toasts";
 
 interface Props {
   teams: TeamResponseDto[];
   areas: AreaResponseDto[];
+  cities: CityResponseDto[];
   close?: () => void;
 }
 
-const AddCustomer = ({ teams, areas, close }: Props) => {
+const AddCustomer = ({ teams, areas, close, cities }: Props) => {
   const [teamValue, setTeamValue] = useState("");
   const [areaValue, setAreaValue] = useState("");
+  const [cityValue, setCityValue] = useState("");
   const [customerValue, setCustomerValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
   const client = useClient();
@@ -32,8 +36,8 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
         setTeamValue("");
         setAreaValue("");
         setAddressValue("");
+        toast.success(toasts.create.customer.onMutate.message);
         queryClient.invalidateQueries("customers");
-        console.log("Customer posted");
         if (close) close();
       },
     },
@@ -59,7 +63,7 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
         />
       </Form.Group>
       <Form.Group className='row'>
-        <Form.Group className='mb-3 col-6'>
+        <Form.Group className='mb-3 col-12'>
           <Form.Label>Team</Form.Label>
           <Form.Select
             value={teamValue}
@@ -78,6 +82,24 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
           </Form.Select>
         </Form.Group>
         <Form.Group className='mb-3 col-6'>
+          <Form.Label>Ort</Form.Label>
+          <Form.Select
+            value={cityValue}
+            onChange={(e) => setCityValue(e.target.value)}
+            className='form-active'
+          >
+            <option>Välj ort</option>
+            {cities &&
+              cities.map((city: CityResponseDto) => {
+                return (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
+                );
+              })}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className='mb-3 col-6'>
           <Form.Label>Område</Form.Label>
           <Form.Select
             value={areaValue}
@@ -86,7 +108,7 @@ const AddCustomer = ({ teams, areas, close }: Props) => {
           >
             <option>Välj område</option>
             {areas &&
-              areas.map((area: AreaResponseDto) => {
+              areas.filter(x => x.cityId === cityValue).map((area: AreaResponseDto) => {
                 return (
                   <option key={area.id} value={area.id}>
                     {area.name}

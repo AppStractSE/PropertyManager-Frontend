@@ -26,8 +26,10 @@ const ThemeProvider = ({ children }: Props) => {
     metaThemeColor.content = isDarkTheme ? "#111" : "#ffffff";
     if (isDarkTheme) {
       document.body.classList.add("dark");
+      document.documentElement.style.setProperty("scrollbar-color", "#242424 #111");
     } else {
       document.body.classList.remove("dark");
+      document.documentElement.style.setProperty("scrollbar-color", "#e0e0e0 #f5f5f5");
     }
   }, [isDarkTheme]);
 

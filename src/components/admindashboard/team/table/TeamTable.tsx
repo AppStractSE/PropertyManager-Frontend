@@ -28,7 +28,18 @@ const TeamTable = ({ teams, teammembers, users, customers, search }: Props) => {
         </thead>
         <tbody>
           {teams
-            ?.filter((x) => x.name?.toLowerCase().includes(search.toLowerCase()))
+            ?.filter(
+              (x) =>
+                x.name?.toLowerCase().includes(search.toLowerCase()) ||
+                teammembers
+                  .filter((teammember) => teammember.teamId === x.id)
+                  .some((teammember) =>
+                    users
+                      .find((user) => user.userId === teammember.userId)
+                      ?.displayName?.toLowerCase()
+                      .includes(search.toLowerCase()),
+                  ),
+            )
             .map((team) => (
               <TeamRow
                 key={team.id}

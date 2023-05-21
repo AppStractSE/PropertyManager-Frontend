@@ -5,14 +5,14 @@ import { DayPicker } from "react-day-picker";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { UserCustomerChoreData, UserCustomerData } from "../../../api/client";
+import { CustomerChoreResponseDto, CustomerResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import { useUser } from "../../../contexts/UserContext";
 import toasts from "../../../data/toasts";
 
 interface Props {
-  customerchore: UserCustomerChoreData;
-  customer: UserCustomerData;
+  customerchore: CustomerChoreResponseDto;
+  customer: CustomerResponseDto;
   show: boolean;
   onHide: () => void;
 }
@@ -28,15 +28,15 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
     async () => {
       return await client.choreStatus_PostChoreStatus({
         completedDate: dateValue === "Idag" ? undefined : selected,
-        customerChoreId: customerchore?.customerChoreId,
+        customerChoreId: customerchore?.id,
         doneBy: currentUser.user!.userId,
       });
     },
     {
       onSuccess: () => {
         toast.success(toasts.choreStatuses.onMutate.message);
-        queryClient.invalidateQueries(["choreStatus", customerchore?.customerChoreId]);
-        queryClient.invalidateQueries(["customerChores", customerchore?.customerChoreId]);
+        queryClient.invalidateQueries(["choreStatus", customerchore?.id]); // funmkar inte som den ska, eller så är det den förbannad cachningen igen!!!!
+        queryClient.invalidateQueries(["customerChore", customerchore?.id]);
         queryClient.invalidateQueries(["userData", currentUser.user!.userId]);
         onHide();
       },
@@ -55,7 +55,7 @@ const CompleteCustomerChore = ({ customerchore, customer, show, onHide }: Props)
         <Modal.Body className='px-3 py-2 mb-2'>
           <div className='fs-6 mb-2'>
             Härmed intygas att <span className='fw-bold'>{customerchore?.chore?.title}</span> är
-            klar hos <span className='fw-bold'>{customer?.customerName}</span>.
+            klar hos <span className='fw-bold'>{customer?.name}</span>.
           </div>
 
           <Form>

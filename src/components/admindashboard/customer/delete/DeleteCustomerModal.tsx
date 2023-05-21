@@ -36,7 +36,6 @@ const DeleteCustomerModal = ({ customer, show, onHide }: Props) => {
       className='nested-modal'
       show={show}
       onHide={() => onHide()}
-      closeButton
     >
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>Radera kund</Modal.Title>

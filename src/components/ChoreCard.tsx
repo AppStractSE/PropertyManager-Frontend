@@ -4,21 +4,21 @@ import { GoX } from "react-icons/go";
 import { IoMdSync } from "react-icons/io";
 import { VscPieChart } from "react-icons/vsc";
 import { Link, useParams } from "react-router-dom";
-import { UserCustomerChoreData } from "../api/client";
+import { CustomerChoreResponseDto } from "../api/client";
 
 interface Props {
-  customerchore: UserCustomerChoreData;
+  customerchore: CustomerChoreResponseDto;
 }
 
 const ChoreCard = ({ customerchore }: Props) => {
   const { id } = useParams();
   return (
-    <Link to={`/customer/${id}/chore/${customerchore.customerChoreId}`}>
+    <Link to={`/customer/${id}/chore/${customerchore.id}`}>
       <Card className='rounded'>
         <Card.Body className='d-flex align-items-center'>
           <Container>
             <Card.Title>{customerchore.chore!.title}</Card.Title>
-            <Card.Title className='small text-muted'>{customerchore?.subCategoryName}</Card.Title>
+            <Card.Title className='small text-muted'>{customerchore.subCategoryName}</Card.Title>
             <div className='d-flex align-items-center gap-2'>
               <div
                 className={`w-fit-content rounded-pill border border-dark px-3 py-1 d-flex gap-1 align-items-center ${

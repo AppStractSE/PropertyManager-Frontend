@@ -1,12 +1,12 @@
 import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChoreCommentResponseDto, UserCustomerChoreData } from "../../../api/client";
+import { ChoreCommentResponseDto, CustomerChoreResponseDto } from "../../../api/client";
 import { useUser } from "../../../contexts/UserContext";
 import DeleteComment from "../../DeleteComment";
 
 interface Props {
   chorecomment: ChoreCommentResponseDto;
-  customerchore: UserCustomerChoreData;
+  customerchore: CustomerChoreResponseDto;
 }
 
 const ChoreComment = ({ chorecomment, customerchore }: Props) => {
@@ -14,7 +14,7 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [activeDeleteButton, setActiveDeleteButton] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const handlePan = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (info.offset.x < -20) {
       setShowDeleteButton(true);
@@ -24,7 +24,7 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
       setActiveDeleteButton(null);
     }
   };
-  
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -32,17 +32,15 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
         setActiveDeleteButton(null);
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("touchstart", handleClickOutside);
-  
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [activeDeleteButton]);
-  
-  
 
   return (
     <motion.div
@@ -56,7 +54,8 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
         transition={{ duration: 0.25 }}
         animate={{
           x:
-            showDeleteButton && chorecomment.displayName === currentUser.user?.displayName
+            (showDeleteButton && chorecomment.displayName === currentUser.user?.displayName) ||
+            (showDeleteButton && currentUser.user?.role === "Admin")
               ? "-85px"
               : 0,
         }}
@@ -95,10 +94,11 @@ const ChoreComment = ({ chorecomment, customerchore }: Props) => {
       </motion.div>
       <AnimatePresence>
         {showDeleteButton &&
-          chorecomment.displayName === currentUser.user?.displayName &&
-          activeDeleteButton === chorecomment.id && (
-            <DeleteComment customerchore={customerchore} chorecomment={chorecomment} />
-          )}
+        ((chorecomment.displayName === currentUser.user?.displayName &&
+          activeDeleteButton === chorecomment.id) ||
+          currentUser.user?.role === "Admin") ? (
+          <DeleteComment customerchore={customerchore} chorecomment={chorecomment} />
+        ) : undefined}
       </AnimatePresence>
     </motion.div>
   );

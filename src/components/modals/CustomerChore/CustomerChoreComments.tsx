@@ -3,8 +3,7 @@ import { Container, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ChoreCommentResponseDto, UserCustomerChoreData } from "../../../api/client";
+import { ChoreCommentResponseDto, CustomerChoreResponseDto, UserCustomerChoreData } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import { useUser } from "../../../contexts/UserContext";
 import toasts from "../../../data/toasts";
@@ -13,7 +12,7 @@ import { BsChat } from "react-icons/bs";
 
 interface Props {
   chorecomments: ChoreCommentResponseDto[];
-  customerchore: UserCustomerChoreData;
+  customerchore: CustomerChoreResponseDto;
   show?: boolean;
   toggleModal?: () => void;
 }

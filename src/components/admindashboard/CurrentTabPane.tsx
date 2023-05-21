@@ -44,20 +44,6 @@ const CurrentTabPane = ({
 
   return (
     <Tab.Pane eventKey={tab} className='p-2'>
-      {/* <Row className='mb-4'>
-        <Col sm={12} md={6}>
-          <Card>
-            <Card.Header className='fs-4 mb-2'>Skapa {tab.toLowerCase()}</Card.Header>
-            <Card.Body>aasd</Card.Body>
-          </Card>
-        </Col>
-        <div className='col-6'>
-          <Card>
-            <Card.Header className='fs-4 mb-2'>Skapa {tab.toLowerCase()}</Card.Header>
-            <Card.Body>aasd</Card.Body>
-          </Card>
-        </div>
-      </Row> */}
       <Card className='default-cursor'>
         <Card.Header className='fs-4 mb-2'>{tab}</Card.Header>
         <Card.Body>

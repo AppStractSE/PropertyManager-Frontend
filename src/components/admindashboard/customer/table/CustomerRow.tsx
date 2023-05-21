@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import {
   AreaResponseDto,
   ChoreResponseDto,
@@ -31,6 +33,7 @@ const CustomerRow = ({
   areas,
 }: Props) => {
   const [customerModal, setShowCustomerModal] = useState(false);
+  const navigate = useNavigate();
   return (
     <tr>
       <td>{customer.name}</td>
@@ -60,6 +63,11 @@ const CustomerRow = ({
         >
           Visa mer
         </Button>
+        <Link to={`/customer/${customer.slug}`}>
+          <Button className='me-2' variant='outline-primary' size='sm'>
+            Gå till
+          </Button>
+        </Link>
       </td>
       <EditCustomerModal
         chores={chores}

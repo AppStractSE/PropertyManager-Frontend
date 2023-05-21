@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import {
   PostTeamMemberRequestDto,
   TeamMemberResponseDto,
   UserInfoDto,
 } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
+import toasts from "../../../../data/toasts";
 
 interface Props {
   users: UserInfoDto[];
@@ -30,7 +32,6 @@ const AddTeam = ({ users, teammembers, close }: Props) => {
     },
     {
       onSuccess: () => {
-        console.log("Successfully posted team member");
         queryClient.invalidateQueries("teamMembers");
         setTeamValue("");
         setTeamMembers([]);
@@ -49,9 +50,9 @@ const AddTeam = ({ users, teammembers, close }: Props) => {
     },
     {
       onSuccess: (team) => {
-        console.log("Successfully posted team");
         queryClient.invalidateQueries("teams");
         postTeamMember(team.id);
+        toast.success(toasts.create.team.onMutate.message);
       },
     },
   );

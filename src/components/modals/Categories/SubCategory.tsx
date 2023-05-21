@@ -27,7 +27,7 @@ const SubCategory = ({ show, onHide, category }: Props) => {
     },
     {
       onSuccess: () => {
-        toast.success(toasts.category.onMutate.message);
+        toast.success(toasts.create.subcategory.onMutate.message);
         queryClient.invalidateQueries(["categories"]);
         onHide();
       },

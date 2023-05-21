@@ -4,6 +4,7 @@ import { Spinner } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthUser, TokenInfo } from "./api/client";
 import { useClient } from "./contexts/ClientContext";
 import { useTheme } from "./contexts/ThemeContext";
@@ -17,8 +18,7 @@ const Home = lazy(() => import("./pages/Home"));
 const Customer = lazy(() => import("./pages/Customer"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const AppBar = lazy(() => import("./components/AppBar"));
+const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
 const CustomerChoreInfo = lazy(() => import("./components/CustomerChoreInfo"));
 
 const App = () => {
@@ -52,35 +52,15 @@ const App = () => {
         if (data) {
           const user: AuthUser = data;
           setCurrentUser(user);
-          navigate("/"); // Redirect to the authenticated section after successful login
         }
       },
-      retryOnMount: true,
+      // retryOnMount: true,
       onError: (error: any) => {
         setToken(InitialUserState.tokenInfo!);
         setCurrentUser(InitialUserState);
       },
     },
   );
-
-  // useEffect(() => {
-  //   if (token !== InitialUserState.tokenInfo || currentUser !== InitialUserState) {
-  //     console.log("Setting user from token");
-  //     setCurrentUser((prevUser) => ({
-  //       ...prevUser,
-  //       tokenInfo: token,
-  //     }));
-  //   }
-  // }, [token, setCurrentUser]);
-
-  // useEffect(() => {
-  //   if (currentUser !== InitialUserState || token.token === InitialUserState.tokenInfo?.token) {
-  //     if (currentUser.tokenInfo) {
-  //       console.log("Setting token from currentUser");
-  //       setToken(currentUser.tokenInfo);
-  //     }
-  //   }
-  // }, [currentUser, token]);
 
   return (
     <>
@@ -104,6 +84,7 @@ const App = () => {
           <>
             <Route
               index
+              path='/*'
               element={
                 currentUser.user?.role === "Admin" ? (
                   <Suspense
@@ -113,7 +94,6 @@ const App = () => {
                       </div>
                     }
                   >
-                    <AppBar />
                     <AdminDashboard />
                   </Suspense>
                 ) : (

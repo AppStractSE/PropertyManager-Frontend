@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { lazy, useState } from "react";
+import React, { lazy, useState } from "react";
 import { Container } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import { container, item } from "../animation";
@@ -9,7 +9,6 @@ import Search from "../components/Search";
 import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
 import { useUser } from "../contexts/UserContext";
 import { useQueries } from "../hooks/useQueries";
-import React from "react";
 
 const ProfileModal = lazy(() => import("../components/modals/ProfileModal"));
 
@@ -54,7 +53,7 @@ const Home = () => {
         <FaUserCircle size={28} onClick={() => setShowModal(true)} />
         <ProfileModal show={showModal} onHide={() => setShowModal(false)} />
       </Container>
-      <Container className='h-100 py-3 scrollable'>
+      <Container className='h-100 py-3 overflow-auto'>
         <motion.div variants={container} initial='hidden' animate='show'>
           <Search
             value={searchValue}
@@ -62,9 +61,11 @@ const Home = () => {
             placeholder='kund'
           />
           <div className='d-flex flex-column gap-3'>
-          {filteredCustomers?.length < 1 ? (
-              <div className='text-break'>Inga resultat hittades {searchValue ? `för "${searchValue}"` : undefined}</div>
-              ) : undefined}
+            {filteredCustomers?.length < 1 ? (
+              <div className='text-break'>
+                Inga resultat hittades {searchValue ? `för "${searchValue}"` : undefined}
+              </div>
+            ) : undefined}
             {(filteredCustomers?.length || 0 > 0) &&
               filterSearch?.map((team: UserTeamData, idx) => (
                 <React.Fragment key={idx}>

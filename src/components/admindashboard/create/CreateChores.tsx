@@ -1,43 +1,67 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Card, Col, Form, Row } from "react-bootstrap";
+import { Accordion, Card, Col, Form, Row } from "react-bootstrap";
 import { CategoryResponseDto, ChoreResponseDto, CustomerChoreResponseDto, CustomerResponseDto, Periodic } from "../../../api/client";
+import Search from "../../Search";
 import AddChore from "../chore/AddChore";
 import AddCustomerChore from "../customer/add/AddCustomerChore";
 
 interface Props {
-  categories: CategoryResponseDto[]
-                    chores: ChoreResponseDto[]
-                    customers: CustomerResponseDto[]
-                    customerchores: CustomerChoreResponseDto[]
-                  periodics: Periodic[]
+  categories: CategoryResponseDto[];
+  chores: ChoreResponseDto[];
+  customers: CustomerResponseDto[];
+  customerchores: CustomerChoreResponseDto[];
+  periodics: Periodic[];
 }
 
-const CreateChores = ({categories, chores, customers, customerchores, periodics}: Props) => {
+const CreateChores = ({ categories, chores, customers, customerchores, periodics }: Props) => {
   const [choreType, setChoreType] = useState(true);
-
-  const currentChores = categories.map((category) => (
-    <div className='mb-3' key={category.id}>
-      <Card.Title>
-        {category.title} - {category.description}
-      </Card.Title>
-      {category.subCategories?.map((subcategory) => (
-        <div key={subcategory.id}>
-          <Card.Text>
-            {subcategory.reference} - {subcategory.title}
-          </Card.Text>
-          {chores
-            .sort((a, b) => a.title!.localeCompare(b.title!))
-            .filter((chore) => chore.subCategoryId === subcategory.id)
-            .map((chore) => (
-              <Card.Text key={chore.id} className='fw-light'>
-                {chore.title}
-              </Card.Text>
-            ))}
-        </div>
-      ))}
-    </div>
+  const [search, setSearch] = useState("");
+  const currentChores = categories
+  .filter((category) =>
+    category?.subCategories?.some((subcategory) =>
+      chores.some(
+        (chore) =>
+          chore.subCategoryId === subcategory.id &&
+          chore.title?.toLowerCase().includes(search.toLowerCase())
+      )
+    )
+  )
+  .map((category) => (
+    <Accordion.Item eventKey={category.id.toString()} className='mb-3' key={category.id}>
+      <Accordion.Header>{category.title} - {category.description}</Accordion.Header>
+      <Accordion.Body>
+      {category.subCategories
+        ?.filter((subcategory) =>
+          chores.some(
+            (chore) =>
+            chore.subCategoryId === subcategory.id &&
+            chore.title?.toLowerCase().includes(search.toLowerCase())
+            )
+            )
+        .map((subcategory) => (
+          <div key={subcategory.id}>
+            <Card.Text className='ms-2'>
+              {subcategory.reference} - {subcategory.title}
+            </Card.Text>
+            {chores
+              .sort((a, b) => a.title!.localeCompare(b.title!))
+              .filter(
+                (chore) =>
+                  chore.subCategoryId === subcategory.id &&
+                  chore.title?.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .map((chore) => (
+                    <Card.Text key={chore.id} className='ms-4 fw-light'>
+                  {chore.title}
+                </Card.Text>
+              ))}
+          </div>
+        ))}
+        </Accordion.Body>
+    </Accordion.Item>
   ));
+
   return (
     <Row className='my-5'>
       <Col md={12} lg={4} className='mb-3'>
@@ -51,7 +75,7 @@ const CreateChores = ({categories, chores, customers, customerchores, periodics}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  Nuvarande kundsysslor
+                  Kundsysslor
                 </motion.div>
               ) : (
                 <motion.div
@@ -75,7 +99,8 @@ const CreateChores = ({categories, chores, customers, customerchores, periodics}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  Välj kund för att visa kundsysslor
+                  Välj en kund för att se tillgängliga sysslor, utgråade sysslor ligger redan på
+                  kund.
                 </motion.div>
               ) : (
                 <motion.div
@@ -84,7 +109,15 @@ const CreateChores = ({categories, chores, customers, customerchores, periodics}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
+                  <Search
+                    value={search}
+                    onChange={(value) => setSearch(value)}
+                    placeholder={"syssla"}
+                    />
+                    <Accordion flush defaultActiveKey={categories.map((category) => category.id.toString())} alwaysOpen>
                   {currentChores}
+                    </Accordion>
+                  {currentChores.length === 0 ? <div>Inga resultat hittades.</div> : null}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -141,7 +174,12 @@ const CreateChores = ({categories, chores, customers, customerchores, periodics}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <AddCustomerChore customerchores={customerchores} customers={customers} periodics={periodics} chores={chores} />
+                  <AddCustomerChore
+                    customerchores={customerchores}
+                    customers={customers}
+                    periodics={periodics}
+                    chores={chores}
+                  />
                 </motion.div>
               ) : (
                 <motion.div

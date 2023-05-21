@@ -12,7 +12,11 @@ import { VscPieChart } from "react-icons/vsc";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ChoreCommentResponseDto, ChoreStatusResponseDto } from "../api/client";
+import {
+  ChoreCommentResponseDto,
+  ChoreStatusResponseDto,
+  CustomerChoreResponseDto,
+} from "../api/client";
 import { useClient } from "../contexts/ClientContext";
 import toasts from "../data/toasts";
 import { useQueries } from "../hooks/useQueries";
@@ -52,8 +56,9 @@ const CustomerChoreInfo = () => {
     slider && slider.current?.update();
   }, [choreImages.length]);
 
-  const { userData } = useQueries();
+  const { userData, customers } = useQueries();
   const client = useClient();
+  const customer = customers?.find((customer) => customer.slug === id);
 
   const [showComments, setShowComments] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
@@ -77,14 +82,14 @@ const CustomerChoreInfo = () => {
     ["choreStatus", customerChoreId],
     async () => await client.choreStatus_GetChoreStatusById(customerChoreId),
   );
-
-  const customerchore = userData?.userTeamsData
-    ?.find((x) => x.userCustomersData?.find((y) => y.customerSlug === id))
-    ?.userCustomersData?.find((x) => x.customerSlug === id)
-    ?.customerChores?.find((y) => y.customerChoreId === customerChoreId);
-  const customer = userData?.userTeamsData
-    ?.find((x) => x.userCustomersData?.find((y) => y.customerSlug === id))
-    ?.userCustomersData?.find((x) => x.customerSlug === id);
+  const {
+    data: customerchore,
+    error: customerchoreError,
+    isLoading: customerchoreLoading,
+  } = useQuery<CustomerChoreResponseDto>(
+    ["customerChore", customerChoreId],
+    async () => await client.customerChore_GetCustomerChoreById(customerChoreId),
+  );
 
   const queryClient = useQueryClient();
   const [file, setFile] = useState<File>();
@@ -150,12 +155,12 @@ const CustomerChoreInfo = () => {
           <div className='h3 mb-0'>{customerchore?.chore?.title}</div>
         </Container>
       </Container>
-      <div className='h-100 py-3 scrollable container px-0'>
+      <div className='h-100 py-3 overflow-auto container px-0'>
         <Container>
           <div className='fs-5 fw-bold mb-2'>Information</div>
           <div className='d-flex gap-2 align-items-center my-2'>
             <AiOutlineUser size={24} />
-            <div className='fs-7'>{customer?.customerName}</div>
+            <div className='fs-7'>{customer?.name}</div>
           </div>
           <div className='d-flex gap-2 align-items-center my-2'>
             <AiOutlineFileDone size={24} />
@@ -323,7 +328,7 @@ const CustomerChoreInfo = () => {
       />
       <Modal
         fullscreen
-        scrollable
+        overflow-auto
         show={showMediaModal}
         onHide={() => setShowMediaModal(!showMediaModal)}
         size='lg'

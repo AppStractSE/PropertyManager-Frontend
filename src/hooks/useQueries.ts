@@ -5,6 +5,7 @@ import {
   ChoreCommentResponseDto,
   ChoreResponseDto,
   ChoreStatusResponseDto,
+  CityResponseDto,
   CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
@@ -24,6 +25,10 @@ export function useQueries() {
     ["userData", currentUser?.user?.userId],
     async () => client.userData_GetUserDataById(currentUser?.user?.userId || ""),
   );
+  const { data: customers } = useQuery<CustomerResponseDto[]>(
+    "customers",
+    async () => await client.customer_GetAllCustomers(),
+  );
 
   if (currentUser.user?.role === "Admin") {
     const { data: areas } = useQuery<AreaResponseDto[]>(
@@ -33,6 +38,11 @@ export function useQueries() {
 
     const { data: categories } = useQuery<CategoryResponseDto[]>(["categories"], async () =>
       client.category_GetAllCategories(),
+    );
+
+    const { data: cities } = useQuery<CityResponseDto[]>(
+      ["cities"],
+      async () => await client.city_GetAllCities(),
     );
 
     const { data: choreComments } = useQuery<ChoreCommentResponseDto[]>(
@@ -49,12 +59,7 @@ export function useQueries() {
       async () => await client.chore_GetAllChores(),
     );
 
-    const { data: customers } = useQuery<CustomerResponseDto[]>(
-      "customers",
-      async () => await client.customer_GetAllCustomers(),
-    );
-
-    const { data: customerChores } = useQuery<CustomerChoreResponseDto[]>(
+    const { data: customerchores } = useQuery<CustomerChoreResponseDto[]>(
       "customerchores",
       async () => client.customerChore_GetAllChores(),
     );
@@ -79,11 +84,12 @@ export function useQueries() {
     return {
       areas,
       categories,
+      cities,
       choreComments,
       choreStatuses,
       chores,
       customers,
-      customerChores,
+      customerchores,
       periodics,
       teamMembers,
       teams,
@@ -94,5 +100,6 @@ export function useQueries() {
 
   return {
     userData,
+    customers,
   };
 }

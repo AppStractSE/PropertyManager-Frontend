@@ -200,7 +200,13 @@
 }
 
 .btn-primary {
-  color: var(--bs-body-color) !important;
+  color: var(--bs-body-bg) !important;
+}
+
+.dark {
+  .btn-primary {
+      color: var(--bs-body-color) !important;
+    }
 }
 // NavLink overrides
 a {
@@ -290,8 +296,6 @@ select:disabled {
     --bs-btn-bg: #327ef1;
   --bs-success: #00e435;
   --bs-danger: #ff0000;
-  // --bs-body-bg: #131313 !important;
-    // --bs-body-color: #f9f9f9;
 }
 
 :root .dark {
@@ -356,4 +360,25 @@ select:disabled {
 }
 .popover-arrow {
   display: none !important;
+}
+.accordion-item {
+  color: unset !important;
+}
+
+.accordion {
+  background: unset !important;
+  --bs-accordion-bg: #transparent;
+  --bs-accordion-active-bg: transparent;
+}
+
+.dark .accordion-button {
+  color: #8ab9ff;
+}
+
+.accordion-button:focus {
+  box-shadow: initial;
+}
+
+.accordion-button:not(.collapsed) {
+  box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color) !important;
 }

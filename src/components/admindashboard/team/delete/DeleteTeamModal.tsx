@@ -30,7 +30,6 @@ const DeleteTeamModal = ({ team, show, onHide }: Props) => {
       className='nested-modal'
       show={show}
       onHide={() => onHide()}
-      closeButton
     >
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>Radera team</Modal.Title>

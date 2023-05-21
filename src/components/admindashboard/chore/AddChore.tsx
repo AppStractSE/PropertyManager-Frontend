@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
+import toasts from "../../../data/toasts";
 import Category from "../../modals/Categories/Category";
 import SubCategory from "../../modals/Categories/SubCategory";
 
@@ -35,7 +37,7 @@ const AddChore = ({ categories }: Props) => {
         setSubCategoryValue("");
         setChoreDescription("");
         queryClient.invalidateQueries("chores");
-        console.log("Chore posted");
+        toast.success(toasts.create.chore.onMutate.message);
       },
     },
   );

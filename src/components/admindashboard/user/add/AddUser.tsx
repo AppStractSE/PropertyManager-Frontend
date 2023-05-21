@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { TeamResponseDto, UserInfoDto } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
+import toasts from "../../../../data/toasts";
 
 interface Props {
   users: UserInfoDto[];
@@ -38,6 +40,7 @@ const AddUser = ({ users, teams, close }: Props) => {
           username: "",
         });
         setValidated(false);
+        toast.success(toasts.create.user.onMutate.message);
       },
     },
   );
@@ -112,6 +115,7 @@ const AddUser = ({ users, teams, close }: Props) => {
           minLength={3}
           maxLength={50}
           required
+          autoComplete='off'
           value={userData.username}
           onChange={handleChange}
         />
@@ -146,10 +150,11 @@ const AddUser = ({ users, teams, close }: Props) => {
         </Form.Text>
         <Form.Control
           required
+          autoComplete='false'
           className='mb-2'
           name='password'
           pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}'
-          type='password'
+          type='text'
           placeholder='Fyll i lösenord'
           value={userData.password}
           onChange={handleChange}

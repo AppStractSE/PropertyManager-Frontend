@@ -2,13 +2,13 @@ import { motion } from "framer-motion";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { ChoreCommentResponseDto, UserCustomerChoreData } from "../api/client";
+import { ChoreCommentResponseDto, CustomerChoreResponseDto } from "../api/client";
 import { useClient } from "../contexts/ClientContext";
 import toasts from "../data/toasts";
 
 interface Props {
   chorecomment: ChoreCommentResponseDto;
-  customerchore: UserCustomerChoreData;
+  customerchore: CustomerChoreResponseDto;
 }
 
 const DeleteComment = ({ chorecomment, customerchore }: Props) => {
@@ -21,11 +21,11 @@ const DeleteComment = ({ chorecomment, customerchore }: Props) => {
     {
       onSuccess: () => {
         toast.error(toasts.comments.onDelete.message);
-        queryClient.invalidateQueries(["choreComment", customerchore.customerChoreId]);
+        queryClient.invalidateQueries(["choreComment", customerchore.id]);
       },
       onError: () => {
         toast.warning(toasts.generic.onError.message);
-      }
+      },
     },
   );
 

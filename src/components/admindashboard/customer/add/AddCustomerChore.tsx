@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import {
   ChoreResponseDto,
   CustomerChoreResponseDto,
@@ -8,6 +9,7 @@ import {
   Periodic,
 } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
+import toasts from "../../../../data/toasts";
 
 interface Props {
   customers?: CustomerResponseDto[];
@@ -43,6 +45,7 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
         queryClient.invalidateQueries("customerchores");
+        toast.success(toasts.create.customerchore.onMutate.message);
       },
     },
   );
@@ -71,20 +74,7 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
           </Form.Select>
         </Form.Group>
       ) : null}
-      <Form.Group>
-        <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
-        <Form.Control
-          type='number'
-          value={frequencyValue.toString().replace(/^0+/, "Skriv in ett tal")}
-          min={1}
-          max={100}
-          placeholder='Skriv in ett tal'
-          onKeyUp={() => {
-            if (frequencyValue > 100) setFrequencyValue(100);
-          }}
-          onChange={(e) => setFrequencyValue(Number(e.target.value))}
-        />
-      </Form.Group>
+
       <Form.Group>
         <Form.Label>Syssla</Form.Label>
         <Form.Select
@@ -113,6 +103,20 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
             );
           })}
         </Form.Select>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
+        <Form.Control
+          type='number'
+          value={frequencyValue.toString().replace(/^0+/, "Skriv in ett tal")}
+          min={1}
+          max={100}
+          placeholder='Skriv in ett tal'
+          onKeyUp={() => {
+            if (frequencyValue > 100) setFrequencyValue(100);
+          }}
+          onChange={(e) => setFrequencyValue(Number(e.target.value))}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>Återkommande</Form.Label>

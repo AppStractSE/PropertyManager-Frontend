@@ -23,7 +23,6 @@ const Login = () => {
     },
     {
       onSuccess: (data) => {
-        console.log("Vi tittar på data:");
         if (data) {
           let authUser: AuthUser = data;
           setToken(authUser?.tokenInfo!); // Update token
