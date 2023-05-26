@@ -19,10 +19,10 @@ const SubCategory = ({ show, onHide, category }: Props) => {
   const [titleValue, setTitleValue] = useState("");
   const { mutate: postSubCategory, isLoading: postingSubCategory } = useMutation(
     async () => {
-      return await client.category_PostSubCategory({
-        categoryId: category ? category.id : "",
+      return await client.category_PostCategory({
+        parentId: category ? category.id : "",
         title: titleValue,
-        reference: `${category?.title}.${refValue}`,
+        reference: `${category?.reference}.${refValue}`,
       });
     },
     {
@@ -51,9 +51,9 @@ const SubCategory = ({ show, onHide, category }: Props) => {
               autoFocus={true}
               placeholder='Skriv in referenskod'
               onChange={(e) =>
-                setRefValue(e.target.value.replace(`${category?.title}.`, "").toUpperCase())
+                setRefValue(e.target.value.replace(`${category?.reference}.`, "").toUpperCase())
               }
-              value={`${category?.title}.${refValue}`}
+              value={`${category?.reference}.${refValue}`}
             />
           </Form.Group>
           <Form.Group className='flex-grow-1'>
