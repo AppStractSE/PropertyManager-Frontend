@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const EditCustomer = ({ customer, teams, onHide }: Props) => {
-  const [team, setTeam] = useState(customer.teamId);
+  const [team, setTeam] = useState("");
   const [customerName, setCustomerName] = useState(customer.name);
   const [customerAddress, setCustomerAddress] = useState(customer.address);
   const client = useClient();
@@ -32,6 +32,12 @@ const EditCustomer = ({ customer, teams, onHide }: Props) => {
       },
     },
   );
+
+  useEffect(() => {
+    if (customer.teamId) {
+      setTeam(customer.teamId);
+    }
+  }, []);
 
   const customerObject = {
     id: customer.id,
@@ -55,6 +61,7 @@ const EditCustomer = ({ customer, teams, onHide }: Props) => {
         <Form.Group className='flex-grow-1'>
           <Form.Label>Team</Form.Label>
           <Form.Select value={team} className='rounded-0' onChange={(e) => setTeam(e.target.value)}>
+            <option value={""}>Inget team</option>
             {teams?.map((team) => (
               <option key={team.id} value={team.id}>
                 {team.name}

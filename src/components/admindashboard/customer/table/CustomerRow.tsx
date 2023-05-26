@@ -34,25 +34,39 @@ const CustomerRow = ({
 }: Props) => {
   const [customerModal, setShowCustomerModal] = useState(false);
   const navigate = useNavigate();
+  const amountDone = customerchores.filter(
+    (x) => x.status === "Klar" && x.customerId === customer.id,
+  ).length;
+  const amountStarted = customerchores.filter(
+    (x) => x.status === "Påbörjad" && x.customerId === customer.id,
+  ).length;
+  const amountNotStarted = customerchores.filter(
+    (x) => x.status === "Ej påbörjad" && x.customerId === customer.id,
+  ).length;
+  const teamAssigned = teams.filter((team) => team.id === customer.teamId).map((team) => team.name);
   return (
     <tr>
       <td>{customer.name}</td>
       <td>
-        {customerchores.filter((x) => x.status === "Klar" && x.customerId === customer.id).length}
+        {/* {customerchores.filter((x) => x.status === "Klar" && x.customerId === customer.id).length} */}
+        {amountDone}
       </td>
       <td>
-        {
-          customerchores.filter((x) => x.status === "Påbörjad" && x.customerId === customer.id)
-            .length
-        }
+        {/* {customerchores.filter((x) => x.status === "Påbörjad" && x.customerId === customer.id).length} */}
+        {amountStarted}
       </td>
       <td>
-        {
-          customerchores.filter((x) => x.status === "Ej påbörjad" && x.customerId === customer.id)
-            .length
-        }
+        {/* {customerchores.filter((x) => x.status === "Ej påbörjad" && x.customerId === customer.id).length} */}
+        {amountNotStarted}
       </td>
-      <td>{teams.filter((team) => team.id === customer.teamId).map((team) => team.name)}</td>
+      <td>
+        {/* {teams.filter((team) => team.id === customer.teamId).map((team) => team.name)} */}
+        {teamAssigned === undefined || teamAssigned.length === 0 ? (
+          <div className='fst-italic text-secondary'>Inget team tilldelat</div>
+        ) : (
+          teamAssigned
+        )}
+      </td>
 
       <td>
         <Button
