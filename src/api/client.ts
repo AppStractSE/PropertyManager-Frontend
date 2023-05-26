@@ -2350,6 +2350,7 @@ export interface CustomerChore {
     daysUntilReset: number;
     periodicId: string | undefined;
     periodic: Periodic | undefined;
+    description: string | undefined;
 }
 
 export interface Customer {
@@ -2379,6 +2380,7 @@ export interface CustomerChoreResponseDto {
     periodic: Periodic | undefined;
     chore: Chore | undefined;
     customer: Customer | undefined;
+    description: string | undefined;
 }
 
 export interface PostCustomerChoreRequestDto {
@@ -2386,6 +2388,7 @@ export interface PostCustomerChoreRequestDto {
     choreId: string | undefined;
     frequency: number;
     periodicId: string | undefined;
+    description: string | undefined;
 }
 
 export interface PutCustomerChoreRequestDto {
