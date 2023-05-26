@@ -2395,6 +2395,7 @@ export interface PutCustomerChoreRequestDto {
     id: string;
     frequency: number;
     periodicId: string | undefined;
+    description: string | undefined;
 }
 
 export interface CustomerResponseDto {
