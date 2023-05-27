@@ -1,7 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Accordion, Card, Col, Form, Row } from "react-bootstrap";
-import { CategoryResponseDto, ChoreResponseDto, CustomerChoreResponseDto, CustomerResponseDto, Periodic } from "../../../api/client";
+import {
+  CategoryResponseDto,
+  ChoreResponseDto,
+  CustomerChoreResponseDto,
+  CustomerResponseDto,
+  Periodic,
+} from "../../../api/client";
 import Search from "../../Search";
 import AddChore from "../chore/AddChore";
 import AddCustomerChore from "../customer/add/AddCustomerChore";
@@ -14,32 +20,34 @@ interface Props {
   periodics: Periodic[];
 }
 
-const CreateChores = ({ categories, chores, customers, customerchores, periodics }: Props) => {
-  const [choreType, setChoreType] = useState(true);
-  const [search, setSearch] = useState("");
-  const currentChores = categories
-  .filter((category) =>
-    category?.subCategories?.some((subcategory) =>
-      chores.some(
-        (chore) =>
-          chore.subCategoryId === subcategory.id &&
-          chore.title?.toLowerCase().includes(search.toLowerCase())
-      )
-    )
-  )
-  .map((category) => (
+const RecursiveCategory = ({
+  category,
+  subcategories,
+  chores,
+  search,
+}: {
+  category: CategoryResponseDto;
+  subcategories: CategoryResponseDto[];
+  chores: ChoreResponseDto[];
+  search: string;
+}) => {
+  const filteredSubcategories = subcategories.filter((subcategory) =>
+    chores.some(
+      (chore) =>
+        chore.subCategoryId === subcategory.id &&
+        chore.title?.toLowerCase().includes(search.toLowerCase()),
+    ),
+  );
+
+  return (
     <Accordion.Item eventKey={category.id.toString()} className='mb-3' key={category.id}>
-      <Accordion.Header>{category.title} - {category.description}</Accordion.Header>
+      <Accordion.Header>
+        {category.reference} - {category.title}
+      </Accordion.Header>
       <Accordion.Body>
-      {category.subCategories
-        ?.filter((subcategory) =>
-          chores.some(
-            (chore) =>
-            chore.subCategoryId === subcategory.id &&
-            chore.title?.toLowerCase().includes(search.toLowerCase())
-            )
-            )
-        .map((subcategory) => (
+        {/* Behöver komma på ett sätt att komma djupare ner i kategorier */}
+
+        {filteredSubcategories.map((subcategory) => (
           <div key={subcategory.id}>
             <Card.Text className='ms-2'>
               {subcategory.reference} - {subcategory.title}
@@ -49,18 +57,61 @@ const CreateChores = ({ categories, chores, customers, customerchores, periodics
               .filter(
                 (chore) =>
                   chore.subCategoryId === subcategory.id &&
-                  chore.title?.toLowerCase().includes(search.toLowerCase())
-                  )
-                  .map((chore) => (
-                    <Card.Text key={chore.id} className='ms-4 fw-light'>
-                  {chore.title}
+                  chore.title?.toLowerCase().includes(search.toLowerCase()),
+              )
+              .map((chore, i) => (
+                <Card.Text key={chore.id} className='ms-4 fw-light'>
+                  {subcategory.reference} {i + 1} - {chore.title}
+                  {/* hårdkodat index (i+1), fixxa!*/}
                 </Card.Text>
               ))}
+            {subcategory.subCategories && subcategory.subCategories.length > 0 && (
+              <RecursiveCategory
+                category={subcategory}
+                subcategories={subcategory.subCategories}
+                chores={chores}
+                search={search}
+              />
+            )}
           </div>
         ))}
-        </Accordion.Body>
+      </Accordion.Body>
     </Accordion.Item>
-  ));
+  );
+};
+
+const CreateChores = ({ categories, chores, customers, customerchores, periodics }: Props) => {
+  const [choreType, setChoreType] = useState(true);
+  const [search, setSearch] = useState("");
+
+  const currentChores = categories
+    .filter((category) =>
+      category.subCategories?.some((subcategory) =>
+        chores.some(
+          (chore) =>
+            chore.subCategoryId === subcategory.id &&
+            chore.title?.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ),
+    )
+    .map((category) => {
+      const rootCategory =
+        category.parentId === "00000000-0000-0000-0000-000000000000"
+          ? category
+          : categories
+              .filter((x) => x.parentId === "00000000-0000-0000-0000-000000000000")
+              .find((x) => x.id === category.parentId) ?? category;
+
+      return (
+        <RecursiveCategory
+          key={category.id}
+          category={rootCategory}
+          subcategories={category.subCategories ?? []}
+          chores={chores}
+          search={search}
+        />
+      );
+    });
 
   return (
     <Row className='my-5'>
@@ -113,10 +164,14 @@ const CreateChores = ({ categories, chores, customers, customerchores, periodics
                     value={search}
                     onChange={(value) => setSearch(value)}
                     placeholder={"syssla"}
-                    />
-                    <Accordion flush defaultActiveKey={categories.map((category) => category.id.toString())} alwaysOpen>
-                  {currentChores}
-                    </Accordion>
+                  />
+                  <Accordion
+                    flush
+                    defaultActiveKey={categories.map((category) => category.id.toString())}
+                    alwaysOpen
+                  >
+                    {currentChores}
+                  </Accordion>
                   {currentChores.length === 0 ? <div>Inga resultat hittades.</div> : null}
                 </motion.div>
               )}
