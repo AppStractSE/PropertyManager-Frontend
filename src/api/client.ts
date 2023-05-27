@@ -607,45 +607,6 @@ export class Client extends BaseClient {
         return Promise.resolve<Category>(null as any);
     }
 
-    category_PostSubCategory(request: PostSubCategoryRequestDto): Promise<SubCategory> {
-        let url_ = this.baseUrl + "/api/v1/Category/PostSubCategory";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processCategory_PostSubCategory(_response);
-        });
-    }
-
-    protected processCategory_PostSubCategory(response: Response): Promise<SubCategory> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SubCategory;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<SubCategory>(null as any);
-    }
-
     choreComment_GetAllChoreComments(): Promise<ChoreComment[]> {
         let url_ = this.baseUrl + "/api/v1/ChoreComment";
         url_ = url_.replace(/[?&]$/, "");
@@ -2213,39 +2174,24 @@ export interface RegisterModel {
 
 export interface CategoryResponseDto {
     id: string;
-    title: string | undefined;
-    description: string | undefined;
-    subCategories: SubCategoryResponseDto[] | undefined;
-}
-
-export interface SubCategoryResponseDto {
-    id: string;
-    categoryId: string;
+    parentId: string | undefined;
+    isParent: boolean;
     title: string | undefined;
     reference: string | undefined;
+    subCategories: CategoryResponseDto[] | undefined;
 }
 
 export interface Category {
     id: string;
-    title: string | undefined;
-    description: string | undefined;
-    subCategories: SubCategory[] | undefined;
-}
-
-export interface SubCategory {
-    id: string;
-    categoryId: string;
+    parentId: string;
+    isParent: boolean;
     title: string | undefined;
     reference: string | undefined;
+    subCategories: Category[] | undefined;
 }
 
 export interface PostCategoryRequestDto {
-    title: string | undefined;
-    description: string | undefined;
-}
-
-export interface PostSubCategoryRequestDto {
-    categoryId: string;
+    parentId: string | undefined;
     title: string | undefined;
     reference: string | undefined;
 }
