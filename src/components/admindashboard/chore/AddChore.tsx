@@ -7,7 +7,6 @@ import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import toasts from "../../../data/toasts";
 import Category from "../../modals/Categories/Category";
-import SubCategory from "../../modals/Categories/SubCategory";
 import SubCategoryForm from "./SubCategoryForm";
 
 interface Props {
@@ -18,16 +17,18 @@ const AddChore = ({ categories }: Props) => {
   const client = useClient();
   const queryClient = useQueryClient();
   const [titleValue, setChoreTitle] = useState("");
+  const [isMainCategory, setIsMainCategory] = useState<boolean>(true);
   const [choreDescriptionValue, setChoreDescription] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
-  const [subCategoryValue, setSubCategoryValue] = useState<Array<string>>([]);
+  const [categoryModalValue, setCategoryModalValue] = useState<string>("");
+  const [subCategoryValue, setSubCategoryValue] = useState<string[]>([]);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
-  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
+
   const { mutate: postChore, isLoading: postingChore } = useMutation(
     async () => {
       return await client.chore_PostChore({
         title: titleValue,
-        subCategoryId: subCategoryValue.findLast((x) => x !== "") as string,
+        subCategoryId: subCategoryValue[subCategoryValue.length - 1],
         description: choreDescriptionValue,
       });
     },
@@ -36,41 +37,69 @@ const AddChore = ({ categories }: Props) => {
         setChoreTitle("");
         setCategoryValue("");
         setChoreDescription("");
+        setSubCategoryValue([]);
         queryClient.invalidateQueries("chores");
         toast.success(toasts.create.chore.onMutate.message);
       },
     },
   );
-  const depthOfSubCategories = (categoryId: string) => {
-    let DepthOfSubCategories = 0;
+  const depthOfSubCategories = (categoryId: string): number => {
+    let depth = 0;
     const categoryObject = categories.find((x) => x.id === categoryId);
-    if (categoryObject?.subCategories && categoryObject.subCategories?.length > 0) {
-      DepthOfSubCategories++;
+    if (categoryObject?.subCategories && categoryObject.subCategories.length > 0) {
+      depth++;
       categoryObject.subCategories.forEach((subCategory) => {
-        DepthOfSubCategories += depthOfSubCategories(subCategory.id);
+        depth += depthOfSubCategories(subCategory.id);
       });
     }
-    return DepthOfSubCategories;
+    return depth;
   };
 
-  const printSubCategoryForm = (categoryId: string): JSX.Element => {
-    let categoryValue = categoryId;
+  const setSubCategoryValues = (categoryId: string, valueBefore: string) => {
+    if (!valueBefore && categoryId) {
+      setSubCategoryValue((prev) => [...prev, categoryId]);
+      return;
+    }
+
+    if (valueBefore) {
+      setSubCategoryValue((prev) => {
+        const index = prev.indexOf(valueBefore);
+        if (index === -1) {
+          const newValues = [...prev, categoryId];
+          return newValues;
+        }
+
+        const newValues = [...prev];
+        newValues[index] = categoryId;
+        return newValues.slice(0, index);
+      });
+    }
+  };
+
+  const setModalStates = (categoryId: string, isMain: boolean) => {
+    setCategoryModalValue(categoryId);
+    setIsMainCategory(isMain);
+  };
+
+  const printSubCategoryForm = (categoryId: string): JSX.Element | null => {
     if (depthOfSubCategories(categoryId) > 0) {
       return (
         <SubCategoryForm
-          key={categoryValue}
+          key={categoryId}
           categories={categories}
-          latestSecectedCategoryId={categoryValue}
-          setShowSubCategoryModal={setShowSubCategoryModal}
-          showSubCategoryModal={showCategoryModal}
-          setSelectedSubCategory={(x) => setSubCategoryValue((prev) => [...prev, x])}
+          latestSecectedCategoryId={categoryId}
+          setShowCategoryModal={setShowCategoryModal}
+          showCategoryModal={showCategoryModal}
+          setCategoryModalStates={setModalStates}
+          setSelectedSubCategory={setSubCategoryValues}
         />
       );
     }
-    return <></>;
+    return null;
   };
 
   if (!categories) return null;
+
   return (
     <>
       <Form>
@@ -99,8 +128,8 @@ const AddChore = ({ categories }: Props) => {
               className='form-active flex-fill w-auto'
               value={categoryValue}
               onChange={(e) => {
+                setSubCategoryValue([e.target.value]);
                 setCategoryValue(e.target.value);
-                setSubCategoryValue([]);
               }}
             >
               <option value=''>Välj kategori</option>
@@ -114,12 +143,17 @@ const AddChore = ({ categories }: Props) => {
                     ></option>
                   );
                 }
+                return null;
               })}
             </Form.Select>
             <div>
               <Button
                 className='d-flex gap-1 align-items-center'
-                onClick={() => setShowCategoryModal(!showCategoryModal)}
+                onClick={() => {
+                  setCategoryModalValue(categoryValue);
+                  setIsMainCategory(true);
+                  setShowCategoryModal(!showCategoryModal);
+                }}
               >
                 <AiOutlinePlus size={18} />
                 <div className='fs-6'>Ny</div>
@@ -127,17 +161,7 @@ const AddChore = ({ categories }: Props) => {
             </div>
           </div>
         </Form.Group>
-
-        {subCategoryValue.length > 0 ? (
-          <>
-            {printSubCategoryForm(categoryValue)}
-            {subCategoryValue.map((subCat) => {
-              printSubCategoryForm(subCat);
-            })}
-          </>
-        ) : (
-          printSubCategoryForm(categoryValue)
-        )}
+        <>{subCategoryValue.map((subCat) => printSubCategoryForm(subCat))}</>
 
         <Button
           className='w-100'
@@ -146,18 +170,18 @@ const AddChore = ({ categories }: Props) => {
             postingChore ||
             !titleValue ||
             !choreDescriptionValue ||
-            !categoryValue ||
-            !subCategoryValue
+            !subCategoryValue ||
+            subCategoryValue.length === 0
           }
         >
           Lägg till syssla
         </Button>
       </Form>
-      <Category show={showCategoryModal} onHide={() => setShowCategoryModal(!showCategoryModal)} />
-      <SubCategory
-        category={categories.find((x) => x.id === categoryValue) as CategoryResponseDto}
-        show={showSubCategoryModal}
-        onHide={() => setShowSubCategoryModal(!showSubCategoryModal)}
+      <Category
+        isMainCategory={isMainCategory}
+        category={categories.find((x) => x.id === categoryModalValue) as CategoryResponseDto}
+        show={showCategoryModal}
+        onHide={() => setShowCategoryModal(!showCategoryModal)}
       />
     </>
   );

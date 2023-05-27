@@ -6,26 +6,25 @@ import { CategoryResponseDto } from "../../../api/client";
 interface Props {
   categories: CategoryResponseDto[];
   latestSecectedCategoryId: string;
-  setShowSubCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
-  showSubCategoryModal: boolean;
-  setSelectedSubCategory: (e: string) => void;
+  setShowCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showCategoryModal: boolean;
+  setCategoryModalStates: (categoryId: string, isMain: boolean) => void;
+  setSelectedSubCategory: (newValue: string, oldValue: string) => void;
 }
 
 const SubCategoryForm = ({
   categories,
   latestSecectedCategoryId,
-  setShowSubCategoryModal,
-  showSubCategoryModal,
+  setShowCategoryModal,
+  showCategoryModal,
   setSelectedSubCategory,
+  setCategoryModalStates,
 }: Props) => {
   const [subCategoryValue, setSubCategoryValue] = useState("");
 
   const hasChildren = (categoryId: string) => {
     const categoryObject = categories.find((x) => x.id === categoryId);
-    if (categoryObject?.subCategories && categoryObject.subCategories?.length > 0) {
-      return true;
-    }
-    return false;
+    return (categoryObject?.subCategories?.length ?? 0) > 0;
   };
 
   return (
@@ -40,25 +39,33 @@ const SubCategoryForm = ({
           className='flex-fill w-auto'
           value={subCategoryValue}
           onChange={(e) => {
-            setSubCategoryValue(e.target.value);
-            setSelectedSubCategory(e.target.value);
+            const value = e.target.value;
+            setSubCategoryValue(value);
+            setSelectedSubCategory(value, subCategoryValue ? subCategoryValue : value);
           }}
         >
           <option value=''>Välj underkategori</option>
           {categories
             .filter((category) => category.id === latestSecectedCategoryId)
-            .map((filteredCategories) => {
-              return filteredCategories.subCategories?.map((subCategory) => (
+            .map((filteredCategories) =>
+              filteredCategories?.subCategories?.map((subCategory) => (
                 <option key={subCategory.id} value={subCategory.id}>
                   {subCategory.reference} - {subCategory.title}
                 </option>
-              ));
-            })}
+              )),
+            )}
         </Form.Select>
         <div>
           <Button
             className='d-flex gap-1 align-items-center'
-            onClick={() => setShowSubCategoryModal(!showSubCategoryModal)}
+            onClick={() => {
+              setCategoryModalStates(
+                categories.find((x) => x.id === subCategoryValue)?.parentId ??
+                  latestSecectedCategoryId,
+                false,
+              );
+              setShowCategoryModal(!showCategoryModal);
+            }}
           >
             <AiOutlinePlus size={18} />
             <div className='fs-6'>Ny</div>
