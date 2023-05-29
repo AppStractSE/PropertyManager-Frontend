@@ -2,38 +2,38 @@ import { useState } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { CategoryResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import toasts from "../../../data/toasts";
 
 interface Props {
   show: boolean;
   onHide: () => void;
+  category: CategoryResponseDto | undefined;
+  isMainCategory: boolean;
 }
 
-const Category = ({ show, onHide }: Props) => {
+const Category = ({ show, onHide, category, isMainCategory }: Props) => {
   const queryClient = useQueryClient();
   const client = useClient();
-  const [descValue, setDescValue] = useState("");
+  const [refValue, setRefValue] = useState("");
   const [titleValue, setTitleValue] = useState("");
-  const { mutate: postCategory, isLoading: postingCategory } = useMutation(
+  const { mutate: postSubCategory, isLoading: postingSubCategory } = useMutation(
     async () => {
       return await client.category_PostCategory({
+        parentId: isMainCategory ? "" : category ? category.id : "",
         title: titleValue,
-        description: descValue,
+        reference: isMainCategory ? refValue : `${category?.reference}.${refValue}`,
       });
     },
     {
       onSuccess: () => {
-        toast.success(toasts.create.category.onMutate.message);
+        toast.success(toasts.create.subcategory.onMutate.message);
         queryClient.invalidateQueries(["categories"]);
         onHide();
       },
       onError: () => {
         toast.warning(toasts.generic.onError.message);
-      },
-      onSettled: () => {
-        setTitleValue("");
-        setDescValue("");
       },
     },
   );
@@ -41,27 +41,29 @@ const Category = ({ show, onHide }: Props) => {
   return (
     <Modal size='sm' centered show={show} onHide={() => onHide()}>
       <Modal.Header closeButton>
-        <Modal.Title>Ny huvudkategori</Modal.Title>
+        <Modal.Title>Ny {isMainCategory ? "" : "under"}kategori</Modal.Title>
       </Modal.Header>
       <Modal.Body className='px-3 py-2 mb-2'>
         <Form className='d-flex flex-column gap-4'>
           <Form.Group className='flex-grow-1'>
-            <Form.Label>Kategorikod</Form.Label>
+            <Form.Label>Referenskod</Form.Label>
             <Form.Control
-              autoFocus={true}
               type='text'
-              placeholder='Skriv in kategorikod'
-              onChange={(e) => setTitleValue(e.target.value)}
-              value={titleValue}
+              autoFocus={true}
+              placeholder='Skriv in referenskod'
+              onChange={(e) =>
+                setRefValue(e.target.value.replace(`${category?.reference}.`, "").toUpperCase())
+              }
+              value={isMainCategory ? refValue : `${category?.reference}.${refValue}`}
             />
           </Form.Group>
           <Form.Group className='flex-grow-1'>
-            <Form.Label>Kodbeskrivning</Form.Label>
+            <Form.Label>Titel</Form.Label>
             <Form.Control
               type='text'
-              placeholder='Skriv in kodbeskrivning'
-              onChange={(e) => setDescValue(e.target.value)}
-              value={descValue}
+              placeholder='Skriv in titel'
+              onChange={(e) => setTitleValue(e.target.value)}
+              value={titleValue}
             />
           </Form.Group>
         </Form>
@@ -73,10 +75,10 @@ const Category = ({ show, onHide }: Props) => {
           </Button>
           <Button
             className=''
-            onClick={() => postCategory()}
-            disabled={postingCategory || titleValue === ""}
+            onClick={() => postSubCategory()}
+            disabled={postingSubCategory || titleValue === ""}
           >
-            {postingCategory && (
+            {postingSubCategory && (
               <Spinner
                 className='mx-2'
                 size='sm'
@@ -86,7 +88,7 @@ const Category = ({ show, onHide }: Props) => {
                 aria-hidden='true'
               />
             )}
-            {postingCategory ? "Lägger till..." : "Lägg till"}
+            {postingSubCategory ? "Lägger till..." : "Lägg till"}
           </Button>
         </div>
       </Modal.Footer>
