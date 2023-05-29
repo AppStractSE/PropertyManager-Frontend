@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { CategoryResponseDto, ChoreResponseDto } from "../../../../api/client";
@@ -21,6 +23,7 @@ const EditChore = ({ categories, currentChore }: Props) => {
   const { mutate: updateChore, isLoading: updatingChore } = useMutation(
     async () => {
       return await client.chore_PutChore({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         id: currentChore?.id!,
         title: titleValue,
         subCategoryId: subCategoryValue,
@@ -87,7 +90,7 @@ const EditChore = ({ categories, currentChore }: Props) => {
                   <option value=''>Välj huvudkategori</option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
-                      {category.title} - {category.description}
+                      {category.reference} - {category.title}
                     </option>
                   ))}
                 </Form.Select>

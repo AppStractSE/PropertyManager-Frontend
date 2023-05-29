@@ -1,3 +1,4 @@
+import React from "react";
 import { Table } from "react-bootstrap";
 import { CustomerChoreResponseDto, CustomerResponseDto, Periodic } from "../../../../api/client";
 import EditCustomerChoreRow from "./EditCustomerChoreRow";

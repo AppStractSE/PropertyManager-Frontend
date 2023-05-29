@@ -2,6 +2,7 @@ import { Dropdown } from "react-bootstrap";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { RiDirectionLine, RiFlagLine, RiInformationLine } from "react-icons/ri";
 import { SlSupport } from "react-icons/sl";
+import React from "react";
 
 interface Props {
   address?: string;

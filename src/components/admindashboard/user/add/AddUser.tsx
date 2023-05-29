@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormEvent, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
@@ -5,6 +6,7 @@ import { toast } from "react-toastify";
 import { TeamResponseDto, UserInfoDto } from "../../../../api/client";
 import { useClient } from "../../../../contexts/ClientContext";
 import toasts from "../../../../data/toasts";
+import React from "react";
 
 interface Props {
   users: UserInfoDto[];
@@ -60,7 +62,7 @@ const AddUser = ({ users, teams, close }: Props) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    let username = value
+    const username = value
       .toLowerCase()
       .replace(/ä/g, "ae")
       .replace(/å/g, "a")

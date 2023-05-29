@@ -1,8 +1,8 @@
+import React from "react";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { BsFillTrashFill } from "react-icons/bs";
 import { TeamResponseDto } from "../../../../api/client";
-import DeleteCustomerModal from "../../customer/delete/DeleteCustomerModal";
 import DeleteTeamModal from "./DeleteTeamModal";
 
 interface Props {

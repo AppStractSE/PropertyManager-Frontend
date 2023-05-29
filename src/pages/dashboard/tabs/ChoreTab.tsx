@@ -1,8 +1,9 @@
-import { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { Accordion, Card, Col, Nav, Row } from "react-bootstrap";
 import { CategoryResponseDto, ChoreResponseDto } from "../../../api/client";
 import Search from "../../../components/Search";
 import EditChore from "./ChoreTab/EditChore";
+import { useState } from "react";
 
 interface Props {
   chores: ChoreResponseDto[];
@@ -26,7 +27,7 @@ const ChoreTab = ({ chores, categories }: Props) => {
     .map((category) => (
       <Accordion.Item eventKey={category.id.toString()} className='mb-3' key={category.id}>
         <Accordion.Header>
-          {category.title} - {category.description}
+          {category.reference} - {category.title}
         </Accordion.Header>
         <Accordion.Body>
           {category.subCategories

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Form, Modal } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ChoreCommentResponseDto, CustomerChoreResponseDto, UserCustomerChoreData } from "../../../api/client";
+import { ChoreCommentResponseDto, CustomerChoreResponseDto } from "../../../api/client";
 import { useClient } from "../../../contexts/ClientContext";
 import { useUser } from "../../../contexts/UserContext";
 import toasts from "../../../data/toasts";

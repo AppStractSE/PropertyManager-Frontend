@@ -1,5 +1,6 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import {
   CustomerResponseDto,
   TeamMemberResponseDto,

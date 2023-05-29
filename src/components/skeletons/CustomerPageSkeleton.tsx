@@ -1,6 +1,7 @@
 import { Container, Stack } from "react-bootstrap";
 import ChoreCardSkeleton from "./CustomerPage/ChoreCardSkeleton";
 import SearchSkeleton from "./SearchSkeleton";
+import React from "react";
 
 const HomePageSkeleton = () => {
   return (

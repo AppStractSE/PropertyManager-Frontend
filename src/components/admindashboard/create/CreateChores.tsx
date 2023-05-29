@@ -1,3 +1,4 @@
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Accordion, Card, Col, Form, Row } from "react-bootstrap";

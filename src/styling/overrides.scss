@@ -205,8 +205,8 @@
 
 .dark {
   .btn-primary {
-      color: var(--bs-body-color) !important;
-    }
+    color: var(--bs-body-color) !important;
+  }
 }
 // NavLink overrides
 a {
@@ -293,7 +293,7 @@ select:disabled {
 
 :root {
   --bs-primary: #327ef1;
-    --bs-btn-bg: #327ef1;
+  --bs-btn-bg: #327ef1;
   --bs-success: #00e435;
   --bs-danger: #ff0000;
 }

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { lazy } from "react";
+import React, { lazy } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { BiCheck } from "react-icons/bi";

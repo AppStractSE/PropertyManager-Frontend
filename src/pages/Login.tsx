@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { useMutation } from "react-query";
 import { Client, AuthUser } from "../api/client";
 import { useUser } from "../contexts/UserContext";
-import { useQueries } from "../hooks/useQueries";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -24,7 +23,8 @@ const Login = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          let authUser: AuthUser = data;
+          const authUser: AuthUser = data;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
           setToken(authUser?.tokenInfo!); // Update token
           setCurrentUser(authUser);
         }

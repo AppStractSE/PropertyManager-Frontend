@@ -1,10 +1,11 @@
+import React from "react";
 import { useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import {
   CustomerResponseDto,
   TeamMemberResponseDto,
   TeamResponseDto,
-  UserInfoDto
+  UserInfoDto,
 } from "../../../api/client";
 import EditTeamModal from "./edit/EditTeamModal";
 

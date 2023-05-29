@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";

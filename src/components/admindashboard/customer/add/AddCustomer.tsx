@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useMutation, useQueryClient } from "react-query";
@@ -108,13 +109,15 @@ const AddCustomer = ({ teams, areas, close, cities }: Props) => {
           >
             <option>Välj område</option>
             {areas &&
-              areas.filter(x => x.cityId === cityValue).map((area: AreaResponseDto) => {
-                return (
-                  <option key={area.id} value={area.id}>
-                    {area.name}
-                  </option>
-                );
-              })}
+              areas
+                .filter((x) => x.cityId === cityValue)
+                .map((area: AreaResponseDto) => {
+                  return (
+                    <option key={area.id} value={area.id}>
+                      {area.name}
+                    </option>
+                  );
+                })}
           </Form.Select>
         </Form.Group>
       </Form.Group>

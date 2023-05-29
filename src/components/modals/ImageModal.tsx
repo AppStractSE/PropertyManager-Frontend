@@ -1,5 +1,6 @@
 import { Modal } from "react-bootstrap";
 import { HiDownload } from "react-icons/hi";
+import React from "react";
 
 const ImageModal = (props: any) => {
   return (

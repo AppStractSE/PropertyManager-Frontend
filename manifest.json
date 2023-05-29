@@ -5,7 +5,7 @@
   "scope": "http://localhost:5173/",
   "start_url": "http://localhost:5173/",
   "description": "Manage properties with ease",
-  "short_name": "PM",
+  "short_name": "PropertEase",
   "name": "PropertEase",
   "icons": [
     {

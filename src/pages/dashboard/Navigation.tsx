@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
