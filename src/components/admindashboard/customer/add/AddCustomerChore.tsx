@@ -24,6 +24,7 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
   const [customerValue, setCustomerValue] = useState("");
   const [periodicValue, setPeriodicValue] = useState("");
   const [frequencyValue, setFrequencyValue] = useState(1);
+  const [descriptionValue, setDescriptionValue] = useState("");
   const queryClient = useQueryClient();
   const client = useClient();
   const { mutate: postCustomerChore, isLoading: postingCustomerChore } = useMutation(
@@ -33,6 +34,7 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
         choreId: choreValue,
         frequency: frequencyValue,
         periodicId: periodicValue,
+        description: descriptionValue,
       });
     },
     {
@@ -41,6 +43,7 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
         setChoreValue("");
         setChoreValue("");
         setPeriodicValue("");
+        setDescriptionValue("");
         queryClient.invalidateQueries("customers");
         queryClient.invalidateQueries("periodics");
         queryClient.invalidateQueries("chores");
@@ -104,6 +107,17 @@ const AddCustomerChore = ({ customers, customer, customerchores, periodics, chor
           })}
         </Form.Select>
       </Form.Group>
+
+      <Form.Group className='mb-3' controlId='description'>
+        <Form.Label>Beskrivning</Form.Label>
+        <Form.Control
+          as='textarea'
+          placeholder='Beskrivning på kundsyssla'
+          value={descriptionValue}
+          onChange={(e) => setDescriptionValue(e.target.value)}
+        />
+      </Form.Group>
+
       <Form.Group>
         <Form.Label>Hur ofta ska sysslan utföras?</Form.Label>
         <Form.Control

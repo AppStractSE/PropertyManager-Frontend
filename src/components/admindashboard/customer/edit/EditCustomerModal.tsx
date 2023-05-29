@@ -9,7 +9,6 @@ import {
   TeamResponseDto,
 } from "../../../../api/client";
 import Search from "../../../Search";
-import AddCustomerChore from "../add/AddCustomerChore";
 import DeleteCustomer from "../delete/DeleteCustomer";
 import EditCustomerChoreTable from "../table/EditCustomerChoreTable";
 import EditCustomer from "./EditCustomer";

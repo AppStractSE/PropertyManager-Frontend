@@ -23,7 +23,6 @@ const AddChore = ({ categories }: Props) => {
   const [categoryModalValue, setCategoryModalValue] = useState<string>("");
   const [subCategoryValue, setSubCategoryValue] = useState<string[]>([]);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
-
   const { mutate: postChore, isLoading: postingChore } = useMutation(
     async () => {
       return await client.chore_PostChore({
@@ -71,7 +70,7 @@ const AddChore = ({ categories }: Props) => {
 
         const newValues = [...prev];
         newValues[index] = categoryId;
-        return newValues.slice(0, index);
+        return newValues.slice(0, index + 1);
       });
     }
   };
