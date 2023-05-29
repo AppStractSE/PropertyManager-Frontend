@@ -17,6 +17,7 @@ const EditCustomerChoreTable = ({ customerchores, periodics, customer, search }:
           <th className='text-uppercase fs-7'>Namn</th>
           <th className='text-uppercase fs-7'>Frekvens</th>
           <th className='text-uppercase fs-7'>Period</th>
+          <th className='text-uppercase fs-7'>Beskrivning</th>
           <th className='text-uppercase fs-7'>Alternativ</th>
         </tr>
       </thead>

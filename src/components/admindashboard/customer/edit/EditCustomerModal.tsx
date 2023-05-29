@@ -36,7 +36,7 @@ const EditCustomerModal = ({
 }: Props) => {
   const [search, setSearch] = useState("");
   return (
-    <Modal show={show} id='editCustomer' size='lg' onHide={() => onHide()}>
+    <Modal show={show} id='editCustomer' size='xl' onHide={() => onHide()}>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>{customer.name}</Modal.Title>
       </Modal.Header>
