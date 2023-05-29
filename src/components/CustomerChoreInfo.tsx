@@ -219,6 +219,14 @@ const CustomerChoreInfo = () => {
           <div className='fs-5 fw-bold mb-2'>Beskrivning</div>
           <div className='fs-6'>{customerchore?.chore?.description}</div>
         </Container>
+        <Container className='mt-4'>
+          <div className='fs-5 fw-bold mb-2'>Kundsyssla beskrivning</div>
+          {customerchore.description ? (
+            <div className='fs-6'>{customerchore?.description}</div>
+          ) : (
+            <div>Ingen beskrivning tillgänglig</div>
+          )}
+        </Container>
         <div className='divider' />
         <Container>
           <div className='fs-5 fw-bold mb-2'>Status</div>

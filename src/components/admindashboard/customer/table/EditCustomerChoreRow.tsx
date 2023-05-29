@@ -15,12 +15,14 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   const [periodicsValue, setPeriodicsValue] = useState(customerchore.periodic?.name);
   const [disableRow, setDisableRow] = useState(true);
   const [frequencyValue, setFrequencyValue] = useState(customerchore.frequency);
+  const [choreDescriptionValue, setChoreDescriptionValue] = useState(customerchore.description);
   const { mutate: updateCustomerChore, isLoading: updatingCustomerChore } = useMutation(
     async () => {
       return await client.customerChore_PutCustomerChore({
         id: customerchore.id,
         frequency: frequencyValue,
         periodicId: periodics.find((x) => x.name === periodicsValue)?.id,
+        description: choreDescriptionValue,
       });
     },
     {
@@ -51,7 +53,9 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
   return (
     <tr>
       <td>
-        <div className='form-control bg-transparent border-transparent ps-0'>{customerchore.chore?.title}</div>
+        <div className='form-control bg-transparent border-transparent ps-0'>
+          {customerchore.chore?.title}
+        </div>
       </td>
       <td>
         <Form.Control
@@ -89,6 +93,19 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
         </Form.Select>
       </td>
       <td>
+        {!disableRow ? (
+          <Form.Group className='mb-3 mt-3'>
+            <Form.Control
+              as='textarea'
+              rows={4}
+              placeholder='Beskrivning på syssla'
+              value={choreDescriptionValue}
+              onChange={(e) => setChoreDescriptionValue(e.target.value)}
+            />
+          </Form.Group>
+        ) : undefined}
+      </td>
+      <td>
         <div>
           {!disableRow ? (
             <Button
@@ -98,6 +115,7 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
                 setDisableRow(!disableRow);
                 setFrequencyValue(customerchore.frequency);
                 setPeriodicsValue(customerchore.periodic?.name);
+                setChoreDescriptionValue(customerchore.description);
               }}
             >
               Avbryt
@@ -109,7 +127,8 @@ const EditCustomerChoreRow = ({ customerchore, periodics }: Props) => {
             disabled={
               !disableRow &&
               customerchore.frequency === frequencyValue &&
-              customerchore.periodic?.name === periodicsValue
+              customerchore.periodic?.name === periodicsValue &&
+              customerchore.description === choreDescriptionValue
                 ? true
                 : false
             }
