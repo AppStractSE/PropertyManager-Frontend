@@ -21,18 +21,13 @@ const SubCategoryForm = ({
   setCategoryModalStates,
 }: Props) => {
   const [subCategoryValue, setSubCategoryValue] = useState("");
-
   const hasChildren = (categoryId: string) => {
     const categoryObject = categories.find((x) => x.id === categoryId);
     return (categoryObject?.subCategories?.length ?? 0) > 0;
   };
 
   return (
-    <Form.Group
-      className='mb-3'
-      controlId='category'
-      hidden={!hasChildren(latestSecectedCategoryId)}
-    >
+    <Form.Group className='mb-3' controlId='category'>
       <Form.Label>Underkategori</Form.Label>
       <div className='d-flex gap-2'>
         <Form.Select
@@ -40,8 +35,8 @@ const SubCategoryForm = ({
           value={subCategoryValue}
           onChange={(e) => {
             const value = e.target.value;
+            setSelectedSubCategory(value, subCategoryValue ? subCategoryValue : "");
             setSubCategoryValue(value);
-            setSelectedSubCategory(value, subCategoryValue ? subCategoryValue : value);
           }}
         >
           <option value=''>Välj underkategori</option>
