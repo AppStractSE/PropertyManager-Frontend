@@ -4,7 +4,7 @@ const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/images/l
 
 self.addEventListener("install", (event) => {
   if (!event.request.headers.get("user-agent").includes("Mobile")) {
-    // return; // Skip installation on non-mobile devices
+    return; // Skip installation on non-mobile devices
   }
 
   event.waitUntil(
