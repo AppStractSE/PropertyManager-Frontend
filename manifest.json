@@ -38,7 +38,7 @@
   "permissions": ["camera", "microphone", "geolocation"],
   "splash_screens": [
     {
-      "src": "/public/images/splash-640x1136.png",
+      "src": "/splash_screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png",
       "sizes": "640x1136",
       "type": "image/png"
     }
