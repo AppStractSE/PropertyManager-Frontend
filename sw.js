@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-const CACHE_NAME = "my-pwa-cache-v3"; // Update cache version
-const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/images/logo.png"];
+const CACHE_NAME = "my-pwa-cache-v4"; // Update cache version
+const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "public/images/logo.png"];
 
 self.addEventListener("install", (event) => {
   if (!event.request.headers.get("user-agent").includes("Mobile")) {
