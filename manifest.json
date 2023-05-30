@@ -1,44 +1,44 @@
 {
-  "theme_color": "#111",
-  "background_color": "#111",
-  "display": "standalone",
-  "scope": "http://localhost:5173/",
-  "start_url": "http://localhost:5173/",
-  "description": "Manage properties with ease",
-  "short_name": "PropertEase",
-  "name": "PropertEase",
-  "icons": [
-    {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+    "name": "PropertEase",
+    "short_name": "PropertEase",
+    "description": "Manage properties with ease",
+    "theme_color": "#111",
+    "background_color": "#111",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/",
+    "icons": [
+      {
+        "src": "icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "maskable-icon.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ],
+    "orientation": "portrait",
+    "prefer_related_applications": false,
+    "lang": "en-US",
+    "categories": ["Business", "Productivity"],
+    "serviceworker": {
+      "src": "sw.js",
+      "scope": "/"
     },
-    {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "maskable-icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "orientation": "portrait",
-  "prefer_related_applications": false,
-  "lang": "en-US",
-  "categories": ["Business", "Productivity"],
-  "serviceworker": {
-    "src": "sw.js",
-    "scope": "/"
-  },
-  "permissions": ["camera", "microphone", "geolocation"],
-  "splash_screens": [
-    {
-      "src": "images/splash-640x1136.png",
-      "sizes": "640x1136",
-      "type": "image/png"
-    }
-  ]
-}
+    "permissions": ["camera", "microphone", "geolocation"],
+    "splash_screens": [
+      {
+        "src": "images/splash-640x1136.png",
+        "sizes": "640x1136",
+        "type": "image/png"
+      }
+    ]
+  }
