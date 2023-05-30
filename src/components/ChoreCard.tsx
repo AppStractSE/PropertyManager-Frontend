@@ -27,7 +27,7 @@ const ChoreCard = ({ customerchore }: Props) => {
                     ? "bg-success"
                     : customerchore.status === "Påbörjad"
                     ? "bg-primary"
-                    : "bg-danger"
+                    : "bg-danger text-white"
                 }`}
               >
                 {customerchore.status === "Klar" ? (
