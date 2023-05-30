@@ -1,3 +1,4 @@
+import React from "react";
 import { lazy, useState } from "react";
 import { Col } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";

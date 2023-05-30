@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useUser } from "../../contexts/UserContext";
 import CreateAvatar from "../CreateAvatar";
+import React from "react";
 
 const ProfileModal = (props: any) => {
   const { logout } = useUser();

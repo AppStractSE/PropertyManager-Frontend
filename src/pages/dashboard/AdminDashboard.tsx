@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { Spinner } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
 import CreatePane from "../../components/admindashboard/create/CreatePane";

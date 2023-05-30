@@ -1,4 +1,5 @@
 import { Placeholder } from "react-bootstrap";
+import React from "react";
 
 const SearchSkeleton = () => {
   return (

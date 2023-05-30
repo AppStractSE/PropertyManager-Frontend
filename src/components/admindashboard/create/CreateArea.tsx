@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Accordion, Card, Col, Row } from "react-bootstrap";
 import { AreaResponseDto, CityResponseDto } from "../../../api/client";
@@ -50,7 +51,9 @@ const CreateArea = ({ areas, cities }: Props) => {
                               </Card.Text>
                             ))
                           : search.trim() === "" && (
-                              <Card.Text className='ms-2 fst-italic'>Inga områden här ännu</Card.Text>
+                              <Card.Text className='ms-2 fst-italic'>
+                                Inga områden här ännu
+                              </Card.Text>
                             )}
                       </Accordion.Body>
                     </Accordion.Item>

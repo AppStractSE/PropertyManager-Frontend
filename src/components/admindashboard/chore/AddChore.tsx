@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";

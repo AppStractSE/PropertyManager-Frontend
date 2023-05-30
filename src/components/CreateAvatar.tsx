@@ -1,3 +1,4 @@
+import React from "react";
 import * as style from "@dicebear/adventurer";
 import { createAvatar } from "@dicebear/core";
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, PanInfo } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChoreCommentResponseDto, CustomerChoreResponseDto } from "../../../api/client";
 import { useUser } from "../../../contexts/UserContext";
 import DeleteComment from "../../DeleteComment";

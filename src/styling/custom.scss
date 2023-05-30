@@ -60,7 +60,7 @@ body,
 
   .bg-thirdondary {
     --bg-thirdondary: #242424;
-    }
+  }
 
   .btn-primary {
     --bs-btn-bg: #0142a3;
@@ -245,18 +245,18 @@ input[type="number"] {
   user-select: none;
 
   .avatar {
-      width: 50px;
-      height: 50px;
+    width: 50px;
+    height: 50px;
 
     div {
-        width: inherit;
-        height: inherit;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: var(--avatar-image);
-      }
+      width: inherit;
+      height: inherit;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: var(--avatar-image);
     }
+  }
 }
 
 .comment-delete-container {
@@ -356,22 +356,22 @@ tr {
 
 .table-mobile {
   min-width: 790px;
+}
+
+.border-left-2 {
+  border-left: 2px solid transparent;
+}
+
+.text-theme {
+  color: var(--bs-body-color);
+  border-left: 2px solid transparent;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
   }
-  
-  .border-left-2 {
-    border-left: 2px solid transparent;
-  }
-  
-  .text-theme {
-    color: var(--bs-body-color);
-    border-left: 2px solid transparent;
-    opacity: .85;
-  
-    &:hover {
-      opacity: 1;
-    }
-  }
-  
-  .dark .text-theme {
-    color: var(--bs-body-color);
+}
+
+.dark .text-theme {
+  color: var(--bs-body-color);
 }

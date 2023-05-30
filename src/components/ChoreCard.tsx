@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, Container, OverlayTrigger, Popover } from "react-bootstrap";
 import { BiCheck } from "react-icons/bi";
 import { GoX } from "react-icons/go";

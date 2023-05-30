@@ -1,4 +1,5 @@
 import { Card, Placeholder } from "react-bootstrap";
+import React from "react";
 
 const ChoreCardSkeleton = () => {
   return (
