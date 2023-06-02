@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const CACHE_NAME = "my-pwa-cache-v4"; // Update cache version
+const CACHE_NAME = "my-pwa-cache-v5"; // Update cache version
 const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "public/images/logo.png"];
 
 self.addEventListener("install", (event) => {
