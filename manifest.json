@@ -33,7 +33,7 @@
   "categories": ["Business", "Productivity"],
   "serviceworker": {
     "src": "sw.js",
-    "scope": "/"
+    "scope": "https://property.appstract.se/"
   },
   "permissions": ["camera", "microphone", "geolocation"],
   "splash_screens": [
