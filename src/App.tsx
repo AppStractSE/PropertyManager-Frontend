@@ -55,7 +55,6 @@ const App = () => {
           setCurrentUser(user);
         }
       },
-      // retryOnMount: true,
       onError: (error: any) => {
         setToken(InitialUserState.tokenInfo!);
         setCurrentUser(InitialUserState);
