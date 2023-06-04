@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-const CACHE_NAME = "my-pwa-cache-v5"; // Update cache version
-const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "public/images/logo.png"];
+const CACHE_NAME = "PropertEase-v1"; // Update cache version
+const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "icon/logo.png"];
 
 self.addEventListener("install", (event) => {
   if (!event.request.headers.get("user-agent").includes("Mobile")) {
