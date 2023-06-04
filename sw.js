@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const CACHE_NAME = "PropertEase-v3"; // Update cache version
+const CACHE_NAME = "PropertEase-v4"; // Update cache version
 const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/icon/logo.png", "/splash.png"];
 
 self.addEventListener("install", (event) => {
