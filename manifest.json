@@ -9,17 +9,17 @@
   "scope": "https://property.appstract.se/",
   "icons": [
     {
-      "src": "/icon/icon-192x192.png",
+      "src": "icon/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icon/icon-512x512.png",
+      "src": "icon/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/icon/maskable-icon.png",
+      "src": "icon/maskable-icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
