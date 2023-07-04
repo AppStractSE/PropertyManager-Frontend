@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Spinner } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
 import CreatePane from "../../components/admindashboard/create/CreatePane";
@@ -8,6 +8,7 @@ import Layout from "./Layout";
 import ChoreTab from "./tabs/ChoreTab";
 import CustomerTab from "./tabs/CustomerTab";
 import TeamsTab from "./tabs/TeamsTab";
+import MyCharts from "./MyCharts";
 
 const AdminDashboard = () => {
   const {
@@ -39,7 +40,8 @@ const AdminDashboard = () => {
     <>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<h1>Kommer snart</h1>} />
+          <Route index element={<><h1>Kommer snart</h1>
+          <MyCharts /></>} />
           <Route
             path='customer'
             element={
