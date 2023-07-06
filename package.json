@@ -37,7 +37,8 @@
     "react-router-dom": "^6.4.5",
     "react-toastify": "^9.1.2",
     "sass": "^1.56.2",
-    "vite-plugin-legacy": "^2.1.0"
+    "vite-plugin-legacy": "^2.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

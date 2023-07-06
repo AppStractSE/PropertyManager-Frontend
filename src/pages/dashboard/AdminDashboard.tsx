@@ -5,10 +5,11 @@ import CreatePane from "../../components/admindashboard/create/CreatePane";
 import { useQueries } from "../../hooks/useQueries";
 import NotFound from "../NotFound";
 import Layout from "./Layout";
+import MyCharts from "./MyCharts";
+import PropertyManagerReport from "./PropertyManagerReport";
 import ChoreTab from "./tabs/ChoreTab";
 import CustomerTab from "./tabs/CustomerTab";
 import TeamsTab from "./tabs/TeamsTab";
-import MyCharts from "./MyCharts";
 
 const AdminDashboard = () => {
   const {
@@ -40,8 +41,16 @@ const AdminDashboard = () => {
     <>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<><h1>Kommer snart</h1>
-          <MyCharts /></>} />
+          <Route
+            index
+            element={
+              <>
+                <h1>Kommer snart</h1>
+                <PropertyManagerReport />
+                <MyCharts />
+              </>
+            }
+          />
           <Route
             path='customer'
             element={
