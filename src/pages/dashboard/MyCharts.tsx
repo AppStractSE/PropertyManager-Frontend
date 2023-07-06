@@ -5,8 +5,33 @@ const MyCharts = () => {
     xaxis: {
       type: 'category',
       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    }
+    },
+    theme: {
+      mode: 'light',
+      palette: 'palette1',
+      monochrome: {
+        enabled: false,
+        color: '#255aee',
+        shadeTo: 'dark',
+        shadeIntensity: 0.65
+      },
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'light',
+        type: 'horizontal',
+        shadeIntensity: 0.5,
+        gradientToColors: ['#F55555', '#6078ea', '#6094ea'],
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 0.8,
+        stops: [0, 100],
+      },
+    },
   };
+  
+  
 
   const donutOptions = {
     labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
@@ -77,12 +102,65 @@ const MyCharts = () => {
   };
   const pieSeries = [44, 55, 13, 43, 22];
 
+  const columnOptions = {
+    chart: {
+    type: 'bar',
+    height: 350
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: '55%',
+      endingShape: 'rounded'
+    },
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ['transparent']
+  },
+  xaxis: {
+    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+  },
+  yaxis: {
+    title: {
+      text: '$ (thousands)'
+    }
+  },
+  fill: {
+    opacity: 1
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return "$ " + val + " thousands"
+      }
+    }
+  }
+  };
+
+  const columnSeries = [{
+    name: 'Net Profit',
+    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+  }, {
+    name: 'Revenue',
+    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+  }, {
+    name: 'Free Cash Flow',
+    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+  }];
+
+
 
   return (
     <div>
       <Chart options={options} series={series} type="line" height={350} />
       <Chart options={options} series={series} type="area" height={350} />
       <Chart options={options} series={series} type="bar" height={350} />
+      <Chart options={columnOptions} series={columnSeries} type="bar" height={350} />
       <Chart options={donutOptions} series={donutSeries} type="donut" height={350} />
       <Chart options={pieOptions} series={pieSeries} type="pie" height={350} />
       <Chart options={histogramOptions} series={histogramSeries} type="histogram" height={350} />
