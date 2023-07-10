@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Nav, Tab } from "react-bootstrap";
@@ -39,12 +39,30 @@ const CreatePane = () => {
   )
     return null;
   const [tab, setTab] = useState("Kund");
+  const [smScreen, setSmScreen] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 992) {
+      setSmScreen(true);
+    } else {
+      setSmScreen(false);
+    }
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 992) {
+        setSmScreen(true);
+      } else {
+        setSmScreen(false);
+      }
+    }
+    );
+  }, []);
 
   return (
     <Tab.Container defaultActiveKey='Kund'>
       <Nav
         variant='pills'
-        className='flex-row w-100 justify-content-center gap-5 py-2 default-cursor border-bottom'
+        className={`flex-row w-100 gap-4 py-2 default-cursor border-bottom ${smScreen ? "justify-content-start flex-nowrap overflow-auto" : "justify-content-center"}`}
       >
         {navMenu.map((item) => (
           <Nav.Item key={item.name}>

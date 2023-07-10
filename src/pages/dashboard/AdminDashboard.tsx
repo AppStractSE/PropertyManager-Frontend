@@ -10,7 +10,8 @@ import PropertyManagerReport from "./PropertyManagerReport";
 import ChoreTab from "./tabs/ChoreTab";
 import CustomerTab from "./tabs/CustomerTab";
 import TeamsTab from "./tabs/TeamsTab";
-
+import React from "react";
+  
 const AdminDashboard = () => {
   const {
     areas,

@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <BrowserRouter>
       <ClientProvider>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools position='top-left' />
+          <ReactQueryDevtools />
           <UserProvider>
             <ThemeProvider>
               <App />

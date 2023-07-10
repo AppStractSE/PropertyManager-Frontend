@@ -146,8 +146,11 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.dark .aside-nav {
-  background: #191919 !important;
+.dark
+{
+  .aside-nav, .offcanvas-header, .offcanvas-body {
+    background: #191919 !important;
+  }
 }
 
 .aside-nav {
@@ -155,19 +158,21 @@ input[type="number"] {
 
   @media screen and (min-width: 992px) {
     border-right: 1px solid rgba(255, 255, 255, 0.25);
-    max-width: 350px;
   }
 
   @media screen and (max-width: 991px) {
-    flex-direction: row !important;
-    padding: 12px !important;
     height: auto !important;
-    justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 
     .navbar-divider {
       display: none;
     }
+  }
+}
+
+.admin-nav {
+  @media screen and (min-width: 992px) {
+    height: inherit;
   }
 }
 
