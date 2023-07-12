@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div className='d-flex flex-wrap admin-nav'>
       <Navigation />
-      <div className='col-sm-12 col-lg-10 py-3 px-3 overflow-hidden'>
+      <div className='col-sm-12 col-lg-10'>
         <Outlet />
       </div>
     </div>
