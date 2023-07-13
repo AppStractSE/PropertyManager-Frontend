@@ -4,6 +4,8 @@ import { Button, Card, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useQueries } from "../../../hooks/useQueries";
+import { useClient } from "../../../contexts/ClientContext";
+import { useQuery } from "react-query";
 
 const Overview = () => {
   const [periodic, setPeriodic] = useState(0);
@@ -130,6 +132,33 @@ const Overview = () => {
     },
   ];
 
+  const client = useClient();
+
+  const {
+    data: report,
+    error: reportError,
+    isLoading: reportLoading,
+  } = useQuery<any>(
+    ["report", "4cfe0ac0-2466-4d1d-66f0-08db57834341"],
+    async () => await client.report_GetExcelReport("4cfe0ac0-2466-4d1d-66f0-08db57834341"),
+  );
+
+  const downloadFile = (data: Blob, fileName: string) => {
+    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownload = () => {
+    const reportData = report.data;
+    const fileName = `"Rapport.xlsx"`;
+    downloadFile(reportData, fileName);
+  };
+
   return (
     <>
       <div className='p-3 my-2 border-1 border-bottom'>
@@ -139,7 +168,7 @@ const Overview = () => {
         <div>
           <Button
             className='d-flex gap-2 align-items-center justify-content-center'
-            onClick={() => navigate("/report/create")}
+            onClick={handleDownload}
           >
             <HiOutlineDocumentReport size={18} />
             <div>Skapa rapport</div>

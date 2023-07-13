@@ -1641,6 +1641,105 @@ export class Client extends BaseClient {
         return Promise.resolve<Periodic[]>(null as any);
     }
 
+    report_GetCustomerReport(customerId: string | null | undefined): Promise<ReportObjectResponseDto> {
+        let url_ = this.baseUrl + "/api/v1/Report/getCustomerReport?";
+        if (customerId !== undefined && customerId !== null)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processReport_GetCustomerReport(_response);
+        });
+    }
+
+    protected processReport_GetCustomerReport(response: Response): Promise<ReportObjectResponseDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ReportObjectResponseDto;
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ReportObjectResponseDto>(null as any);
+    }
+
+    report_GetExcelReport(customerId: string | null | undefined): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/api/v1/Report/getReportExcel?";
+        if (customerId !== undefined && customerId !== null)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processReport_GetExcelReport(_response);
+        });
+    }
+
+    protected processReport_GetExcelReport(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
+
     team_GetAllTeams(): Promise<Team[]> {
         let url_ = this.baseUrl + "/api/v1/Team";
         url_ = url_.replace(/[?&]$/, "");
@@ -2366,6 +2465,37 @@ export interface PutCustomerRequestDto {
     areaId: string | undefined;
     teamId: string | undefined;
     address: string | undefined;
+}
+
+export interface ReportObjectResponseDto {
+    id: number;
+    customerInfo: CustomerInfoResponseDto | undefined;
+    issuerInfo: IssuerInfoResponseDto | undefined;
+    choreRows: ChoreRowResponseDto[] | undefined;
+}
+
+export interface CustomerInfoResponseDto {
+    id: string;
+    name: string | undefined;
+    address: string | undefined;
+}
+
+export interface IssuerInfoResponseDto {
+    id: string;
+    name: string | undefined;
+    address: string | undefined;
+    email: string | undefined;
+    phoneNumber: string | undefined;
+}
+
+export interface ChoreRowResponseDto {
+    choreName: string | undefined;
+    monthResult: MonthResultResponseDto[] | undefined;
+}
+
+export interface MonthResultResponseDto {
+    monthNr: number;
+    progress: string | undefined;
 }
 
 export interface Team {
