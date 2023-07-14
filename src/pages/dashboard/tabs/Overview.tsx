@@ -2,10 +2,10 @@ import { useState } from "react";
 import Chart from "react-apexcharts";
 import { Button, Card, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
-import { useQueries } from "../../../hooks/useQueries";
-import { useClient } from "../../../contexts/ClientContext";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useClient } from "../../../contexts/ClientContext";
+import { useQueries } from "../../../hooks/useQueries";
 
 const Overview = () => {
   const [periodic, setPeriodic] = useState(0);
@@ -352,11 +352,7 @@ const Overview = () => {
                   {latestactions?.map((action) => (
                     <div key={action.id} className='d-flex relative position-relative'>
                       <div
-                        className={`timeline-dot
-                        ${action.type === "info" && "bg-warning"}
-                        ${action.type === "success" && "bg-success"}
-                        ${action.type === "delete" && "bg-danger"}
-                        `}
+                        className={`timeline-dot ${action.type === "info" ? "bg-warning" : ""} ${action.type === "success" ? "bg-success" : ""} ${action.type === "delete" ? "bg-danger" : ""}`}
                       />
                       <div style={{ marginLeft: 20 }}>
                         <div className='fs-7'>{action.date}</div>
