@@ -65,7 +65,7 @@ const Navigation = () => {
                   <div>{item.name}</div>
                 </NavLink>
               </Nav.Item>
-              {i === dashboardData.length - 2 ? (
+              {i === dashboardData.length - 3 ? (
                 <hr className='navbar-divider px-4 my-4 opacity-70'></hr>
               ) : null}
             </motion.div>

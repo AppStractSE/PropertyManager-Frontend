@@ -9,6 +9,7 @@ import ChoreTab from "./tabs/ChoreTab";
 import CustomerTab from "./tabs/CustomerTab";
 import Overview from "./tabs/Overview";
 import TeamsTab from "./tabs/TeamsTab";
+import ReportTab from "./tabs/ReportTab";
 
 const AdminDashboard = () => {
   const {
@@ -70,6 +71,7 @@ const AdminDashboard = () => {
           />
           <Route path='chores' element={<ChoreTab categories={categories} chores={chores} />} />
           <Route path='create' element={<CreatePane />} />
+          <Route path='report' element={<ReportTab />} />
         </Route>
         <Route
           path='*'

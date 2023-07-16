@@ -2,9 +2,8 @@ import { useState } from "react";
 import Chart from "react-apexcharts";
 import { Button, Card, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { useQuery } from "react-query";
+import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useClient } from "../../../contexts/ClientContext";
 import { useQueries } from "../../../hooks/useQueries";
 
 const Overview = () => {
@@ -34,7 +33,7 @@ const Overview = () => {
       x.status === "Ej påbörjad",
   ).length;
   const colorPalette = ["#1fbd00", "#006ec2", "#fe2119"];
-  const options = {
+  const options: any = {
     chart: {
       type: "donut",
     },
@@ -48,7 +47,6 @@ const Overview = () => {
           size: "75%",
         },
       },
-
       stroke: {
         colors: undefined,
       },
@@ -130,34 +128,28 @@ const Overview = () => {
       date: "20232-12-18",
       type: "info",
     },
+    {
+      id: 7,
+      name: "System",
+      action: "återställde veckovisa sysslor",
+      date: "20232-12-18",
+      type: "info",
+    },
+    {
+      id: 7,
+      name: "System",
+      action: "återställde veckovisa sysslor",
+      date: "20232-12-18",
+      type: "info",
+    },
+    {
+      id: 7,
+      name: "System",
+      action: "återställde veckovisa sysslor",
+      date: "20232-12-18",
+      type: "info",
+    },
   ];
-
-  const client = useClient();
-
-  const {
-    data: report,
-    error: reportError,
-    isLoading: reportLoading,
-  } = useQuery<any>(
-    ["report", "4cfe0ac0-2466-4d1d-66f0-08db57834341"],
-    async () => await client.report_GetExcelReport("4cfe0ac0-2466-4d1d-66f0-08db57834341"),
-  );
-
-  const downloadFile = (data: Blob, fileName: string) => {
-    const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const link = document.createElement("a");
-    link.href = window.URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleDownload = () => {
-    const reportData = report.data;
-    const fileName = `"Rapport.xlsx"`;
-    downloadFile(reportData, fileName);
-  };
 
   return (
     <>
@@ -165,206 +157,151 @@ const Overview = () => {
         <div className='h1 mb-0'>Översikt</div>
       </div>
       <div className='p-3'>
-        <div>
+        <div className='d-flex gap-2'>
           <Button
             className='d-flex gap-2 align-items-center justify-content-center'
-            onClick={handleDownload}
+            onClick={() => navigate("/report")}
           >
             <HiOutlineDocumentReport size={18} />
             <div>Skapa rapport</div>
           </Button>
+          <Button
+            className='d-flex gap-2 align-items-center justify-content-center'
+            onClick={() => navigate("/report")}
+          >
+            <HiOutlineDocumentReport size={18} />
+            <div>Skapa kund</div>
+          </Button>
         </div>
-
-        <div className='row'>
-          <div className='col-8'>
-            <div className='row'>
-              <div className='col-12 col-md-6 col-lg-6 my-4'>
-                <Card className='p-3 rounded border default-cursor'>
-                  <div className='d-flex align-items-center mb-2'>
-                    <div className='h4 me-auto'>Sysslor</div>
-                    <Form.Select
-                      value={customerChoreData}
-                      className='rounded-0 w-auto'
-                      onChange={(e) => setCustomerChoreData(e.target.value)}
-                    >
-                      <option value={"Alla"}>Alla kunder</option>
-                      {customers?.map((customer) => (
-                        <option key={customer.id} value={customer.id}>
-                          {customer.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
-                    <Button
-                      onClick={() => setPeriodic(0)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 0 && "bg-dark"
-                      }`}
-                    >
-                      Alla
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(1)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 1 && "bg-dark"
-                      }`}
-                    >
-                      År
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(2)}
-                      className={`rounded border border-dark px-3 py-1  ${
-                        periodic === 2 && "bg-dark"
-                      }`}
-                    >
-                      Månad
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(3)}
-                      className={`"rounded border border-dark px-3 py-1  ${
-                        periodic === 3 && "bg-dark"
-                      }`}
-                    >
-                      Vecka
-                    </Button>
-                  </div>
-                  <Chart series={options.series} options={options} type='donut' />
-                </Card>
+        <div className='row mt-4'>
+          <div className='col-12 col-md-4 mt-sm-4 mt-md-0'>
+            <Card className='p-3 rounded border default-cursor' style={{ maxHeight: 500 }}>
+              <div className='d-flex align-items-center mb-2'>
+                <div className='h4 me-auto'>Sysslor</div>
+                <Form.Select
+                  value={customerChoreData}
+                  className='rounded-0 w-auto'
+                  onChange={(e) => setCustomerChoreData(e.target.value)}
+                >
+                  <option value={"Alla"}>Alla kunder</option>
+                  {customers?.map((customer) => (
+                    <option key={customer.id} value={customer.id}>
+                      {customer.name}
+                    </option>
+                  ))}
+                </Form.Select>
               </div>
-
-              <div className='col-12 col-md-6 col-lg-6 my-4'>
-                <Card className='p-3 rounded border default-cursor'>
-                  <div className='d-flex align-items-center mb-2'>
-                    <div className='h4 me-auto'>Sysslor</div>
-                    <Form.Select
-                      value={customerChoreData}
-                      className='rounded-0 w-auto'
-                      onChange={(e) => setCustomerChoreData(e.target.value)}
-                    >
-                      <option value={"Alla"}>Alla kunder</option>
-                      {customers?.map((customer) => (
-                        <option key={customer.id} value={customer.id}>
-                          {customer.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
-                    <Button
-                      onClick={() => setPeriodic(0)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 0 && "bg-dark"
-                      }`}
-                    >
-                      Alla
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(1)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 1 && "bg-dark"
-                      }`}
-                    >
-                      År
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(2)}
-                      className={`rounded border border-dark px-3 py-1  ${
-                        periodic === 2 && "bg-dark"
-                      }`}
-                    >
-                      Månad
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(3)}
-                      className={`"rounded border border-dark px-3 py-1  ${
-                        periodic === 3 && "bg-dark"
-                      }`}
-                    >
-                      Vecka
-                    </Button>
-                  </div>
-                  <Chart series={options.series} options={options} type='donut' />
-                </Card>
+              <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
+                <Button
+                  onClick={() => setPeriodic(0)}
+                  className={`rounded border border-dark px-3 py-1 ${periodic === 0 && "bg-dark"}`}
+                >
+                  Alla
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(1)}
+                  className={`rounded border border-dark px-3 py-1 ${periodic === 1 && "bg-dark"}`}
+                >
+                  År
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(2)}
+                  className={`rounded border border-dark px-3 py-1  ${periodic === 2 && "bg-dark"}`}
+                >
+                  Månad
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(3)}
+                  className={`"rounded border border-dark px-3 py-1  ${
+                    periodic === 3 && "bg-dark"
+                  }`}
+                >
+                  Vecka
+                </Button>
               </div>
-
-              <div className='col-12 col-md-6 col-lg-6 my-4'>
-                <Card className='p-3 rounded border default-cursor'>
-                  <div className='d-flex align-items-center mb-2'>
-                    <div className='h4 me-auto'>Sysslor</div>
-                    <Form.Select
-                      value={customerChoreData}
-                      className='rounded-0 w-auto'
-                      onChange={(e) => setCustomerChoreData(e.target.value)}
-                    >
-                      <option value={"Alla"}>Alla kunder</option>
-                      {customers?.map((customer) => (
-                        <option key={customer.id} value={customer.id}>
-                          {customer.name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
-                    <Button
-                      onClick={() => setPeriodic(0)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 0 && "bg-dark"
-                      }`}
-                    >
-                      Alla
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(1)}
-                      className={`rounded border border-dark px-3 py-1 ${
-                        periodic === 1 && "bg-dark"
-                      }`}
-                    >
-                      År
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(2)}
-                      className={`rounded border border-dark px-3 py-1  ${
-                        periodic === 2 && "bg-dark"
-                      }`}
-                    >
-                      Månad
-                    </Button>
-                    <Button
-                      onClick={() => setPeriodic(3)}
-                      className={`"rounded border border-dark px-3 py-1  ${
-                        periodic === 3 && "bg-dark"
-                      }`}
-                    >
-                      Vecka
-                    </Button>
-                  </div>
-                  <Chart series={options.series} options={options} type='donut' />
-                </Card>
-              </div>
-            </div>
+              <Chart series={options.series} options={options} type='donut' />
+            </Card>
           </div>
-          <div className='col-4'>
-            <div className='col-12 my-4'>
-              <Card className='rounded p-3 border default-cursor'>
-                <div className='h5 me-auto'>Senaste händelser</div>
+          <div className='col-12 col-md-4 mt-4 mt-md-0'>
+            <Card className='p-3 rounded border default-cursor' style={{ maxHeight: 500 }}>
+              <div className='d-flex align-items-center mb-2'>
+                <div className='h4 me-auto'>Sysslor</div>
+                <Form.Select
+                  value={customerChoreData}
+                  className='rounded-0 w-auto'
+                  onChange={(e) => setCustomerChoreData(e.target.value)}
+                >
+                  <option value={"Alla"}>Alla kunder</option>
+                  {customers?.map((customer) => (
+                    <option key={customer.id} value={customer.id}>
+                      {customer.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </div>
+              <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
+                <Button
+                  onClick={() => setPeriodic(0)}
+                  className={`rounded border border-dark px-3 py-1 ${periodic === 0 && "bg-dark"}`}
+                >
+                  Alla
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(1)}
+                  className={`rounded border border-dark px-3 py-1 ${periodic === 1 && "bg-dark"}`}
+                >
+                  År
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(2)}
+                  className={`rounded border border-dark px-3 py-1  ${periodic === 2 && "bg-dark"}`}
+                >
+                  Månad
+                </Button>
+                <Button
+                  onClick={() => setPeriodic(3)}
+                  className={`"rounded border border-dark px-3 py-1  ${
+                    periodic === 3 && "bg-dark"
+                  }`}
+                >
+                  Vecka
+                </Button>
+              </div>
+              <Chart series={options.series} options={options} type='donut' />
+            </Card>
+          </div>
+          <div className='col-12 col-md-4 mt-4 mt-md-0'>
+            <Card
+              className='rounded border default-cursor'
+              style={{maxHeight: 500}}
+            >
+              <div className='d-flex align-items-center p-3'>
+                <div className='h4 mb-0 me-auto'>Senaste händelser</div>
+                <IoEllipsisVertical size={24} />
+              </div>
+              <div className='px-3 py-2 overflow-auto border-1 border-top border-bottom'>
                 <div className='d-flex flex-column gap-2 timeline'>
                   {latestactions?.map((action) => (
-                    <div key={action.id} className='d-flex relative position-relative'>
+                    <div key={action.id} className='d-flex position-relative'>
                       <div
-                        className={`timeline-dot ${action.type === "info" ? "bg-warning" : ""} ${action.type === "success" ? "bg-success" : ""} ${action.type === "delete" ? "bg-danger" : ""}`}
+                        className={`timeline-dot ${action.type === "info" ? "bg-warning" : ""} ${
+                          action.type === "success" ? "bg-success" : ""
+                        } ${action.type === "delete" ? "bg-danger" : ""}`}
                       />
-                      <div style={{ marginLeft: 20 }}>
+                      <div className='ms-4'>
                         <div className='fs-7'>{action.date}</div>
-                        <div className='fs-7'>
+                        <div className='fs-6'>
                           {action.name} {action.action}
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
-              </Card>
-            </div>
+              </div>
+              <div className="my-2 mx-auto">
+              <Button className='rounded-pill px-5'>Visa alla meddelanden</Button>
+              </div>
+            </Card>
           </div>
         </div>
       </div>
