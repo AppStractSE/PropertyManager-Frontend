@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Dropdown, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const Overview = () => {
   const navigate = useNavigate();
   const { customers, customerchores } = useQueries();
   const [customerChoreData, setCustomerChoreData] = useState("Alla");
-  const periodics = ["Alla", "Årligen", "Månadsvis", "Dagligen"];
+  const periodics = ["Alla", "Årligen", "Månadsvis", "Veckovis"];
   console.log(customerchores?.filter((x) => x.periodic?.name === periodics[periodic].toString()));
 
   const amountDone = customerchores?.filter(
@@ -36,6 +36,7 @@ const Overview = () => {
   const options: any = {
     chart: {
       type: "donut",
+      offsetY: -25,
     },
     dataLabels: {
       enabled: false,
@@ -56,9 +57,9 @@ const Overview = () => {
     labels: ["Klara", "Påbörjade", "Ej påbörjade"],
     legend: {
       show: true,
-      position: "right",
-      offsetX: -30,
-      offsetY: 10,
+      position: "bottom",
+      offsetX: 0,
+      offsetY: -20,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       formatter: function (val: string, opts: any) {
         return val + " - " + opts.w.globals.series[opts.seriesIndex] + "st";
@@ -153,10 +154,10 @@ const Overview = () => {
 
   return (
     <>
-      <div className='p-3 my-2 border-1 border-bottom'>
-        <div className='h1 mb-0'>Översikt</div>
+      <div className='p-4 my-2 border-1 border-bottom'>
+        <div className='h2 mb-0'>Översikt</div>
       </div>
-      <div className='p-3'>
+      <div className='p-4'>
         <div className='d-flex gap-2'>
           <Button
             className='d-flex gap-2 align-items-center justify-content-center'
@@ -174,13 +175,15 @@ const Overview = () => {
           </Button>
         </div>
         <div className='row mt-4'>
-          <div className='col-12 col-md-4 mt-sm-4 mt-md-0'>
-            <Card className='p-3 rounded border default-cursor' style={{ maxHeight: 500 }}>
-              <div className='d-flex align-items-center mb-2'>
-                <div className='h4 me-auto'>Sysslor</div>
+
+          <div className='col-12 col-sm-6 col-xl-4 mt-4 mt-md-0'>
+            <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
+              <div className='d-flex align-items-center p-3 border-1 border-bottom'>
+                <div className='h4 mb-0 me-auto'>Sysslor</div>
                 <Form.Select
+                  size='sm'
                   value={customerChoreData}
-                  className='rounded-0 w-auto'
+                  className='rounded-0 w-auto fs-7 me-2'
                   onChange={(e) => setCustomerChoreData(e.target.value)}
                 >
                   <option value={"Alla"}>Alla kunder</option>
@@ -190,96 +193,66 @@ const Overview = () => {
                     </option>
                   ))}
                 </Form.Select>
-              </div>
-              <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
-                <Button
-                  onClick={() => setPeriodic(0)}
-                  className={`rounded border border-dark px-3 py-1 ${periodic === 0 && "bg-dark"}`}
+                {/* <div className='d-flex gap-2 me-2 flex-wrap'>
+                <Button variant="outline-primary" size="sm"
+                    onClick={() => setPeriodic(0)}
+                    active={periodic === 0}
+                  className={`rounded-pill px-3 py-1`}
                 >
                   Alla
                 </Button>
-                <Button
-                  onClick={() => setPeriodic(1)}
-                  className={`rounded border border-dark px-3 py-1 ${periodic === 1 && "bg-dark"}`}
+                <Button variant="outline-primary" size="sm"
+                    onClick={() => setPeriodic(1)}
+                    active={periodic === 1}
+                  className={`rounded-pill px-3 py-1`}
                 >
                   År
                 </Button>
-                <Button
-                  onClick={() => setPeriodic(2)}
-                  className={`rounded border border-dark px-3 py-1  ${periodic === 2 && "bg-dark"}`}
+                <Button variant="outline-primary" size="sm"
+                    onClick={() => setPeriodic(2)}
+                    active={periodic === 2}
+                  className={`rounded-pill px-3 py-1`}
                 >
                   Månad
                 </Button>
-                <Button
-                  onClick={() => setPeriodic(3)}
-                  className={`"rounded border border-dark px-3 py-1  ${
-                    periodic === 3 && "bg-dark"
-                  }`}
+                <Button variant="outline-primary" size="sm"
+                    onClick={() => setPeriodic(3)}
+                    active={periodic === 3}
+                  className={`rounded-pill px-3 py-1`}
                 >
                   Vecka
                 </Button>
-              </div>
-              <Chart series={options.series} options={options} type='donut' />
-            </Card>
-          </div>
-          <div className='col-12 col-md-4 mt-4 mt-md-0'>
-            <Card className='p-3 rounded border default-cursor' style={{ maxHeight: 500 }}>
-              <div className='d-flex align-items-center mb-2'>
-                <div className='h4 me-auto'>Sysslor</div>
-                <Form.Select
-                  value={customerChoreData}
-                  className='rounded-0 w-auto'
-                  onChange={(e) => setCustomerChoreData(e.target.value)}
-                >
-                  <option value={"Alla"}>Alla kunder</option>
-                  {customers?.map((customer) => (
-                    <option key={customer.id} value={customer.id}>
-                      {customer.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-              <div className='mt-4 mb-2 d-flex gap-2 flex-wrap'>
-                <Button
-                  onClick={() => setPeriodic(0)}
-                  className={`rounded border border-dark px-3 py-1 ${periodic === 0 && "bg-dark"}`}
-                >
-                  Alla
-                </Button>
-                <Button
-                  onClick={() => setPeriodic(1)}
-                  className={`rounded border border-dark px-3 py-1 ${periodic === 1 && "bg-dark"}`}
-                >
-                  År
-                </Button>
-                <Button
-                  onClick={() => setPeriodic(2)}
-                  className={`rounded border border-dark px-3 py-1  ${periodic === 2 && "bg-dark"}`}
-                >
-                  Månad
-                </Button>
-                <Button
-                  onClick={() => setPeriodic(3)}
-                  className={`"rounded border border-dark px-3 py-1  ${
-                    periodic === 3 && "bg-dark"
-                  }`}
-                >
-                  Vecka
-                </Button>
-              </div>
-              <Chart series={options.series} options={options} type='donut' />
-            </Card>
-          </div>
-          <div className='col-12 col-md-4 mt-4 mt-md-0'>
-            <Card
-              className='rounded border default-cursor'
-              style={{maxHeight: 500}}
-            >
-              <div className='d-flex align-items-center p-3'>
-                <div className='h4 mb-0 me-auto'>Senaste händelser</div>
+
+              </div> */}
                 <IoEllipsisVertical size={24} />
               </div>
-              <div className='px-3 py-2 overflow-auto border-1 border-top border-bottom'>
+
+              <Chart series={options.series} options={options} type='donut' height={"100%"} />
+            </Card>
+          </div>
+
+          
+          <div className='col-12 col-md-4 mt-4 mt-md-0'>
+            <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
+              <div className='d-flex align-items-center p-3 border-1 border-bottom'>
+                <div className='h4 mb-0 me-auto'>Aktivitetsflöde</div>
+
+                <Dropdown className='dropdown-ellipsis-container'>
+                  <Dropdown.Toggle className='dropdown-ellipsis'>
+                    <IoEllipsisVertical size={24} />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "max-content" }}>
+                    <div className="d-flex flex-column gap-2">
+                    <div className="d-flex gap-2 align-items-center px-2">
+                    <Form.Check className='d-flex align-items-center' type="checkbox" checked />
+                    <div>Visa systemmeddelanden</div>
+                    </div>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+              </div>
+              <div className='px-3 py-2 overflow-auto border-1 border-bottom'>
                 <div className='d-flex flex-column gap-2 timeline'>
                   {latestactions?.map((action) => (
                     <div key={action.id} className='d-flex position-relative'>
@@ -298,8 +271,8 @@ const Overview = () => {
                   ))}
                 </div>
               </div>
-              <div className="my-2 mx-auto">
-              <Button className='rounded-pill px-5'>Visa alla meddelanden</Button>
+              <div className='my-2 mx-auto'>
+                <Button className='rounded-pill px-5 fs-7'>Visa alla meddelanden</Button>
               </div>
             </Card>
           </div>
