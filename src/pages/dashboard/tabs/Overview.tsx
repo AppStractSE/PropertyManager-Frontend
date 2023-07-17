@@ -5,6 +5,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useQueries } from "../../../hooks/useQueries";
+import LineChart from "../charts/LineChart";
 
 const Overview = () => {
   const [periodic, setPeriodic] = useState(0);
@@ -175,11 +176,25 @@ const Overview = () => {
           </Button>
         </div>
         <div className='row mt-4'>
-
-          <div className='col-12 col-sm-6 col-xl-4 mt-4 mt-md-0'>
+          <div className='col-12 col-sm-6 col-xl-3 mt-4 mt-md-0 d-flex flex-column gap-4'>
+            <Card className='rounded border default-cursor flex-fill'>
+              <div className='h4 mb-0 me-auto'>Kundöversikt</div>
+              <div className="overflow-hidden">
+              <LineChart data={[50, 40, 30, 20, 10]} />
+              </div>
+            </Card>
+            <Card className='rounded border default-cursor flex-fill'>
+              <div className="d-flex gap-2 p-3">
+                <LineChart data={[5, 27, 12, 30, 40]} />
+              <div className='h4 mb-0 me-auto'>Kundöversikt</div>
+              </div>
+            </Card>
+            <Card className='rounded border default-cursor flex-fill'><LineChart data={[5, 15, 23, 1, 5]} /></Card>
+          </div>
+          <div className='col-12 col-sm-6 col-xl-3 mt-4 mt-md-0'>
             <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
               <div className='d-flex align-items-center p-3 border-1 border-bottom'>
-                <div className='h4 mb-0 me-auto'>Sysslor</div>
+                <div className='h4 mb-0 me-auto'>Kundöversikt</div>
                 <Form.Select
                   size='sm'
                   value={customerChoreData}
@@ -230,27 +245,23 @@ const Overview = () => {
               <Chart series={options.series} options={options} type='donut' height={"100%"} />
             </Card>
           </div>
-
-          
-          <div className='col-12 col-md-4 mt-4 mt-md-0'>
+          <div className='col-12 col-md-6 mt-4 mt-md-0'>
             <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
               <div className='d-flex align-items-center p-3 border-1 border-bottom'>
                 <div className='h4 mb-0 me-auto'>Aktivitetsflöde</div>
-
                 <Dropdown className='dropdown-ellipsis-container'>
                   <Dropdown.Toggle className='dropdown-ellipsis'>
                     <IoEllipsisVertical size={24} />
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "max-content" }}>
-                    <div className="d-flex flex-column gap-2">
-                    <div className="d-flex gap-2 align-items-center px-2">
-                    <Form.Check className='d-flex align-items-center' type="checkbox" checked />
-                    <div>Visa systemmeddelanden</div>
-                    </div>
+                    <div className='d-flex flex-column gap-2'>
+                      <div className='d-flex gap-2 align-items-center px-2'>
+                        <Form.Check className='d-flex align-items-center' type='checkbox' checked />
+                        <div>Visa systemmeddelanden</div>
+                      </div>
                     </div>
                   </Dropdown.Menu>
                 </Dropdown>
-
               </div>
               <div className='px-3 py-2 overflow-auto border-1 border-bottom'>
                 <div className='d-flex flex-column gap-2 timeline'>
