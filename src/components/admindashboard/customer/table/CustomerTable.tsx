@@ -35,7 +35,7 @@ const CustomerTable = ({
 }: Props) => {
   return (
     <div className='overflow-auto'>
-      <Table hover striped className='table-mobile'>
+      <Table hover striped className='table-mobile mb-0'>
         <thead>
           <tr>
             <th className='text-uppercase fs-7'>Kundnamn</th>

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Card } from "react-bootstrap";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 import {
   AreaResponseDto,
   ChoreResponseDto,
@@ -11,6 +12,7 @@ import {
 } from "../../../api/client";
 import Search from "../../../components/Search";
 import CustomerTable from "../../../components/admindashboard/customer/table/CustomerTable";
+import LineChart from "../charts/LineChart";
 
 interface Props {
   areas: AreaResponseDto[];
@@ -34,22 +36,76 @@ const CustomerTab = ({
   const [search, setSearch] = useState("");
   return (
     <>
-      <Card className='default-cursor'>
-        <Card.Header className='fs-4 mb-2'>Kunder</Card.Header>
-        <Card.Body>
-          <Search value={search} onChange={(value) => setSearch(value)} placeholder={"kunder"} />
-          <CustomerTable
-            search={search}
-            areas={areas}
-            chores={chores}
-            customers={customers}
-            customerchores={customerchores}
-            teams={teams}
-            teammembers={teammembers}
-            periodics={periodics}
-          />
-        </Card.Body>
-      </Card>
+      <div className='p-4 border-1 border-bottom'>
+        <div className='h2 mb-0'>Kunder</div>
+      </div>
+      <div className='p-4'>
+        <div className='d-flex gap-2'>
+          <Button className='d-flex gap-2 align-items-center justify-content-center'>
+            <HiOutlineDocumentReport size={24} />
+            <div>Skapa kund</div>
+          </Button>
+        </div>
+
+        <div className='row mt-4'>
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex flex-row pt-3 px-3 default-cursor h-100'>
+              <div className='col-6'>
+                <div className='h5 mb-0'>Senaste grejjen</div>
+              </div>
+              <div className='col-6'>
+                <LineChart data={[5, 27, 12, 30, 40]} />
+              </div>
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between h-100'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between h-100'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between h-100'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+        </div>
+
+        <div className='row mt-4'>
+          <div className='col-9'></div>
+        </div>
+
+        <div className='row mt-4'>
+          <div className='col-9'>
+            <Search value={search} onChange={(value) => setSearch(value)} placeholder={"kunder"} />
+            <Card className='pt-2 mt-4 overflow-hidden'>
+              <CustomerTable
+                search={search}
+                areas={areas}
+                chores={chores}
+                customers={customers}
+                customerchores={customerchores}
+                teams={teams}
+                teammembers={teammembers}
+                periodics={periodics}
+              />
+            </Card>
+          </div>
+          <div className='col-3'>
+            <iframe
+              className='rounded h-100 w-100 border-0'
+              src='https://maps.google.com/maps?q=skoevde&t=&z=13&ie=UTF8&iwloc=&output=embed'
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

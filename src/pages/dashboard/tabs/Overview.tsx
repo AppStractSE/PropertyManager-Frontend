@@ -1,84 +1,12 @@
-import { useState } from "react";
-import Chart from "react-apexcharts";
 import { Button, Card, Dropdown, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useQueries } from "../../../hooks/useQueries";
 import LineChart from "../charts/LineChart";
+import CustomerOverviewCard from "../overview/CustomerOverviewCard";
 
 const Overview = () => {
-  const [periodic, setPeriodic] = useState(0);
   const navigate = useNavigate();
-  const { customers, customerchores } = useQueries();
-  const [customerChoreData, setCustomerChoreData] = useState("Alla");
-  const periodics = ["Alla", "Årligen", "Månadsvis", "Veckovis"];
-  console.log(customerchores?.filter((x) => x.periodic?.name === periodics[periodic].toString()));
-
-  const amountDone = customerchores?.filter(
-    (x) =>
-      (customerChoreData === "Alla" || x.customerId === customerChoreData) &&
-      (periodic === 0 || x.periodic?.name === periodics[periodic]) &&
-      x.status === "Klar",
-  ).length;
-  const amountStarted = customerchores?.filter(
-    (x) =>
-      (customerChoreData === "Alla" || x.customerId === customerChoreData) &&
-      (periodic === 0 || x.periodic?.name === periodics[periodic]) &&
-      x.status === "Påbörjad",
-  ).length;
-  const amountNotStarted = customerchores?.filter(
-    (x) =>
-      (customerChoreData === "Alla" || x.customerId === customerChoreData) &&
-      (periodic === 0 || x.periodic?.name === periodics[periodic]) &&
-      x.status === "Ej påbörjad",
-  ).length;
-  const colorPalette = ["#1fbd00", "#006ec2", "#fe2119"];
-  const options: any = {
-    chart: {
-      type: "donut",
-      offsetY: -25,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    plotOptions: {
-      pie: {
-        customScale: 0.8,
-        donut: {
-          size: "75%",
-        },
-      },
-      stroke: {
-        colors: undefined,
-      },
-    },
-    colors: colorPalette,
-    series: [amountDone, amountStarted, amountNotStarted],
-    labels: ["Klara", "Påbörjade", "Ej påbörjade"],
-    legend: {
-      show: true,
-      position: "bottom",
-      offsetX: 0,
-      offsetY: -20,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      formatter: function (val: string, opts: any) {
-        return val + " - " + opts.w.globals.series[opts.seriesIndex] + "st";
-      },
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: "dark",
-        type: "vertical",
-        shadeIntensity: 0.8,
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 100],
-      },
-    },
-  };
 
   const latestactions = [
     {
@@ -155,7 +83,7 @@ const Overview = () => {
 
   return (
     <>
-      <div className='p-4 my-2 border-1 border-bottom'>
+      <div className='p-4 border-1 border-bottom'>
         <div className='h2 mb-0'>Översikt</div>
       </div>
       <div className='p-4'>
@@ -164,88 +92,70 @@ const Overview = () => {
             className='d-flex gap-2 align-items-center justify-content-center'
             onClick={() => navigate("/report")}
           >
-            <HiOutlineDocumentReport size={18} />
+            <HiOutlineDocumentReport size={24} />
             <div>Skapa rapport</div>
           </Button>
           <Button
             className='d-flex gap-2 align-items-center justify-content-center'
             onClick={() => navigate("/report")}
           >
-            <HiOutlineDocumentReport size={18} />
+            <HiOutlineDocumentReport size={24} />
             <div>Skapa kund</div>
           </Button>
         </div>
         <div className='row mt-4'>
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex flex-row pt-3 px-3 default-cursor'>
+              <div className='col-6'>
+                <div className='h5 mb-0'>Senaste grejjen</div>
+              </div>
+              <div className='col-6'>
+                <LineChart data={[5, 27, 12, 30, 40]} />
+              </div>
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+
+          <div className='col-12 col-md-6 col-xl-3'>
+            <Card className='d-flex justify-content-between'>
+              <LineChart data={[5, 27, 12, 30, 40]} />
+            </Card>
+          </div>
+        </div>
+        <div className='row mt-4'>
+
           <div className='col-12 col-sm-6 col-xl-3 mt-4 mt-md-0 d-flex flex-column gap-4'>
             <Card className='rounded border default-cursor flex-fill'>
-              <div className='h4 mb-0 me-auto'>Kundöversikt</div>
-              <div className="overflow-hidden">
-              <LineChart data={[50, 40, 30, 20, 10]} />
+              <div>
+                <LineChart data={[50, 40, 30, 20, 10]} />
               </div>
             </Card>
             <Card className='rounded border default-cursor flex-fill'>
-              <div className="d-flex gap-2 p-3">
+              <div className='d-flex gap-2 p-3'>
                 <LineChart data={[5, 27, 12, 30, 40]} />
-              <div className='h4 mb-0 me-auto'>Kundöversikt</div>
               </div>
             </Card>
-            <Card className='rounded border default-cursor flex-fill'><LineChart data={[5, 15, 23, 1, 5]} /></Card>
-          </div>
-          <div className='col-12 col-sm-6 col-xl-3 mt-4 mt-md-0'>
-            <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
-              <div className='d-flex align-items-center p-3 border-1 border-bottom'>
-                <div className='h4 mb-0 me-auto'>Kundöversikt</div>
-                <Form.Select
-                  size='sm'
-                  value={customerChoreData}
-                  className='rounded-0 w-auto fs-7 me-2'
-                  onChange={(e) => setCustomerChoreData(e.target.value)}
-                >
-                  <option value={"Alla"}>Alla kunder</option>
-                  {customers?.map((customer) => (
-                    <option key={customer.id} value={customer.id}>
-                      {customer.name}
-                    </option>
-                  ))}
-                </Form.Select>
-                {/* <div className='d-flex gap-2 me-2 flex-wrap'>
-                <Button variant="outline-primary" size="sm"
-                    onClick={() => setPeriodic(0)}
-                    active={periodic === 0}
-                  className={`rounded-pill px-3 py-1`}
-                >
-                  Alla
-                </Button>
-                <Button variant="outline-primary" size="sm"
-                    onClick={() => setPeriodic(1)}
-                    active={periodic === 1}
-                  className={`rounded-pill px-3 py-1`}
-                >
-                  År
-                </Button>
-                <Button variant="outline-primary" size="sm"
-                    onClick={() => setPeriodic(2)}
-                    active={periodic === 2}
-                  className={`rounded-pill px-3 py-1`}
-                >
-                  Månad
-                </Button>
-                <Button variant="outline-primary" size="sm"
-                    onClick={() => setPeriodic(3)}
-                    active={periodic === 3}
-                  className={`rounded-pill px-3 py-1`}
-                >
-                  Vecka
-                </Button>
-
-              </div> */}
-                <IoEllipsisVertical size={24} />
-              </div>
-
-              <Chart series={options.series} options={options} type='donut' height={"100%"} />
+            <Card className='rounded border default-cursor flex-fill'>
+              <LineChart data={[5, 15, 23, 1, 5]} />
             </Card>
           </div>
-          <div className='col-12 col-md-6 mt-4 mt-md-0'>
+
+          <div className='col-12 col-sm-6 col-xl-4 mt-4 mt-md-0'>
+            <CustomerOverviewCard />
+          </div>
+
+          <div className='col-12 col-md-5 mt-4 mt-md-0'>
             <Card className='rounded border default-cursor h-100' style={{ maxHeight: 500 }}>
               <div className='d-flex align-items-center p-3 border-1 border-bottom'>
                 <div className='h4 mb-0 me-auto'>Aktivitetsflöde</div>
@@ -287,6 +197,7 @@ const Overview = () => {
               </div>
             </Card>
           </div>
+          
         </div>
       </div>
     </>
