@@ -34,7 +34,7 @@ const CustomerTable = ({
   teammembers,
 }: Props) => {
   return (
-    <div className='overflow-auto'>
+    <div className='overflow-auto pt-2'>
       <Table hover striped className='table-mobile mb-0'>
         <thead>
           <tr>

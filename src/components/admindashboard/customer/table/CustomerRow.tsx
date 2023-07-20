@@ -1,7 +1,5 @@
-import React from "react";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import {
   AreaResponseDto,
@@ -34,7 +32,6 @@ const CustomerRow = ({
   areas,
 }: Props) => {
   const [customerModal, setShowCustomerModal] = useState(false);
-  const navigate = useNavigate();
   const amountDone = customerchores.filter(
     (x) => x.status === "Klar" && x.customerId === customer.id,
   ).length;
@@ -48,20 +45,10 @@ const CustomerRow = ({
   return (
     <tr>
       <td>{customer.name}</td>
+      <td>{amountDone}</td>
+      <td>{amountStarted}</td>
+      <td>{amountNotStarted}</td>
       <td>
-        {/* {customerchores.filter((x) => x.status === "Klar" && x.customerId === customer.id).length} */}
-        {amountDone}
-      </td>
-      <td>
-        {/* {customerchores.filter((x) => x.status === "Påbörjad" && x.customerId === customer.id).length} */}
-        {amountStarted}
-      </td>
-      <td>
-        {/* {customerchores.filter((x) => x.status === "Ej påbörjad" && x.customerId === customer.id).length} */}
-        {amountNotStarted}
-      </td>
-      <td>
-        {/* {teams.filter((team) => team.id === customer.teamId).map((team) => team.name)} */}
         {teamAssigned === undefined || teamAssigned.length === 0 ? (
           <div className='fst-italic text-secondary'>Inget team tilldelat</div>
         ) : (

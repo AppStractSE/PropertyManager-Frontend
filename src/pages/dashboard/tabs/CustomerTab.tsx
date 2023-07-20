@@ -79,13 +79,9 @@ const CustomerTab = ({
         </div>
 
         <div className='row mt-4'>
-          <div className='col-9'></div>
-        </div>
-
-        <div className='row mt-4'>
-          <div className='col-9'>
+          <div className='col-12'>
             <Search value={search} onChange={(value) => setSearch(value)} placeholder={"kunder"} />
-            <Card className='pt-2 mt-4 overflow-hidden'>
+            <Card className='mt-4 overflow-hidden' style={{maxHeight: 300}}>
               <CustomerTable
                 search={search}
                 areas={areas}
@@ -97,12 +93,6 @@ const CustomerTab = ({
                 periodics={periodics}
               />
             </Card>
-          </div>
-          <div className='col-3'>
-            <iframe
-              className='rounded h-100 w-100 border-0'
-              src='https://maps.google.com/maps?q=skoevde&t=&z=13&ie=UTF8&iwloc=&output=embed'
-            />
           </div>
         </div>
       </div>
