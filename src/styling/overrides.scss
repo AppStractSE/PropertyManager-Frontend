@@ -21,9 +21,9 @@
 }
 
 .card {
-  --bs-card-bg: #f9f9f9;
+  --bs-card-bg: #ffffff;
   &:hover {
-    cursor: pointer;
+    cursor: default;
   }
 
   .card-text {

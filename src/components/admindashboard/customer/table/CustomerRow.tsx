@@ -44,11 +44,11 @@ const CustomerRow = ({
   const teamAssigned = teams.filter((team) => team.id === customer.teamId).map((team) => team.name);
   return (
     <tr>
-      <td>{customer.name}</td>
-      <td>{amountDone}</td>
-      <td>{amountStarted}</td>
-      <td>{amountNotStarted}</td>
-      <td>
+      <td className="p-3">{customer.name}</td>
+      <td className="p-3">{amountDone}</td>
+      <td className="p-3">{amountStarted}</td>
+      <td className="p-3">{amountNotStarted}</td>
+      <td className="p-3">
         {teamAssigned === undefined || teamAssigned.length === 0 ? (
           <div className='fst-italic text-secondary'>Inget team tilldelat</div>
         ) : (
@@ -56,7 +56,7 @@ const CustomerRow = ({
         )}
       </td>
 
-      <td>
+      <td className="p-3">
         <Button
           className='me-2'
           variant='outline-primary'

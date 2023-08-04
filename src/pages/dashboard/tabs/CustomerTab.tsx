@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import {
   AreaResponseDto,
@@ -34,6 +34,8 @@ const CustomerTab = ({
   teammembers,
 }: Props) => {
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState(0);
+  const [pagination, setPagination] = useState(5);
   return (
     <>
       <div className='p-4 border-1 border-bottom'>
@@ -78,23 +80,68 @@ const CustomerTab = ({
           </div>
         </div>
 
-        <div className='row mt-4'>
-          <div className='col-12'>
-            <Search value={search} onChange={(value) => setSearch(value)} placeholder={"kunder"} />
-            <Card className='mt-4 overflow-hidden' style={{maxHeight: 300}}>
-              <CustomerTable
-                search={search}
-                areas={areas}
-                chores={chores}
-                customers={customers}
-                customerchores={customerchores}
-                teams={teams}
-                teammembers={teammembers}
-                periodics={periodics}
+        <Card className='mt-4'>
+          <div className='row p-3'>
+            <div className='col-9'>
+              <div className='d-flex align-items-center gap-2'>
+                <div className="d-flex align-items-center gap-2">
+                <div className='fs-7'>Visa</div>
+                  <Form.Select
+                    value={pagination}
+                    className='rounded-0 w-auto'
+                    onChange={(e) => setPagination(parseInt(e.target.value))}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                  </Form.Select>
+                  <div className='fs-7'>per sida</div>
+                </div>
+
+                <div className='d-flex align-items-center gap-2'>
+                  <div className='fs-7'>Sorterat på:</div>
+                  <Form.Select
+                    value={sort}
+                    className='rounded-0 w-auto'
+                    onChange={(e) => setSort(parseInt(e.target.value))}
+                  >
+                    <option value={0}>Kundnamn A-Ö</option>
+                    <option value={1}>Kundnamn Ö-A</option>
+                    <option value={2}>Teamnamn A-Ö</option>
+                    <option value={3}>Teamnamn Ö-A</option>
+                    <option value={4}>Flest avklarade sysslor överst</option>
+                    <option value={5}>Minst avklarade sysslor överst</option>
+                  </Form.Select>
+                </div>
+              </div>
+            </div>
+            <div className='col-3'>
+              <Search
+                value={search}
+                onChange={(value) => setSearch(value)}
+                placeholder={"kunder"}
               />
-            </Card>
+            </div>
           </div>
-        </div>
+          <CustomerTable
+            search={search}
+            areas={areas}
+            chores={chores}
+            customers={customers}
+            customerchores={customerchores}
+            teams={teams}
+            teammembers={teammembers}
+            periodics={periodics}
+          />
+          <div className='col-12 d-flex fs-7 opacity-75'>
+            <div className='p-3'>Prev</div>
+            <div className='p-3'>1</div>
+            <div className='p-3'>2</div>
+            <div className='p-3'>3</div>
+            <div className='p-3 me-auto'>Next</div>
+            <div className='p-3'>Visar 10 av 250</div>
+          </div>
+        </Card>
       </div>
     </>
   );
