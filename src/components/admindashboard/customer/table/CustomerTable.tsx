@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "react-bootstrap";
 import {
   AreaResponseDto,
@@ -35,7 +34,7 @@ const CustomerTable = ({
 }: Props) => {
   return (
     <div className='overflow-auto pt-2'>
-      <Table hover striped className='table-mobile mb-0'>
+      <Table hover className='table-mobile mb-0'>
         <thead>
           <tr>
             <th className='text-uppercase fs-7'>Kundnamn</th>
