@@ -12,7 +12,6 @@ import {
 } from "../../../api/client";
 import Search from "../../../components/Search";
 import CustomerTable from "../../../components/admindashboard/customer/table/CustomerTable";
-import LineChart from "../charts/LineChart";
 
 interface Props {
   areas: AreaResponseDto[];
@@ -34,8 +33,36 @@ const CustomerTab = ({
   teammembers,
 }: Props) => {
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState(0);
-  const [pagination, setPagination] = useState(5);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    itemsPerPage: 5,
+  });
+
+  const filteredCustomers = customers.filter((x) =>
+    x.name?.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const maxPage = Math.ceil(filteredCustomers.length / pagination.itemsPerPage);
+
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newItemsPerPage = parseInt(e.target.value);
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      itemsPerPage: newItemsPerPage,
+      currentPage: 1,
+    }));
+  };
+
+  const handlePageChange = (newPage: number) => {
+    const validPage = Math.max(1, Math.min(newPage, maxPage));
+    setPagination((prevPagination) => ({ ...prevPagination, currentPage: validPage }));
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPagination((prevPagination) => ({ ...prevPagination, currentPage: 1 }));
+  };
+
   return (
     <>
       <div className='p-4 border-1 border-bottom'>
@@ -49,97 +76,68 @@ const CustomerTab = ({
           </Button>
         </div>
 
-        <div className='row mt-4'>
-          <div className='col-12 col-md-6 col-xl-3'>
-            <Card className='d-flex flex-row pt-3 px-3 default-cursor h-100'>
-              <div className='col-6'>
-                <div className='h5 mb-0'>Senaste grejjen</div>
-              </div>
-              <div className='col-6'>
-                <LineChart data={[5, 27, 12, 30, 40]} />
-              </div>
-            </Card>
-          </div>
-
-          <div className='col-12 col-md-6 col-xl-3'>
-            <Card className='d-flex justify-content-between h-100'>
-              <LineChart data={[5, 27, 12, 30, 40]} />
-            </Card>
-          </div>
-
-          <div className='col-12 col-md-6 col-xl-3'>
-            <Card className='d-flex justify-content-between h-100'>
-              <LineChart data={[5, 27, 12, 30, 40]} />
-            </Card>
-          </div>
-
-          <div className='col-12 col-md-6 col-xl-3'>
-            <Card className='d-flex justify-content-between h-100'>
-              <LineChart data={[5, 27, 12, 30, 40]} />
-            </Card>
-          </div>
-        </div>
-
         <Card className='mt-4'>
           <div className='row p-3'>
             <div className='col-9'>
               <div className='d-flex align-items-center gap-2'>
-                <div className="d-flex align-items-center gap-2">
-                <div className='fs-7'>Visa</div>
+                <div className='d-flex align-items-center gap-2'>
+                  <div className='fs-7'>Visa</div>
                   <Form.Select
-                    value={pagination}
+                    value={pagination.itemsPerPage}
                     className='rounded-0 w-auto'
-                    onChange={(e) => setPagination(parseInt(e.target.value))}
+                    onChange={handleItemsPerPageChange}
                   >
+                    <option value={1}>1</option>
+                    <option value={3}>3</option>
                     <option value={5}>5</option>
                     <option value={10}>10</option>
                     <option value={20}>20</option>
                   </Form.Select>
                   <div className='fs-7'>per sida</div>
                 </div>
-
-                <div className='d-flex align-items-center gap-2'>
-                  <div className='fs-7'>Sorterat på:</div>
-                  <Form.Select
-                    value={sort}
-                    className='rounded-0 w-auto'
-                    onChange={(e) => setSort(parseInt(e.target.value))}
-                  >
-                    <option value={0}>Kundnamn A-Ö</option>
-                    <option value={1}>Kundnamn Ö-A</option>
-                    <option value={2}>Teamnamn A-Ö</option>
-                    <option value={3}>Teamnamn Ö-A</option>
-                    <option value={4}>Flest avklarade sysslor överst</option>
-                    <option value={5}>Minst avklarade sysslor överst</option>
-                  </Form.Select>
-                </div>
               </div>
             </div>
             <div className='col-3'>
-              <Search
-                value={search}
-                onChange={(value) => setSearch(value)}
-                placeholder={"kunder"}
-              />
+              <Search value={search} onChange={handleSearchChange} placeholder={"kunder"} />
             </div>
           </div>
           <CustomerTable
-            search={search}
             areas={areas}
             chores={chores}
-            customers={customers}
+            customers={filteredCustomers}
             customerchores={customerchores}
             teams={teams}
             teammembers={teammembers}
             periodics={periodics}
+            currentPage={pagination.currentPage}
+            itemsPerPage={pagination.itemsPerPage}
           />
-          <div className='col-12 d-flex fs-7 opacity-75'>
-            <div className='p-3'>Prev</div>
-            <div className='p-3'>1</div>
-            <div className='p-3'>2</div>
-            <div className='p-3'>3</div>
-            <div className='p-3 me-auto'>Next</div>
-            <div className='p-3'>Visar 10 av 250</div>
+          <div className='col-12 d-flex fs-7 my-3 justify-content-center gap-2'>
+            <Button
+              variant='outline-primary'
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
+            >
+              ❮
+            </Button>
+            {Array.from({ length: maxPage }, (_, index) => (
+              <Button
+                variant={`${pagination.currentPage === index + 1 ? "primary" : "outline-primary"}`}
+                key={index}
+                // className={` ${
+                //   pagination.currentPage === index + 1 ? "primary" : "outline-primary"
+                // }`}
+                onClick={() => handlePageChange(index + 1)}
+                // style={{ cursor: "pointer" }}
+              >
+                {index + 1}
+              </Button>
+            ))}
+            <Button
+              variant='outline-primary'
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
+            >
+              ❯
+            </Button>
           </div>
         </Card>
       </div>

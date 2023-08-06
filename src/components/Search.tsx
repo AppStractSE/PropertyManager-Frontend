@@ -26,9 +26,9 @@ const Search = ({ value, onChange, placeholder }: Props) => {
           onChange={(e) => onChange(e.target.value)}
         />
         {value ? (
-          <RxCross1 size={22} onClick={() => onChange("")} className='me-2' />
+          <RxCross1 size={22} onClick={() => onChange("")} />
         ) : (
-          <BsSearch size={22} className='me-2' />
+          <BsSearch size={22} />
         )}
       </Form.Group>
     </Form>
