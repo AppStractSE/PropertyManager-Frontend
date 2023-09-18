@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken } = useUser();
+  const { setToken, login } = useUser();
   const { setCurrentUser } = useUser();
   const client = new Client();
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ const Login = () => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
           setToken(authUser?.tokenInfo!); // Update token
           setCurrentUser(authUser);
+          login();
         }
       },
       retry(failureCount, error: any) {
@@ -38,8 +39,8 @@ const Login = () => {
     },
   );
 
-  const submit = (e: React.FormEvent) => {
-    // e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     postLogin();
     navigate("/"); // Redirect to the authenticated section after successful login
   };
@@ -54,7 +55,7 @@ const Login = () => {
   return (
     <div className='background-image safe-area'>
       <Container className='login-container'>
-        <Form className='w-100 d-flex flex-column mb-4' onSubmit={submit}>
+        <Form className='w-100 d-flex flex-column mb-4' onSubmit={handleSubmit}>
           <Form.Group controlId='login.username'>
             <Form.Control
               type='text'

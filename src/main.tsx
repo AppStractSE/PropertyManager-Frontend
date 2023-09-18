@@ -11,17 +11,17 @@ import UserProvider from "./contexts/UserContext";
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ClientProvider>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools position='top-left' />
+    <ClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
           <UserProvider>
+            <ReactQueryDevtools position='top-left' />
             <ThemeProvider>
               <App />
             </ThemeProvider>
           </UserProvider>
-        </QueryClientProvider>
-      </ClientProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ClientProvider>
   </React.StrictMode>,
 );

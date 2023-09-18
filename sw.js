@@ -1,56 +1,60 @@
-/* eslint-disable no-undef */
-const CACHE_NAME = "PropertEase-v5"; // Update cache version
-const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/icon/logo.png", "/splash.png"];
+  //////////////////////////////////////////////////////
+ ///// Disabled caching, since it provides errors /////
+//////////////////////////////////////////////////////
 
-self.addEventListener("install", (event) => {
-  if (!event.request.headers.get("user-agent").includes("Mobile")) {
-    return; // Skip installation on non-mobile devices
-  }
+// /* eslint-disable no-undef */
+// const CACHE_NAME = "PropertEase-v5.3"; // Update cache version
+// const urlsToCache = ["/", "/index.html", "/styles.css", "/script.js", "/icon/logo.png", "/splash.png"];
 
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    }),
-  );
-});
+// self.addEventListener("install", (event) => {
+//   if (!event.request.headers.get("user-agent").includes("Mobile")) {
+//     return; // Skip installation on non-mobile devices
+//   }
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      // Remove outdated caches
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        }),
-      );
-    }),
-  );
-});
+//   event.waitUntil(
+//     caches.open(CACHE_NAME).then((cache) => {
+//       return cache.addAll(urlsToCache);
+//     }),
+//   );
+// });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
+// self.addEventListener("activate", (event) => {
+//   event.waitUntil(
+//     caches.keys().then((cacheNames) => {
+//       // Remove outdated caches
+//       return Promise.all(
+//         cacheNames.map((cacheName) => {
+//           if (cacheName !== CACHE_NAME) {
+//             return caches.delete(cacheName);
+//           }
+//         }),
+//       );
+//     }),
+//   );
+// });
 
-      const fetchRequest = event.request.clone();
+// self.addEventListener("fetch", (event) => {
+//   event.respondWith(
+//     caches.match(event.request).then((response) => {
+//       if (response) {
+//         return response;
+//       }
 
-      return fetch(fetchRequest).then((response) => {
-        if (!response || response.status !== 200 || response.type !== "basic") {
-          return response;
-        }
+//       const fetchRequest = event.request.clone();
 
-        const responseToCache = response.clone();
+//       return fetch(fetchRequest).then((response) => {
+//         if (!response || response.status !== 200 || response.type !== "basic") {
+//           return response;
+//         }
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
+//         const responseToCache = response.clone();
 
-        return response;
-      });
-    }),
-  );
-});
+//         caches.open(CACHE_NAME).then((cache) => {
+//           cache.put(event.request, responseToCache);
+//         });
+
+//         return response;
+//       });
+//     }),
+//   );
+// });

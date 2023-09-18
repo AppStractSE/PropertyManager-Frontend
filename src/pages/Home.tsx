@@ -7,7 +7,6 @@ import { UserCustomerData, UserTeamData } from "../api/client";
 import CustomerCard from "../components/CustomerCard";
 import Search from "../components/Search";
 import HomePageSkeleton from "../components/skeletons/HomePageSkeleton";
-import { useUser } from "../contexts/UserContext";
 import { useQueries } from "../hooks/useQueries";
 
 const ProfileModal = lazy(() => import("../components/modals/ProfileModal"));
@@ -15,7 +14,6 @@ const ProfileModal = lazy(() => import("../components/modals/ProfileModal"));
 const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const { currentUser } = useUser();
   const { userData } = useQueries();
 
   const filterSearch = userData?.userTeamsData?.filter((team) => {

@@ -2,15 +2,11 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Suspense, lazy } from "react";
 import { Spinner } from "react-bootstrap";
-import { useQuery } from "react-query";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthUser, TokenInfo } from "./api/client";
-import { useClient } from "./contexts/ClientContext";
 import { useTheme } from "./contexts/ThemeContext";
 import { InitialUserState, useUser } from "./contexts/UserContext";
-import { useLocalStorage } from "./hooks/useLocalStorage";
 import "./styling/animations.scss";
 import "./styling/custom.scss";
 import "./styling/overrides.scss";
@@ -23,45 +19,8 @@ const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
 const CustomerChoreInfo = lazy(() => import("./components/CustomerChoreInfo"));
 
 const App = () => {
-  const client = useClient();
-  const { currentUser, setCurrentUser } = useUser();
+  const { currentUser } = useUser();
   const { isDarkTheme } = useTheme();
-  const [token, setToken] = useLocalStorage<TokenInfo>("token", InitialUserState.tokenInfo!);
-  const navigate = useNavigate();
-
-  const fetchUser = async () => {
-    if (token.token !== InitialUserState.tokenInfo?.token) {
-      return await client.authenticate_GetValidation();
-    } else {
-      return InitialUserState;
-    }
-  };
-
-  const { data: fetchedUser, refetch } = useQuery<AuthUser>(
-    ["user", currentUser?.user?.userId],
-    fetchUser,
-    {
-      enabled: token.token !== "",
-      // enabled: token.token !== "",
-      retry(failureCount, error: any) {
-        if (error.status === 500) {
-          return false;
-        }
-        return failureCount < 1;
-      },
-      onSuccess: (data) => {
-        if (data) {
-          const user: AuthUser = data;
-          setCurrentUser(user);
-        }
-      },
-      onError: (error: any) => {
-        setToken(InitialUserState.tokenInfo!);
-        setCurrentUser(InitialUserState);
-      },
-    },
-  );
-
   return (
     <>
       <Routes>
