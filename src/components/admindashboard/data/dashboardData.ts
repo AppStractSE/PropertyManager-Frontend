@@ -1,13 +1,15 @@
-import { AiOutlineHome, AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineTeam } from "react-icons/ai";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiTodoLine } from "react-icons/ri";
-import { HiOutlineDocumentReport } from "react-icons/hi";
+import { HiOutlineDocumentReport, HiOutlineUserGroup } from "react-icons/hi";
+
 const dashboardData = [
-  {
-    name: "Översikt",
-    icon: AiOutlineHome,
-    link: "/",
-  },
+  // {
+  //   name: "Översikt",
+  //   icon: AiOutlineHome,
+  //   link: "/",
+  // },
+
   {
     name: "Kunder",
     icon: IoBriefcaseOutline,
@@ -22,6 +24,11 @@ const dashboardData = [
     name: "Sysslor",
     icon: RiTodoLine,
     link: "chores",
+  },
+  {
+    name: "Veckomöte",
+    icon: HiOutlineUserGroup,
+    link: "meeting",
   },
   {
     name: "Skapa",

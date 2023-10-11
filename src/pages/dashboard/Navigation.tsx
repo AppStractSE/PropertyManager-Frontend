@@ -27,10 +27,8 @@ const Navigation = () => {
       } else {
         setSmScreen(false);
       }
-    }
-    );
+    });
   }, []);
-
 
   return (
     <Nav variant='pills' className='d-flex flex-column px-3 pt-4 col-12 col-lg-2 aside-nav'>

@@ -10,6 +10,7 @@ import CustomerTab from "./tabs/CustomerTab";
 import Overview from "./tabs/Overview";
 import TeamsTab from "./tabs/TeamsTab";
 import ReportTab from "./tabs/ReportTab";
+import Meeting from "./tabs/Meeting";
 
 const AdminDashboard = () => {
   const {
@@ -43,6 +44,7 @@ const AdminDashboard = () => {
         <Route path='/' element={<Layout />}>
           <Route index element={<Overview />} />
           <Route path='report/create' element={<div>sdadasdsadasdasad</div>} />
+          <Route path='meeting' element={<Meeting />} />
 
           <Route
             path='customer'
