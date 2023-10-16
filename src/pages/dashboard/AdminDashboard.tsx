@@ -44,7 +44,17 @@ const AdminDashboard = () => {
         <Route path='/' element={<Layout />}>
           <Route index element={<Overview />} />
           <Route path='report/create' element={<div>sdadasdsadasdasad</div>} />
-          <Route path='meeting' element={<Meeting />} />
+          <Route
+            path='meeting'
+            element={
+              <Meeting
+                customers={customers}
+                teams={teams}
+                customerchores={customerchores}
+                periodics={periodics}
+              />
+            }
+          />
 
           <Route
             path='customer'

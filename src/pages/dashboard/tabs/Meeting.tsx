@@ -3,10 +3,26 @@ import { Button, Card, Dropdown, Form } from "react-bootstrap";
 import { IoEllipsisVertical } from "react-icons/io5";
 import LineChart from "../charts/LineChart";
 import CustomerOverviewCard from "../overview/CustomerOverviewCard";
+import {
+  CustomerChoreResponseDto,
+  CustomerResponseDto,
+  Periodic,
+  TeamResponseDto,
+} from "../../../api/client";
+import CustomerCard from "../../../components/CustomerCard";
+import CustomerProgressCard from "../../../components/admindashboard/meeting/CustomerProgressCard";
 
-const Meeting = () => {
+interface Props {
+  customers: CustomerResponseDto[];
+  teams: TeamResponseDto[];
+  customerchores: CustomerChoreResponseDto[];
+  periodics: Periodic[];
+}
+
+const Meeting = ({ customers, teams, customerchores, periodics }: Props) => {
   const [teamValue, setTeamValue] = useState<string>("");
   const [periodValue, setPeriodValue] = useState<string>("");
+
   return (
     <>
       <div className='p-4 border-1 border-bottom'>
@@ -52,71 +68,14 @@ const Meeting = () => {
           </Form.Group>
 
           <div className='overflow-hidden'>
-            <div className='row flex-nowrap overflow-auto' style={{ maxHeight: 750 }}>
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Motorn [Visar alla]</div>
-                  {Array.from({ length: 35 }).map((_, i) => (
-                    <div className='d-flex align-items-center p-2 m-2 bg-warning' key={i}>
-                      <div>Syssla {i + 1}</div>
-                      <div className='ms-auto'>3/4</div>
-                    </div>
-                  ))}
-                </Card>
-              </div>
-
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Asd</div>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div className='d-flex align-items-center' key={i}>
-                      Syssla {i + 1}
-                    </div>
-                  ))}
-                </Card>
-              </div>
-
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Motorn</div>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div className='d-flex align-items-center' key={i}>
-                      Syssla {i + 1}
-                    </div>
-                  ))}
-                </Card>
-              </div>
-
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Asd</div>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div className='d-flex align-items-center' key={i}>
-                      Syssla {i + 1}
-                    </div>
-                  ))}
-                </Card>
-              </div>
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Asd</div>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div className='d-flex align-items-center' key={i}>
-                      Syssla {i + 1}
-                    </div>
-                  ))}
-                </Card>
-              </div>
-              <div className='col-12 col-md-6 col-xl-3'>
-                <Card className='d-flex justify-content-between'>
-                  <div className='fs-4'>BRF Asd</div>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div className='d-flex align-items-center' key={i}>
-                      Syssla {i + 1}
-                    </div>
-                  ))}
-                </Card>
-              </div>
+            <div className='row flex-nowrap overflow-auto' style={{ height: 750 }}>
+              {customers.map((customer) => (
+                <CustomerProgressCard
+                  customerchores={customerchores}
+                  customer={customer}
+                  key={customer.id}
+                />
+              ))}
             </div>
           </div>
         </div>
