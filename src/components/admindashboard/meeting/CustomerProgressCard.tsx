@@ -1,6 +1,5 @@
-import React from "react";
-import { CustomerChoreResponseDto, CustomerResponseDto } from "../../../api/client";
 import { BsFillHouseFill } from "react-icons/bs";
+import { CustomerChoreResponseDto, CustomerResponseDto } from "../../../api/client";
 
 interface Props {
   customerchores: CustomerChoreResponseDto[];

@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { Button, Card, Dropdown, Form } from "react-bootstrap";
-import { IoEllipsisVertical } from "react-icons/io5";
-import LineChart from "../charts/LineChart";
-import CustomerOverviewCard from "../overview/CustomerOverviewCard";
+import { Form } from "react-bootstrap";
 import {
   CustomerChoreResponseDto,
   CustomerResponseDto,
   Periodic,
   TeamResponseDto,
 } from "../../../api/client";
-import CustomerCard from "../../../components/CustomerCard";
+import Search from "../../../components/Search";
 import CustomerProgressCard from "../../../components/admindashboard/meeting/CustomerProgressCard";
 
 interface Props {
@@ -22,6 +19,15 @@ interface Props {
 const Meeting = ({ customers, teams, customerchores, periodics }: Props) => {
   const [teamValue, setTeamValue] = useState<string>("");
   const [periodValue, setPeriodValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [filteredCustomers, setFilteredCustomers] = useState(customers);
+
+  const handleSearch = (value: string) => {
+    const filtered = customers.filter((customer) =>
+      customer.name?.toLowerCase().includes(value.toLowerCase()),
+    );
+    setFilteredCustomers(filtered);
+  };
 
   return (
     <>
@@ -66,10 +72,20 @@ const Meeting = ({ customers, teams, customerchores, periodics }: Props) => {
               </Form.Select>
             </Form.Group>
           </Form.Group>
+          <div className='mb-3 col-3'>
+            <Search
+              value={searchValue}
+              onChange={(value) => {
+                setSearchValue(value);
+                handleSearch(value);
+              }}
+              placeholder='kund'
+            />
+          </div>
 
           <div className='overflow-hidden'>
             <div className='row flex-nowrap overflow-auto' style={{ height: 750 }}>
-              {customers.map((customer) => (
+              {filteredCustomers.map((customer) => (
                 <CustomerProgressCard
                   customerchores={customerchores}
                   customer={customer}
